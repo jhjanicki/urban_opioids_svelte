@@ -1,0 +1,71 @@
+<script>
+
+</script>
+
+  <header id="header-pinned" class="no-touch">
+    <div class="header-container">
+      <a target="_blank" href="https://www.urban.org" title="Home" rel="home" class="site-logo"></a>
+      <div class="title">What Would It Take to Close the Opioid Treatment Gap</div>
+    </div>
+  </header>
+
+  <style>
+    #header-pinned {
+    font: 16px Lato;
+    color: #333;
+    font-weight: 400;
+    /* margin-right: 100px; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    border-bottom: 1px solid #d2d2d2;
+    z-index: 100;
+    /*-webkit-transition: top 0.25s linear;*/
+    /*-moz-transition: top 0.25s linear;*/
+    /*-o-transition: top 0.25s linear;*/
+    /*transition: top 0.25s linear;*/
+  }
+
+  .is-visible {
+    top: 0px !important;
+  }
+
+  #header-pinned .header-container {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #header-pinned .content {
+    height: 49px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #header-pinned * {
+    color: #333;
+    font-weight: 300;
+    text-decoration: none;
+  }
+
+  #header-pinned .site-logo {
+    display: block;
+    width: 34px;
+    height: 34px;
+    position: absolute;
+    left: 26px;
+    margin-top: 12px;
+    background: url(https://www.urban.org/sites/all/themes/urban/images/logo-mini-dark.png) no-repeat;
+    background-size: 34px 34px;
+  }
+
+  #header-pinned .title {
+    font-size: 24px;
+    line-height: 56px;
+    margin-left: 85px;
+  }
+  </style>
