@@ -2,11 +2,10 @@
   import * as d3 from "d3";
   import { onMount } from "svelte";
 
+  export let stateView;
   let statePercent = 50;
   let stateAverage = 40;
   let countyPercent = 30;
-  let barValue = statePercent;
-  //stateView ? statePercent : countyPercent;
   const barWrapper = d3.select(".bar-wrapper");
   let barWidth = 500;
   let barHeight = 100;
@@ -41,7 +40,7 @@
       id="barInner"
       x={margin.left}
       y="20"
-      width={xScale(barValue)}
+      width={xScale(stateView === "stateview" ? statePercent : countyPercent)}
       height="50"
       stroke-width="2.5"
       fill="#FDBF11"

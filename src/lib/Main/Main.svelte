@@ -6,7 +6,8 @@
   import ToggleSelect from "./ToggleSelect.svelte";
   import Map from "./Map.svelte";
 
-  export let selectedState = "New Jersey";
+  export let selectedState;
+  export let stateView;
   export let countiesData;
   export let stateData;
 </script>
@@ -19,15 +20,15 @@
       <Button id={"print"} text={"Print page"} />
     </div>
     <div class="tab-wrapper">
-      <Tab id="stateview" text="State view" active="active" />
-      <Tab id="countyview" text="County view" active="" />
+      <Tab id="stateview" text="State view" bind:stateView />
+      <Tab id="countyview" text="County view" bind:stateView />
     </div>
   </div>
   <div class="wrapper">
     <Dropdown />
   </div>
   <div class="wrapper">
-    <Viz />
+    <Viz {stateView} />
     <ToggleSelect />
   </div>
 </section>

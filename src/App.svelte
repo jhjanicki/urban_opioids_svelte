@@ -26,7 +26,7 @@
   ];
   let selectedState = "New Jersey";
   let stateID = stateMap.find((d) => d.state === selectedState).id;
-  let stateView = true;
+  let stateView = "stateview";
   let countyVisited = false;
   let selectedCounty = "";
   let selectedTreatment = "";
@@ -37,30 +37,34 @@
   let countiesData;
   let currentData = data.filter((d) => (d.state = selectedState))[0].data;
 
-  countiesData = topojson
-    .feature(usData, usData.objects.counties)
-    .features.filter((d) => +d.id.slice(0, 2) === stateID);
+  function prepData() {
+    countiesData = topojson
+      .feature(usData, usData.objects.counties)
+      .features.filter((d) => +d.id.slice(0, 2) === stateID);
 
-  stateData = topojson
-    .feature(usData, usData.objects.states)
-    .features.filter((d) => d.properties.name === selectedState);
+    stateData = topojson
+      .feature(usData, usData.objects.states)
+      .features.filter((d) => d.properties.name === selectedState);
 
-  // bind properties from data to geo data
-  countiesData.forEach(function (county) {
-    currentData.forEach(function (countyData) {
-      county.id = +county.id;
-      if (county.id === countyData.fips) {
-        county.properties.OTPcount = countyData.OTPcount;
-      }
+    // bind properties from data to geo data
+    countiesData.forEach(function (county) {
+      currentData.forEach(function (countyData) {
+        county.id = +county.id;
+        if (county.id === countyData.fips) {
+          county.properties.OTPcount = countyData.OTPcount;
+        }
+      });
     });
-  });
+  }
+
+  prepData();
 </script>
 
 <Header />
 <div class="main">
   <Intro />
   <StatesSelect bind:selectedState />
-  <Main bind:selectedState {countiesData} {stateData} />
+  <Main bind:selectedState bind:stateView {countiesData} {stateData} />
 </div>
 
 <style>

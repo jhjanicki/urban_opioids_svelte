@@ -11,7 +11,6 @@
 
   function updateState(state) {
     selectedState = state;
-    console.log(selectedState);
   }
 </script>
 

@@ -17,7 +17,7 @@
 
 <section class="states-selection">
   <div class="wrapper">
-    <p class="states-selection__p">Select a state</p>
+    <p>Select a state</p>
     <div class="states-wrapper" bind:this={statesWrapper}>
       {#each data as d}
         <State
@@ -39,7 +39,7 @@
     padding: 20px;
   }
 
-  .states-selection__p {
+  p {
     color: white;
     text-align: left;
     font-size: 1.2rem;

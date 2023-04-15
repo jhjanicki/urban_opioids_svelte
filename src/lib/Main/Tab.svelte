@@ -1,33 +1,40 @@
 <script>
-    export let id;
-    export let text;
-    export let active;
+  export let id;
+  export let text;
+  export let stateView;
 
+  function updateView() {
+    stateView = id;
+  }
 </script>
 
-<button id="tab-{id}" class="tab__button {active}" value="id">{text}</button>
+<button
+  id="tab-{id}"
+  class="button {stateView === id ? 'active' : ''}"
+  value="id"
+  on:click={() => updateView()}>{text}</button
+>
 
 <style>
+  .button {
+    font-size: 100%;
+    font-weight: 400;
+    color: #696969;
+    background-color: #fff;
+    cursor: pointer;
+    height: 36px;
+    border: none;
+    padding: 0;
+    text-transform: uppercase;
+  }
 
-.tab__button {
-  font-size: 100%;
-  font-weight: 400;
-  color: #696969;
-  background-color: #fff;
-  cursor: pointer;
-  height: 36px;
-  border: none;
-  padding: 0;
-  text-transform: uppercase;
-}
+  .button.active {
+    border-bottom: 4px solid #fdbf11;
+    color: #000;
+  }
 
-.tab__button.active {
-  border-bottom: 4px solid #fdbf11;
-  color: #000;
-}
-
-.tab__button:hover {
-  border-bottom: 4px solid #fdbf11;
-  color: #000;
-}
+  .button:hover {
+    border-bottom: 4px solid #fdbf11;
+    color: #000;
+  }
 </style>
