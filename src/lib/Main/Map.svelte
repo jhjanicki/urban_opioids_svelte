@@ -18,11 +18,12 @@
   onMount(() => {
     width = mapWrapper.getBoundingClientRect().width;
     height = mapWrapper.getBoundingClientRect().height;
+    console.log(countiesData[0].id.toString().slice(0, 2));
     // projection = d3.geoIdentity().fitSize([width, height], stateData[0]);
     // path = d3.geoPath().projection(projection);
   });
 
-  projection = d3.geoIdentity().fitSize([500, 400], stateData[0]);
+  projection = d3.geoIdentity().fitSize([500, 400], stateData[0]); // how to update this???
   path = d3.geoPath().projection(projection);
 </script>
 
@@ -35,7 +36,9 @@
       {#each countiesData as feature, i}
         <path
           d={path(feature)}
-          fill={colorScale(feature.properties.OTPcount)}
+          fill={feature.id.toString().slice(0, 2) === "34"
+            ? colorScale(feature.properties.OTPcount)
+            : "black"}
           stroke="white"
           stroke-width="1px"
         />

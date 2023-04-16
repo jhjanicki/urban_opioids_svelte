@@ -6,17 +6,21 @@
   export let path;
   export let imgWidth;
   export let selectedState;
+  export let stateID;
+  export let prepData = () => {};
 
   d3.selectAll("svg").attr("width", imgWidth);
 
   function updateState(state) {
+    console.log(state);
     selectedState = state;
+    stateID = state[0].id;
+    prepData();
   }
 </script>
 
 <div class="img-wrapper">
   <svg
-    class="states-wrapper__svg"
     id={state}
     x="0px"
     y="0px"
@@ -26,7 +30,7 @@
   >
     <path d={path} />
   </svg>
-  <p id="{state}__p" class="states-wrapper__p">{stateCode}</p>
+  <p id="{state}-p">{stateCode}</p>
 </div>
 
 <style>
@@ -39,15 +43,15 @@
   svg:not(#wisconsin) {
     border-right: 0.5px solid #fff;
   }
-  .svg--selected {
+  .svg-selected {
     fill: #fdbf11;
   }
 
-  .p--selected {
+  .p-selected {
     color: #fdbf11;
   }
 
-  .states-wrapper__p {
+  p {
     text-align: center;
     color: #d9d9d9;
   }
@@ -63,7 +67,7 @@
   .img-wrapper:hover:after {
     content: "";
     display: block;
-    border: 20px solid #d9d9d9;
+    border: 20px solid #fff;
     border-top-color: #353535;
     position: absolute;
     left: 50%;

@@ -4,6 +4,8 @@
   import { onMount } from "svelte";
 
   export let selectedState;
+  export let stateID;
+  export let prepData = () => {};
 
   let statesWrapper;
   let width;
@@ -26,6 +28,8 @@
           path={d.path}
           {imgWidth}
           bind:selectedState
+          bind:stateID
+          {prepData}
         />
       {/each}
     </div>
@@ -35,7 +39,7 @@
 <style>
   .states-selection {
     background-color: #353535;
-    margin: 5px 0px 0px 0px;
+    margin: 5px 0px 20px 0px;
     padding: 20px;
   }
 

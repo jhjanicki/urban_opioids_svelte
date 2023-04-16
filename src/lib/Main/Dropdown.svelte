@@ -10,8 +10,8 @@
 </script>
 
 <div class="select-menu">
-  <div class="select-menu__button">
-    <span class="select-menu__text">Select a county</span>
+  <div class="select-menu-button">
+    <span class="select-menu-text">Select a county</span>
   </div>
   <ul class="options" />
 </div>
@@ -22,7 +22,7 @@
     margin: 20px 0px;
   }
 
-  .select-menu .select-menu__button {
+  .select-menu .select-menu-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -86,7 +86,7 @@
     color: #333;
   }
 
-  .select-menu.active .select-menu__button i {
+  .select-menu.active .select-menu-button i {
     transform: rotate(-180deg);
   }
 

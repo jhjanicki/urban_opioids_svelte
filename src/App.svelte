@@ -8,26 +8,19 @@
   import data from "./assets/data/metricData.json";
 
   // global state
-  const states = [
-    "Kentucky",
-    "Michigan",
-    "New Jersey",
-    "New Mexico",
-    "North Carolina",
-    "Pennsylvania",
-    "Wisconsin",
-  ];
-
   const stateMap = [
     {
       state: "New Jersey",
       id: 34,
     },
+    {
+      state: "Kentucky",
+      id: 21,
+    },
   ];
   let selectedState = "New Jersey";
-  let stateID = stateMap.find((d) => d.state === selectedState).id;
+  let stateID;
   let stateView = "stateview";
-  let countyVisited = false;
   let selectedCounty = "";
   let selectedTreatment = "";
   let selectedProvider = "";
@@ -35,9 +28,11 @@
 
   let stateData;
   let countiesData;
-  let currentData = data.filter((d) => (d.state = selectedState))[0].data;
+  let currentData;
 
   function prepData() {
+    stateID = stateMap.find((d) => d.state === selectedState).id;
+    currentData = data.filter((d) => (d.state = selectedState))[0].data;
     countiesData = topojson
       .feature(usData, usData.objects.counties)
       .features.filter((d) => +d.id.slice(0, 2) === stateID);
@@ -55,6 +50,8 @@
         }
       });
     });
+
+    console.log(stateData);
   }
 
   prepData();
@@ -63,7 +60,7 @@
 <Header />
 <div class="main">
   <Intro />
-  <StatesSelect bind:selectedState />
+  <StatesSelect bind:selectedState bind:stateID {prepData} />
   <Main bind:selectedState bind:stateView {countiesData} {stateData} />
 </div>
 
