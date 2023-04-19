@@ -1,21 +1,66 @@
 <script>
   import * as d3 from "d3";
+  import {
+    selectedState,
+    stateID,
+    allCountiesData,
+    allStatesData,
+    countiesData,
+    stateData,
+    metricData,
+    path,
+    projection,
+  } from "../../store/store";
 
   export let state;
   export let stateCode;
-  export let path;
+  export let svgPath;
+  export let id;
   export let imgWidth;
-  export let selectedState;
-  export let stateID;
-  export let prepData = () => {};
 
   d3.selectAll("svg").attr("width", imgWidth);
 
-  function updateState(state) {
-    console.log(state);
-    selectedState = state;
-    stateID = state[0].id;
-    prepData();
+  let currentData;
+  let filteredCountyData;
+  let filteredStateData;
+
+  updateState("New Jersey");
+  // $selectedState = "New Jersey";
+  // $stateID = 34;
+
+  function updateState(st) {
+    $selectedState = st;
+    $stateID = id; // this shouldn't be ID here
+
+    currentData = $metricData.filter((d) => d.state === "New Jersey")[0].data; // replace with $selectedState
+
+    filteredCountyData = $allCountiesData;
+    // .filter((d) => {
+    //   d.stateID === $stateID;
+    // });
+
+    filteredStateData = $allStatesData.features.filter(
+      (d) => d.properties.name === $selectedState
+    );
+
+    $stateData = filteredStateData;
+
+    filteredCountyData.forEach(function (county) {
+      currentData.forEach(function (countyData) {
+        county.id = +county.id;
+        if (county.stateID === $stateID && county.id === countyData.fips) {
+          county.properties.OTPcount = countyData.OTPcount;
+        }
+      });
+    });
+
+    $countiesData = filteredCountyData;
+
+    console.log($stateID);
+
+    $projection = d3.geoIdentity().fitSize([500, 400], $stateData[0]);
+    // how to update this???
+    $path = d3.geoPath().projection($projection);
   }
 </script>
 
@@ -28,7 +73,7 @@
     width={imgWidth}
     on:click={updateState(state)}
   >
-    <path d={path} />
+    <path d={svgPath} />
   </svg>
   <p id="{state}-p">{stateCode}</p>
 </div>

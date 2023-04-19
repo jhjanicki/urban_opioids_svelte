@@ -1,8 +1,13 @@
 <script>
   import * as d3 from "d3";
   import { onMount } from "svelte";
+  import { stateView } from "../../store/store";
 
-  export let stateView;
+  let stateViewValue;
+  stateView.subscribe((value) => {
+    stateViewValue = value;
+  });
+
   let statePercent = 50;
   let stateAverage = 40;
   let countyPercent = 30;
@@ -40,7 +45,9 @@
       id="barInner"
       x={margin.left}
       y="20"
-      width={xScale(stateView === "stateview" ? statePercent : countyPercent)}
+      width={xScale(
+        stateViewValue === "stateview" ? statePercent : countyPercent
+      )}
       height="50"
       stroke-width="2.5"
       fill="#FDBF11"

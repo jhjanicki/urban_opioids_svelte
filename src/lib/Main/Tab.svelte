@@ -1,16 +1,17 @@
 <script>
+  import { stateView } from "../../store/store";
+
   export let id;
   export let text;
-  export let stateView;
 
   function updateView() {
-    stateView = id;
+    $stateView = id;
   }
 </script>
 
 <button
   id="tab-{id}"
-  class="button {stateView === id ? 'active' : ''}"
+  class="button {$stateView === id ? 'active' : ''}"
   value="id"
   on:click={() => updateView()}>{text}</button
 >
