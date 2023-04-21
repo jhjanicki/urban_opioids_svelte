@@ -5,6 +5,8 @@
   let width = 500;
   let height = 400;
 
+  $stateID = 34;
+
   const colorScale = d3.scaleSequential(d3.interpolatePuBuGn).domain([0, 5]);
 
   // rotate PE: 10, NM: -5, KY: 5, MI: 5, NC: 10 but also trasnalte left, WI:2
@@ -28,7 +30,7 @@
             : "black"}
           stroke="white"
           stroke-width="1px"
-          opacity={feature.stateID === $stateID ? 1 : 0.1}
+          opacity={feature.stateID === $stateID ? 1 : 0}
         />
       {/each}
     </g>
