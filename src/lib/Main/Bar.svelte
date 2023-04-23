@@ -1,16 +1,8 @@
 <script>
   import * as d3 from "d3";
   import { onMount } from "svelte";
-  import { stateView } from "../../store/store";
+  import { stateView, statePercent, countyPercent } from "../../store/store";
 
-  let stateViewValue;
-  stateView.subscribe((value) => {
-    stateViewValue = value;
-  });
-
-  let statePercent = 50;
-  let stateAverage = 40;
-  let countyPercent = 30;
   const barWrapper = d3.select(".bar-wrapper");
   let barWidth = 500;
   let barHeight = 100;
@@ -46,16 +38,16 @@
       x={margin.left}
       y="20"
       width={xScale(
-        stateViewValue === "stateview" ? statePercent : countyPercent
-      )}
+        $stateView === "stateview" ? $statePercent : $countyPercent
+      ) - margin.right}
       height="50"
       stroke-width="2.5"
       fill="#FDBF11"
     />
     <line
       id="stateAvg"
-      x1={xScale(stateAverage)}
-      x2={xScale(stateAverage)}
+      x1={xScale($statePercent)}
+      x2={xScale($statePercent)}
       y1={margin.top + 50}
       y2={margin.top - 10}
       stroke="white"
@@ -64,7 +56,7 @@
     />
     <circle
       id="circle"
-      cx={xScale(stateAverage)}
+      cx={xScale($statePercent)}
       cy={margin.top - 10}
       r="5"
       fill="white"

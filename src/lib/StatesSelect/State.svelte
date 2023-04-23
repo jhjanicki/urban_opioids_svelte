@@ -7,9 +7,12 @@
     allStatesData,
     countiesData,
     stateData,
-    metricData,
+    stateLevelData,
     path,
     projection,
+    clicked,
+    selectedYear,
+    statePercent,
   } from "../../store/store";
 
   export let state;
@@ -20,47 +23,36 @@
 
   d3.selectAll("svg").attr("width", imgWidth);
 
-  let currentData;
   let filteredCountyData;
   let filteredStateData;
 
-  updateState("New Jersey");
-  // $selectedState = "New Jersey";
-  // $stateID = 34;
-
   function updateState(st) {
+    $clicked = true;
     $selectedState = st;
     $stateID = id; // this shouldn't be ID here
 
-    currentData = $metricData.filter((d) => d.state === "New Jersey")[0].data; // replace with $selectedState
-
     filteredCountyData = $allCountiesData;
-    // .filter((d) => {
-    //   d.stateID === $stateID;
-    // });
-
     filteredStateData = $allStatesData.features.filter(
       (d) => d.properties.name === $selectedState
     );
 
-    $stateData = filteredStateData;
-
-    filteredCountyData.forEach(function (county) {
-      currentData.forEach(function (countyData) {
-        county.id = +county.id;
-        if (county.stateID === $stateID && county.id === countyData.fips) {
-          county.properties.OTPcount = countyData.OTPcount;
-        }
-      });
-    });
-
+    $stateData = filteredStateData; // in order to zoom to bounding box
     $countiesData = filteredCountyData;
-
-    console.log($stateID);
 
     $projection = d3.geoIdentity().fitSize([500, 400], $stateData[0]);
     // how to update this???
     $path = d3.geoPath().projection($projection);
+
+    let filteredStateMetricData = $stateLevelData.filter(
+      (d) => d.state === $selectedState
+    )[0];
+
+    $statePercent =
+      $selectedYear === "year"
+        ? filteredStateMetricData.OUD_tx_12m
+        : filteredStateMetricData.OUD_tx_6m;
+
+    console.log(filteredStateMetricData);
   }
 </script>
 
