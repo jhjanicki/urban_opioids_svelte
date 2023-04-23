@@ -1,7 +1,5 @@
 <script>
   import Bar from "./Bar.svelte";
-
-  export let stateView;
 </script>
 
 <div class="main-viz">
@@ -11,7 +9,7 @@
       <span id="bar-state" /> is treating
       <span id="bar-percent">X% of residents</span> with opioid use disorder
     </h4>
-    <Bar {stateView} />
+    <Bar />
   </div>
 </div>
 

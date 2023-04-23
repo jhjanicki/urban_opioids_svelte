@@ -3,10 +3,6 @@
   import State from "./State.svelte";
   import { onMount } from "svelte";
 
-  export let selectedState;
-  export let stateID;
-  export let prepData = () => {};
-
   let statesWrapper;
   let width;
   let imgWidth;
@@ -25,11 +21,9 @@
         <State
           state={d.state}
           stateCode={d.stateCode}
-          path={d.path}
+          svgPath={d.path}
+          id={d.id}
           {imgWidth}
-          bind:selectedState
-          bind:stateID
-          {prepData}
         />
       {/each}
     </div>

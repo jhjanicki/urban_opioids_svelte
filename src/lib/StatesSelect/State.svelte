@@ -1,21 +1,58 @@
 <script>
   import * as d3 from "d3";
+  import {
+    selectedState,
+    stateID,
+    allCountiesData,
+    allStatesData,
+    countiesData,
+    stateData,
+    stateLevelData,
+    path,
+    projection,
+    clicked,
+    selectedYear,
+    statePercent,
+  } from "../../store/store";
 
   export let state;
   export let stateCode;
-  export let path;
+  export let svgPath;
+  export let id;
   export let imgWidth;
-  export let selectedState;
-  export let stateID;
-  export let prepData = () => {};
 
   d3.selectAll("svg").attr("width", imgWidth);
 
-  function updateState(state) {
-    console.log(state);
-    selectedState = state;
-    stateID = state[0].id;
-    prepData();
+  let filteredCountyData;
+  let filteredStateData;
+
+  function updateState(st) {
+    $clicked = true;
+    $selectedState = st;
+    $stateID = id; // this shouldn't be ID here
+
+    filteredCountyData = $allCountiesData;
+    filteredStateData = $allStatesData.features.filter(
+      (d) => d.properties.name === $selectedState
+    );
+
+    $stateData = filteredStateData; // in order to zoom to bounding box
+    $countiesData = filteredCountyData;
+
+    $projection = d3.geoIdentity().fitSize([500, 400], $stateData[0]);
+    // how to update this???
+    $path = d3.geoPath().projection($projection);
+
+    let filteredStateMetricData = $stateLevelData.filter(
+      (d) => d.state === $selectedState
+    )[0];
+
+    $statePercent =
+      $selectedYear === "year"
+        ? filteredStateMetricData.OUD_tx_12m
+        : filteredStateMetricData.OUD_tx_6m;
+
+    console.log(filteredStateMetricData);
   }
 </script>
 
@@ -28,7 +65,7 @@
     width={imgWidth}
     on:click={updateState(state)}
   >
-    <path d={path} />
+    <path d={svgPath} />
   </svg>
   <p id="{state}-p">{stateCode}</p>
 </div>

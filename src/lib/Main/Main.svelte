@@ -5,30 +5,28 @@
   import Viz from "./Viz.svelte";
   import ToggleSelect from "./ToggleSelect.svelte";
   import Map from "./Map.svelte";
+  import { selectedState } from "../../store/store";
 
-  export let selectedState;
-  export let stateView;
-  export let countiesData;
-  export let stateData;
+  export let data;
 </script>
 
 <section class="main-selection">
   <div class="wrapper">
-    <h3 id="main-selection-title">{selectedState}</h3>
+    <h3 id="main-selection-title">{$selectedState}</h3>
     <div class="buttons-wrapper">
       <Button id={"download"} text={"Download data"} />
       <Button id={"print"} text={"Print page"} />
     </div>
     <div class="tab-wrapper">
-      <Tab id="stateview" text="State view" bind:stateView />
-      <Tab id="countyview" text="County view" bind:stateView />
+      <Tab id="stateview" text="State view" />
+      <Tab id="countyview" text="County view" />
     </div>
   </div>
   <div class="wrapper">
     <Dropdown />
   </div>
   <div class="wrapper">
-    <Viz {stateView} />
+    <Viz />
     <ToggleSelect />
   </div>
 </section>
@@ -38,7 +36,7 @@
       <h4 class="map-view__h4">
         Where people with opioid use disorder are receiving treatment
       </h4>
-      <Map {countiesData} {stateData} />
+      <Map {data} />
     </div>
     <div>
       <h4 class="map-view__h4">Access to treatment</h4>

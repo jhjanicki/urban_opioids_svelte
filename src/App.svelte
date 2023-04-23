@@ -3,65 +3,17 @@
   import Intro from "./lib/Intro/Intro.svelte";
   import StatesSelect from "./lib/StatesSelect/StatesSelect.svelte";
   import Main from "./lib/Main/Main.svelte";
-  import * as topojson from "topojson-client";
-  import usData from "./assets/data/usData.json";
   import data from "./assets/data/metricData.json";
 
-  // global state
-  const stateMap = [
-    {
-      state: "New Jersey",
-      id: 34,
-    },
-    {
-      state: "Kentucky",
-      id: 21,
-    },
-  ];
-  let selectedState = "New Jersey";
-  let stateID;
-  let stateView = "stateview";
-  let selectedCounty = "";
-  let selectedTreatment = "";
-  let selectedProvider = "";
-  let selectedYear = "";
-
-  let stateData;
-  let countiesData;
-  let currentData;
-
-  function prepData() {
-    stateID = stateMap.find((d) => d.state === selectedState).id;
-    currentData = data.filter((d) => (d.state = selectedState))[0].data;
-    countiesData = topojson
-      .feature(usData, usData.objects.counties)
-      .features.filter((d) => +d.id.slice(0, 2) === stateID);
-
-    stateData = topojson
-      .feature(usData, usData.objects.states)
-      .features.filter((d) => d.properties.name === selectedState);
-
-    // bind properties from data to geo data
-    countiesData.forEach(function (county) {
-      currentData.forEach(function (countyData) {
-        county.id = +county.id;
-        if (county.id === countyData.fips) {
-          county.properties.OTPcount = countyData.OTPcount;
-        }
-      });
-    });
-
-    console.log(stateData);
-  }
-
-  prepData();
+  //bind:selectedState bind:stateID
+  //bind:selectedState bind:stateView
 </script>
 
 <Header />
 <div class="main">
   <Intro />
-  <StatesSelect bind:selectedState bind:stateID {prepData} />
-  <Main bind:selectedState bind:stateView {countiesData} {stateData} />
+  <StatesSelect />
+  <Main {data} />
 </div>
 
 <style>

@@ -1,48 +1,40 @@
 <script>
-  import { geoPath, geoAlbersUsa } from "d3-geo";
-  import { draw } from "svelte/transition";
-  import { onMount } from "svelte";
   import * as d3 from "d3";
+  import { countiesData, path, stateID, clicked } from "../../store/store";
 
-  export let countiesData;
-  export let stateData;
+  let width = 500;
+  let height = 400;
 
-  let projection;
-  let path;
-  let mapWrapper;
-  let width;
-  let height;
+  $stateID = 34;
 
   const colorScale = d3.scaleSequential(d3.interpolatePuBuGn).domain([0, 5]);
 
-  onMount(() => {
-    width = mapWrapper.getBoundingClientRect().width;
-    height = mapWrapper.getBoundingClientRect().height;
-    console.log(countiesData[0].id.toString().slice(0, 2));
-    // projection = d3.geoIdentity().fitSize([width, height], stateData[0]);
-    // path = d3.geoPath().projection(projection);
-  });
+  //rotate state due to projection distortions
+  const rotateScale = d3
+    .scaleOrdinal()
+    .domain([42, 35, 21, 26, 37, 55, 34])
+    .range([10, -5, 5, 5, 10, 2, 0]); //"PE", "NM", "KY", "MI", "NC", "WI", "NJ"
 
-  projection = d3.geoIdentity().fitSize([500, 400], stateData[0]); // how to update this???
-  path = d3.geoPath().projection(projection);
+  function calculateBreaks() {}
 </script>
 
-<div class="map-wrapper" bind:this={mapWrapper}>
+<div class="map-wrapper" bind:clientWidth={width} bind:clientHeight={height}>
+  <!-- <p>{$stateData[0].id}</p> -->
   <svg {width} {height}>
-    <g id="states">
-      <path d={path(stateData)} />
-    </g>
-    <g id="counties">
-      {#each countiesData as feature, i}
-        <path
-          d={path(feature)}
-          fill={feature.id.toString().slice(0, 2) === "34"
-            ? colorScale(feature.properties.OTPcount)
-            : "black"}
-          stroke="white"
-          stroke-width="1px"
-        />
-      {/each}
+    <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
+      {#if $clicked}
+        {#each $countiesData as feature, i}
+          <path
+            d={$path(feature)}
+            fill={feature.id.toString().slice(0, 2) === "34"
+              ? colorScale(feature.properties.OTPcount)
+              : "black"}
+            stroke="white"
+            stroke-width="1px"
+            opacity={feature.stateID === $stateID ? 1 : 0}
+          />
+        {/each}
+      {/if}
     </g>
   </svg>
 </div>
@@ -50,6 +42,7 @@
 
 <style>
   .map-wrapper {
-    min-height: 400px;
+    width: 100%;
+    height: 400px;
   }
 </style>
