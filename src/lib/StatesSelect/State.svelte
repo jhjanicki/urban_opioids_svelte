@@ -13,6 +13,7 @@
     clicked,
     selectedYear,
     statePercent,
+    countyList,
   } from "../../store/store";
 
   export let state;
@@ -25,6 +26,7 @@
 
   let filteredCountyData;
   let filteredStateData;
+  let stateFill = "#d2d2d2";
 
   function updateState(st) {
     $clicked = true;
@@ -37,7 +39,7 @@
     );
 
     $stateData = filteredStateData; // in order to zoom to bounding box
-    $countiesData = filteredCountyData;
+    $countiesData = filteredCountyData.filter((d) => d.stateID === $stateID);
 
     $projection = d3.geoIdentity().fitSize([500, 400], $stateData[0]);
     // how to update this???
@@ -47,12 +49,21 @@
       (d) => d.state === $selectedState
     )[0];
 
+    // ADD IN OTHER TOGGLE OPTIONS
     $statePercent =
       $selectedYear === "year"
         ? filteredStateMetricData.OUD_tx_12m
         : filteredStateMetricData.OUD_tx_6m;
 
-    console.log(filteredStateMetricData);
+    $countyList = $countiesData.map((county) => county.properties.name);
+  }
+
+  function handleMouseOver() {
+    stateFill = "#fdbf11";
+  }
+
+  function handleMouseOut() {
+    stateFill = "#d2d2d2";
   }
 </script>
 
@@ -63,27 +74,25 @@
     y="0px"
     viewBox="0 0 90 90"
     width={imgWidth}
+    fill={stateFill}
     on:click={updateState(state)}
+    on:mouseover={handleMouseOver}
+    on:mouseout={handleMouseOut}
   >
     <path d={svgPath} />
   </svg>
-  <p id="{state}-p">{stateCode}</p>
+  <p>{stateCode}</p>
 </div>
 
 <style>
   svg {
     flex: 1;
     padding: 0px 20px;
-    fill: #d2d2d2;
   }
 
   svg:not(#wisconsin) {
     border-right: 0.5px solid #fff;
   }
-  .svg-selected {
-    fill: #fdbf11;
-  }
-
   .p-selected {
     color: #fdbf11;
   }

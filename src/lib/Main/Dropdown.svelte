@@ -1,19 +1,47 @@
 <script>
-  //   const optionMenu = d3.select(".select-menu").node(), // document.querySelector(".select-menu"),
-  //     selectBtn = d3.select(".select-menu .select-menu__button").node(), //optionMenu.querySelector
-  //     sBtn_text = d3.select(".select-menu .select-menu__text").node(); //optionMenu.querySelector
+  import {
+    clicked,
+    countyList,
+    selectedCounty,
+    countiesData,
+    countyPercent,
+  } from "../../store/store";
 
-  //   // click events
-  //   selectBtn.addEventListener("click", () =>
-  //     optionMenu.classList.toggle("active")
-  //   );
+  let active = false;
+  let countySelected = false;
+  let selectedCountyData;
+
+  function toggleDropdown() {
+    active = !active;
+  }
+
+  function closeDropdown(county) {
+    countySelected = true;
+    $selectedCounty = county;
+    active = false;
+    selectedCountyData = $countiesData.filter(
+      (d) => d.properties.name === county
+    );
+    console.log(selectedCountyData);
+    $countyPercent = selectedCountyData[0].properties.OUD_tx_12m;
+  }
 </script>
 
-<div class="select-menu">
-  <div class="select-menu-button">
-    <span class="select-menu-text">Select a county</span>
+<div class={active ? "select-menu active" : "select-menu"}>
+  <div class="select-menu-button" on:click={toggleDropdown}>
+    <span class="select-menu-text"
+      >{countySelected ? $selectedCounty : "Select a county"}</span
+    >
   </div>
-  <ul class="options" />
+  <ul class="options">
+    {#if $clicked}
+      {#each $countyList as d}
+        <li class="option" on:click={closeDropdown(d)}>
+          <span class="optionText">{d}</span>
+        </li>
+      {/each}
+    {/if}
+  </ul>
 </div>
 
 <style>
@@ -22,7 +50,7 @@
     margin: 20px 0px;
   }
 
-  .select-menu .select-menu-button {
+  .select-menu-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -41,7 +69,7 @@
     background-size: auto;
   }
 
-  .select-menu .options {
+  .options {
     position: absolute;
     width: 328px;
     overflow-y: auto;
@@ -51,17 +79,10 @@
     border: 1px solid #d2d2d2;
     border-radius: 0;
     background: #fff;
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-    animation-name: fadeInDown;
-    -webkit-animation-name: fadeInDown;
-    animation-duration: 0.35s;
-    animation-fill-mode: both;
-    -webkit-animation-duration: 0.35s;
-    -webkit-animation-fill-mode: both;
     display: none;
   }
 
-  .select-menu .options .option {
+  .option {
     display: flex;
     height: 40px;
     cursor: pointer;
@@ -71,17 +92,17 @@
     background: #fff;
   }
 
-  .select-menu .options .option:hover {
+  .option:hover {
     background: #1696d2;
     color: #fff;
   }
 
-  .select-menu .options .option i {
+  .option i {
     font-size: 25px;
     margin-right: 12px;
   }
 
-  .select-menu .options .option .option-text {
+  .option-text {
     font-size: 18px;
     color: #333;
   }

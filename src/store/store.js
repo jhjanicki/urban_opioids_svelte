@@ -45,23 +45,24 @@ data.forEach(state=>{
   })
 })
 
-console.log(stateMetricData)
+
 
 
 export const clicked = writable(false); //false on load, true after clicked on a state
-export const selectedState = writable("");
-export const selectedCounty = writable("");
+export const selectedState = writable(""); //updated in State
+export const selectedCounty = writable(""); //updated in Dropdown
 export const stateView = writable("stateview");
 export const stateID = writable();
 export const allCountiesData = writable(allCounties);
 export const allStatesData = writable(topojson
     .feature(usData, usData.objects.states));
-export const countiesData = writable(); // for map
-export const stateData = writable();  // for bounding box
+export const countiesData = writable(); // counties data for one state, used in Map and also Dropdown
+export const stateData = writable();  // used in Map, for bounding box
 export const path = writable();
-export const projection = writable();
+export const projection = writable(); //used in Map
 export const stateLevelData = writable(stateMetricData);
-export const statePercent = writable(50);
-export const countyPercent = writable(30);
+export const statePercent = writable(50); //updated in State
+export const countyPercent = writable(30); //updated in Dropdown
 export const selectedYear = writable("year");
+export const countyList = writable(); //for dropdown
 
