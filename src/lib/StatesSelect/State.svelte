@@ -7,12 +7,16 @@
     allStatesData,
     countiesData,
     stateData,
-    stateLevelData,
+    allMetricData,
+    stateMetricData,
     path,
     projection,
     clicked,
     selectedYear,
     statePercent,
+    countyList,
+    mapWidth,
+    mapHeight,
   } from "../../store/store";
 
   export let state;
@@ -25,6 +29,7 @@
 
   let filteredCountyData;
   let filteredStateData;
+  let stateFill = "#d2d2d2";
 
   function updateState(st) {
     $clicked = true;
@@ -37,54 +42,63 @@
     );
 
     $stateData = filteredStateData; // in order to zoom to bounding box
-    $countiesData = filteredCountyData;
+    $countiesData = filteredCountyData.filter((d) => d.stateID === $stateID);
 
-    $projection = d3.geoIdentity().fitSize([500, 400], $stateData[0]);
+    $projection = d3
+      .geoIdentity()
+      .fitSize([$mapWidth, $mapHeight], $stateData[0]);
     // how to update this???
     $path = d3.geoPath().projection($projection);
 
-    let filteredStateMetricData = $stateLevelData.filter(
+    let filteredStateMetricData = $allMetricData.filter(
       (d) => d.state === $selectedState
     )[0];
 
+    $stateMetricData = filteredStateMetricData;
+    // ADD IN OTHER TOGGLE OPTIONS
     $statePercent =
       $selectedYear === "year"
         ? filteredStateMetricData.OUD_tx_12m
         : filteredStateMetricData.OUD_tx_6m;
 
-    console.log(filteredStateMetricData);
+    $countyList = $countiesData.map((county) => county.properties.name);
+  }
+
+  function handleMouseOver() {
+    stateFill = "#fdbf11";
+  }
+
+  function handleMouseOut() {
+    stateFill = "#d2d2d2";
   }
 </script>
 
-<div class="img-wrapper">
+<div class="img-wrapper" on:click={updateState(state)}>
   <svg
     id={state}
     x="0px"
     y="0px"
     viewBox="0 0 90 90"
     width={imgWidth}
-    on:click={updateState(state)}
+    fill={stateFill}
+    on:mouseover={handleMouseOver}
+    on:mouseout={handleMouseOut}
   >
     <path d={svgPath} />
   </svg>
-  <p id="{state}-p">{stateCode}</p>
+  <p>{stateCode}</p>
 </div>
 
 <style>
   svg {
     flex: 1;
     padding: 0px 20px;
-    fill: #d2d2d2;
   }
 
   svg:not(#wisconsin) {
     border-right: 0.5px solid #fff;
   }
-  .svg-selected {
-    fill: #fdbf11;
-  }
-
-  .p-selected {
+  .selected {
     color: #fdbf11;
   }
 

@@ -35,33 +35,38 @@ data.forEach(function(state){
 
 // PREP STATE LEVEL DATA HERE
 // find all where countiesftp = ""
-let stateMetricData = []
+let allMetrics = []
 
 data.forEach(state=>{
   state.data.forEach(row=>{
     if(row.countyfips===""){
-      stateMetricData.push(row);
+      allMetrics.push(row);
     }
   })
 })
 
-console.log(stateMetricData)
+
+
 
 
 export const clicked = writable(false); //false on load, true after clicked on a state
-export const selectedState = writable("");
-export const selectedCounty = writable("");
+export const selectedState = writable(""); //updated in State
+export const selectedCounty = writable(""); //updated in Dropdown
 export const stateView = writable("stateview");
 export const stateID = writable();
 export const allCountiesData = writable(allCounties);
 export const allStatesData = writable(topojson
     .feature(usData, usData.objects.states));
-export const countiesData = writable(); // for map
-export const stateData = writable();  // for bounding box
+export const countiesData = writable(); // counties data for one state, used in Map and also Dropdown
+export const stateData = writable();  // used in Map, for bounding box
 export const path = writable();
-export const projection = writable();
-export const stateLevelData = writable(stateMetricData);
-export const statePercent = writable(50);
-export const countyPercent = writable(30);
-export const selectedYear = writable("year");
+export const projection = writable(); //used in Map
+export const allMetricData = writable(allMetrics); // now only NJ but later will include all
+export const stateMetricData = writable(allMetrics);  //filter stateMetricData to only the selected state
+export const statePercent = writable(50); //updated in State
+export const countyPercent = writable(30); //updated in Dropdown
+export const selectedYear = writable(12); //treatment length, 12 vs 6
+export const countyList = writable(); //for dropdown
+export const mapWidth = writable();
+export const mapHeight = writable();
 
