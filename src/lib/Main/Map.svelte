@@ -1,9 +1,17 @@
 <script>
   import * as d3 from "d3";
-  import { countiesData, path, stateID, clicked } from "../../store/store";
+  import Tooltip from "./Tooltip.svelte";
+  import {
+    countiesData,
+    path,
+    stateID,
+    clicked,
+    mapWidth,
+    mapHeight,
+  } from "../../store/store";
 
-  let width = 500;
-  let height = 400;
+  let width;
+  let height;
 
   $stateID = 34;
 
@@ -16,10 +24,20 @@
     .range([10, -5, 5, 5, 10, 2, 0]); //"PE", "NM", "KY", "MI", "NC", "WI", "NJ"
 
   function calculateBreaks() {}
+
+  let hoveredData;
+  let hoveredPointer;
+
+  $: $mapWidth = width;
+  $: $mapHeight = height;
+
+  $: console.log($mapWidth);
 </script>
 
 <div class="map-wrapper" bind:clientWidth={width} bind:clientHeight={height}>
-  <!-- <p>{$stateData[0].id}</p> -->
+  {#if hoveredData}
+    <Tooltip {hoveredData} {hoveredPointer} />
+  {/if}
   <svg {width} {height}>
     <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
       {#if $clicked}
@@ -32,13 +50,19 @@
             stroke="white"
             stroke-width="1px"
             opacity={feature.stateID === $stateID ? 1 : 0}
+            on:mouseout={() => {
+              hoveredData = null;
+            }}
+            on:mousemove={(e) => {
+              hoveredData = feature;
+              hoveredPointer = d3.pointer(e);
+            }}
           />
         {/each}
       {/if}
     </g>
   </svg>
 </div>
-<div id="tooltip" />
 
 <style>
   .map-wrapper {

@@ -7,13 +7,16 @@
     allStatesData,
     countiesData,
     stateData,
-    stateLevelData,
+    allMetricData,
+    stateMetricData,
     path,
     projection,
     clicked,
     selectedYear,
     statePercent,
     countyList,
+    mapWidth,
+    mapHeight,
   } from "../../store/store";
 
   export let state;
@@ -41,14 +44,17 @@
     $stateData = filteredStateData; // in order to zoom to bounding box
     $countiesData = filteredCountyData.filter((d) => d.stateID === $stateID);
 
-    $projection = d3.geoIdentity().fitSize([500, 400], $stateData[0]);
+    $projection = d3
+      .geoIdentity()
+      .fitSize([$mapWidth, $mapHeight], $stateData[0]);
     // how to update this???
     $path = d3.geoPath().projection($projection);
 
-    let filteredStateMetricData = $stateLevelData.filter(
+    let filteredStateMetricData = $allMetricData.filter(
       (d) => d.state === $selectedState
     )[0];
 
+    $stateMetricData = filteredStateMetricData;
     // ADD IN OTHER TOGGLE OPTIONS
     $statePercent =
       $selectedYear === "year"
@@ -67,7 +73,7 @@
   }
 </script>
 
-<div class="img-wrapper">
+<div class="img-wrapper" on:click={updateState(state)}>
   <svg
     id={state}
     x="0px"
@@ -75,7 +81,6 @@
     viewBox="0 0 90 90"
     width={imgWidth}
     fill={stateFill}
-    on:click={updateState(state)}
     on:mouseover={handleMouseOver}
     on:mouseout={handleMouseOut}
   >
@@ -93,7 +98,7 @@
   svg:not(#wisconsin) {
     border-right: 0.5px solid #fff;
   }
-  .p-selected {
+  .selected {
     color: #fdbf11;
   }
 
