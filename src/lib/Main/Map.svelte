@@ -12,10 +12,21 @@
 
   let width;
   let height;
+  let legendHeight = 20;
+  let legendPadding = 20;
 
   $stateID = 34;
 
-  const colorScale = d3.scaleSequential(d3.interpolatePuBuGn).domain([0, 5]);
+  // const colorScale = d3.scaleSequential(d3.interpolatePuBuGn).domain([0, 5]);
+  const colors = [
+    "#f6eff7",
+    "#d0d1e6",
+    "#a6bddb",
+    "#67a9cf",
+    "#1c9099",
+    "#016c59",
+  ];
+  const colorScale = d3.scaleOrdinal().domain([0, 1, 2, 3, 4, 5]).range(colors);
 
   //rotate state due to projection distortions
   const rotateScale = d3
@@ -29,9 +40,7 @@
   let hoveredPointer;
 
   $: $mapWidth = width;
-  $: $mapHeight = height;
-
-  $: console.log($mapWidth);
+  $: $mapHeight = height - legendHeight - legendPadding;
 </script>
 
 <div class="map-wrapper" bind:clientWidth={width} bind:clientHeight={height}>
@@ -60,6 +69,25 @@
           />
         {/each}
       {/if}
+    </g>
+    <g
+      id="legend"
+      transform={`translate(${legendPadding},${height - legendHeight})`}
+      {width}
+      height={legendHeight}
+    >
+      <defs>
+        <linearGradient id="legendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          {#each colors as color, i}
+            <stop offset={`${(i * 100) / colors.length}%`} stop-color={color} />
+          {/each}
+        </linearGradient>
+      </defs>
+      <rect
+        width={width - legendPadding * 2}
+        height={legendHeight}
+        fill={`url("#legendGradient")`}
+      />
     </g>
   </svg>
 </div>

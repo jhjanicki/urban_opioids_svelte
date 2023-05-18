@@ -79,12 +79,18 @@
     x="0px"
     y="0px"
     viewBox="0 0 90 90"
-    width={imgWidth}
+    width={imgWidth ? imgWidth : 200}
     fill={stateFill}
     on:mouseover={handleMouseOver}
     on:mouseout={handleMouseOut}
   >
-    <path d={svgPath} />
+    {#if state !== "Michigan"}
+      <path d={svgPath} />
+    {:else}
+      {#each svgPath as path}
+        <path d={path} />
+      {/each}
+    {/if}
   </svg>
   <p>{stateCode}</p>
 </div>

@@ -1,9 +1,11 @@
 <script>
   import Bar from "./Bar.svelte";
+
+  let width;
 </script>
 
 <div class="main-viz">
-  <div class="viz-wrapper">
+  <div class="viz-wrapper" bind:clientWidth={width}>
     <h3>What would it take to change the treatment gap?</h3>
     <h4>
       <span id="bar-state" /> is treating

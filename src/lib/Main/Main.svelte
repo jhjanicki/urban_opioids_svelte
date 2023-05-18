@@ -11,8 +11,7 @@
     selectedYear,
   } from "../../store/store";
 
-  let width = 100;
-  let height = 100;
+  let width; //if I change to $: it doesn't work
 
   export let data;
   $: console.log($stateMetricData);
@@ -40,8 +39,8 @@
 </section>
 <section class="map-view">
   <div class="wrapper">
-    <div class="left-wrapper">
-      <div bind:clientWidth={width} bind:clientHeight={height}>
+    <div class="left-wrapper" bind:clientWidth={width}>
+      <div>
         <h4>Where people with opioid use disorder are receiving treatment</h4>
         <Map {data} />
       </div>
@@ -81,7 +80,7 @@
       {/if}
     </div>
 
-    <div class="right-wrapper">
+    <div class="right-wrapper" bind:clientWidth={width}>
       {#if $stateMetricData}
         <h4>Access to treatment</h4>
         <div class="text-wrapper">
@@ -193,6 +192,13 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .map-view .wrapper {
+      grid-template-columns: 1fr;
+      column-gap: 0px;
+    }
   }
 
   h3 {
