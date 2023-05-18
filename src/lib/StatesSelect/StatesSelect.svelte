@@ -1,27 +1,20 @@
 <script>
   import data from "../../assets/states/statesSVG.json";
   import State from "./State.svelte";
-  import { onMount } from "svelte";
 
-  let statesWrapper;
   let width;
-  let imgWidth;
-
-  onMount(() => {
-    width = statesWrapper.getBoundingClientRect().width;
-    imgWidth = (width - 40) / 7 - 40;
-  });
+  $: imgWidth = (width - 40) / 7 - 40;
 </script>
 
 <section class="states-selection">
   <div class="wrapper">
     <p>Select a state</p>
-    <div class="states-wrapper" bind:this={statesWrapper}>
+    <div class="states-wrapper" bind:clientWidth={width}>
       {#each data as d}
         <State
           state={d.state}
           stateCode={d.stateCode}
-          svgPath={d.path}
+          svgPath={d.state !== "Michigan" ? d.path : d.paths}
           id={d.id}
           {imgWidth}
         />

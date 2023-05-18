@@ -1,18 +1,35 @@
 <script>
   import * as d3 from "d3";
   import { stateView, statePercent, countyPercent } from "../../store/store";
-  import { fly } from "svelte/transition";
+  import { tweened } from "svelte/motion";
+  import { cubicOut } from "svelte/easing";
 
+  let width;
+
+  $: console.log(width);
+  // $: barWidth = width;
   let barWidth = 400;
   let barHeight = 100;
+
   const margin = { top: 20, left: 5, bottom: 40, right: 5 };
   let xScale = d3
     .scaleLinear()
     .domain([0, 100])
     .range([0, barWidth - margin.left - margin.right]);
+
+  let barInnerWidth = tweened(xScale($statePercent) - margin.right, {
+    duration: 400,
+    easing: cubicOut,
+  });
+
+  $: if ($stateView === "stateview") {
+    barInnerWidth.set(xScale($statePercent) - margin.right);
+  } else {
+    barInnerWidth.set(xScale($countyPercent) - margin.right);
+  }
 </script>
 
-<div class="bar-wrapper" bind:clientWidth={barWidth}>
+<div class="bar-wrapper" bind:clientWidth={width}>
   <svg width={barWidth} height={barHeight}>
     <rect
       id="barOutline"
@@ -28,9 +45,7 @@
       id="barInner"
       x={margin.left}
       y="20"
-      width={xScale(
-        $stateView === "stateview" ? $statePercent : $countyPercent
-      ) - margin.right}
+      width={$barInnerWidth}
       height="50"
       stroke-width="2.5"
       fill="#FDBF11"
@@ -54,3 +69,9 @@
     />
   </svg>
 </div>
+
+<style>
+  .bar-wrapper {
+    width: 100%;
+  }
+</style>
