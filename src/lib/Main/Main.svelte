@@ -178,8 +178,10 @@
 
   .main-selection .wrapper {
     display: grid;
-    grid-template-columns: 3fr 2fr;
+		/* minmax() helps these columns stay responsive even with SVGs with hard-coded widths inside them*/
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     column-gap: 10px;
+
   }
 
   .map-view {
@@ -190,7 +192,7 @@
 
   .map-view .wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     column-gap: 20px;
   }
 
