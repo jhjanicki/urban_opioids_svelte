@@ -6,6 +6,7 @@ import data from "../assets/data/metricData.json";
 
 // FILTER FOR RELEVANT STATES
 const ids = [21,26,34,35,37,42,55];
+
 let allCounties = topojson
 .feature(usData, usData.objects.counties).features.filter(d=>{
     const idPrefix = +d.id.substr(0, 2);
@@ -16,7 +17,10 @@ let allCounties = topojson
     stateID:+d.id.substr(0, 2)
   }));
 
-// BIND DATA HERE
+let allStates = topojson.feature(usData, usData.objects.states)
+
+
+// bind metric data to counties json data, for map only, the rest of county data don't need to be bound to spatial data
 data.forEach(function(state){
   allCounties.forEach(function (county) {
     state.data.forEach(function (countyData) {
@@ -45,8 +49,17 @@ data.forEach(state=>{
   })
 })
 
+// get county cata: get the obj in the array that corresponds to the state
 
+let allCountyMetrics = []
 
+data.forEach(state=>{
+  state.data.forEach(row=>{
+    if(row.countyfips!==""){
+      allCountyMetrics.push(row);
+    }
+  })
+})
 
 
 export const clicked = writable(false); //false on load, true after clicked on a state
@@ -55,18 +68,21 @@ export const selectedCounty = writable(""); //updated in Dropdown
 export const stateView = writable("stateview");
 export const stateID = writable();
 export const allCountiesData = writable(allCounties);
-export const allStatesData = writable(topojson
-    .feature(usData, usData.objects.states));
+export const allStatesData = writable(allStates);
 export const countiesData = writable(); // counties data for one state, used in Map and also Dropdown
 export const stateData = writable();  // used in Map, for bounding box
 export const path = writable();
 export const projection = writable(); //used in Map
-export const allMetricData = writable(allMetrics); // now only NJ but later will include all
-export const stateMetricData = writable(allMetrics);  //filter stateMetricData to only the selected state
+export const allMetricData = writable(allMetrics); // all metric data on state level, now only NJ but later will include all
+export const stateMetricData = writable();  //filter allMetricData to only the selected state
+export const allCountyMetricData = writable(allCountyMetrics); // all metric data on county level
+export const countyMetricData = writable(allCountyMetrics); //filter allMetricData to only the selected county
 export const statePercent = writable(50); //updated in State
 export const countyPercent = writable(30); //updated in Dropdown
 export const selectedYear = writable(12); //treatment length, 12 vs 6
 export const countyList = writable(); //for dropdown
 export const mapWidth = writable();
 export const mapHeight = writable();
+export const legendDomain = writable([]); //to store the legend breaks
+
 

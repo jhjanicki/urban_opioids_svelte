@@ -8,12 +8,13 @@
     clicked,
     mapWidth,
     mapHeight,
+    legendDomain,
   } from "../../store/store";
 
-  let width;
-  let height;
+  let width = 100;
+  let height = 100;
   let legendHeight = 20;
-  let legendPadding = 20;
+  let legendPadding = 30;
 
   $stateID = 34;
 
@@ -26,13 +27,13 @@
     "#1c9099",
     "#016c59",
   ];
-  const colorScale = d3.scaleOrdinal().domain([0, 1, 2, 3, 4, 5]).range(colors);
+  const colorScale = d3.scaleOrdinal().domain($legendDomain).range(colors);
 
   //rotate state due to projection distortions
   const rotateScale = d3
     .scaleOrdinal()
     .domain([42, 35, 21, 26, 37, 55, 34])
-    .range([10, -5, 5, 5, 10, 2, 0]); //"PE", "NM", "KY", "MI", "NC", "WI", "NJ"
+    .range([11, -5, 5, 5, 10, 3, 0]); //"PE", "NM", "KY", "MI", "NC", "WI", "NJ"
 
   function calculateBreaks() {}
 

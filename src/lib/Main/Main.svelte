@@ -7,24 +7,30 @@
   import Map from "./Map.svelte";
   import {
     selectedState,
+    selectedCounty,
     stateMetricData,
+    countyMetricData,
     selectedYear,
+    stateView,
   } from "../../store/store";
 
   let width; //if I change to $: it doesn't work
 
   export let data;
   $: console.log($stateMetricData);
+  $: console.log($countyMetricData);
 </script>
 
 <section class="main-selection">
   <div class="wrapper">
-    <h3 id="main-selection-title">{$selectedState}</h3>
+    <h3 id="main-selection-title">
+      {$stateView === "stateview" ? $selectedState : $selectedCounty}
+    </h3>
     <div class="buttons-wrapper">
       <Button id={"download"} text={"Download data"} />
       <Button id={"print"} text={"Print page"} />
     </div>
-    <div class="tab-wrapper">
+    <div class={$stateView === "stateview" ? "tab-wrapper" : "tab-wrapper2"}>
       <Tab id="stateview" text="State view" />
       <Tab id="countyview" text="County view" />
     </div>
@@ -44,44 +50,61 @@
         <h4>Where people with opioid use disorder are receiving treatment</h4>
         <Map {data} />
       </div>
-      {#if $stateMetricData}
+      {#if $stateMetricData && $countyMetricData}
         <h4>Overdose deaths</h4>
         <div class="text-wrapper">
           <p>
-            <span class="number">{$stateMetricData.deaths_allod_rt_100k}</span> people
-            die of overdoses each year (per 100,000 residents)
+            <span class="number"
+              >{$stateView === "stateview"
+                ? $stateMetricData.deaths_allod_rt_100k
+                : $countyMetricData[0].deaths_allod_rt_100k}</span
+            > people die of overdoses each year (per 100,000 residents)
           </p>
           <p>
             <span class="number"
-              >{$stateMetricData.deaths_opioidod_rt_100k}</span
+              >{$stateView === "stateview"
+                ? $stateMetricData.deaths_opioidod_rt_100k
+                : $countyMetricData[0].deaths_opioidod_rt_100k}</span
             > people die of opioid-related overdoses each year (per 100,000 residents)
           </p>
           <p>
             <span class="number"
-              >{$stateMetricData.deaths_opioidod_rt_allod}</span
+              >{$stateView === "stateview"
+                ? $stateMetricData.deaths_opioidod_rt_allod
+                : $countyMetricData[0].deaths_opioidod_rt_allod}</span
             > percent of overdose deaths are opioid related
           </p>
         </div>
         <h4>Language characteristics</h4>
         <div class="text-wrapper">
           <p>
-            <span class="number">{$stateMetricData.ACS_PCT_LIMIT_ENGLISH}</span>
+            <span class="number">
+              {$stateView === "stateview"
+                ? $stateMetricData.ACS_PCT_LIMIT_ENGLISH
+                : $countyMetricData[0].ACS_PCT_LIMIT_ENGLISH}</span
+            >
             percent of the population speaks limited English
           </p>
           <p>
-            <span class="number">{$stateMetricData.ACS_PCT_OTH_LANG}</span> percent
-            of the population speaks Spanish
+            <span class="number">
+              {$stateView === "stateview"
+                ? $stateMetricData.ACS_PCT_OTH_LANG
+                : $countyMetricData[0].ACS_PCT_OTH_LANG}</span
+            > percent of the population speaks Spanish
           </p>
           <p>
-            <span class="number">{$stateMetricData.ACS_PCT_SPANISH}</span> percent
-            of the population speaks another language
+            <span class="number">
+              {$stateView === "stateview"
+                ? $stateMetricData.ACS_PCT_SPANISH
+                : $countyMetricData[0].ACS_PCT_SPANISH}</span
+            > percent of the population speaks another language
           </p>
         </div>
       {/if}
     </div>
 
     <div class="right-wrapper" bind:clientWidth={width}>
-      {#if $stateMetricData}
+      {#if $stateMetricData && $countyMetricData}
         <h4>Access to treatment</h4>
         <div class="text-wrapper">
           <p>
@@ -178,7 +201,8 @@
 
   .main-selection .wrapper {
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    /* minmax() helps these columns stay responsive even with SVGs with hard-coded widths inside them*/
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     column-gap: 10px;
   }
 
@@ -190,7 +214,7 @@
 
   .map-view .wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     column-gap: 20px;
   }
 
@@ -228,6 +252,12 @@
   }
 
   .tab-wrapper {
+    margin-bottom: 30px;
+    display: flex;
+    gap: 32px;
+  }
+
+  .tab-wrapper2 {
     display: flex;
     gap: 32px;
   }
