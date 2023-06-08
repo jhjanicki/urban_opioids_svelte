@@ -5,6 +5,9 @@
     selectedCounty,
     countiesData,
     countyPercent,
+    countyMetricData,
+    allCountyMetricData,
+    stateView,
   } from "../../store/store";
 
   let active = false;
@@ -22,26 +25,32 @@
     selectedCountyData = $countiesData.filter(
       (d) => d.properties.name === county
     );
-    console.log(selectedCountyData);
+
     $countyPercent = selectedCountyData[0].properties.OUD_tx_12m;
+
+    $countyMetricData = $allCountyMetricData.filter(
+      (d) => d.county === $selectedCounty
+    );
   }
 </script>
 
-<div class={active ? "select-menu active" : "select-menu"}>
-  <div class="select-menu-button" on:click={toggleDropdown}>
-    <span class="select-menu-text"
-      >{countySelected ? $selectedCounty : "Select a county"}</span
-    >
+<div class={$stateView === "stateview" ? "none" : "show"}>
+  <div class={active ? "select-menu active" : "select-menu"}>
+    <div class="select-menu-button" on:click={toggleDropdown}>
+      <span class="select-menu-text"
+        >{countySelected ? $selectedCounty : "Select a county"}</span
+      >
+    </div>
+    <ul class="options">
+      {#if $clicked}
+        {#each $countyList as d}
+          <li class="option" on:click={closeDropdown(d)}>
+            <span class="optionText">{d}</span>
+          </li>
+        {/each}
+      {/if}
+    </ul>
   </div>
-  <ul class="options">
-    {#if $clicked}
-      {#each $countyList as d}
-        <li class="option" on:click={closeDropdown(d)}>
-          <span class="optionText">{d}</span>
-        </li>
-      {/each}
-    {/if}
-  </ul>
 </div>
 
 <style>
@@ -123,6 +132,14 @@
     animation-fill-mode: both;
     -webkit-animation-duration: 0.4s;
     -webkit-animation-fill-mode: both;
+  }
+
+  .none {
+    display: none;
+  }
+
+  .show {
+    display: inline-block;
   }
 
   @keyframes fadeInUp {

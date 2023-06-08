@@ -15,8 +15,10 @@
     selectedYear,
     statePercent,
     countyList,
+    selectedCounty,
     mapWidth,
     mapHeight,
+    legendDomain,
   } from "../../store/store";
 
   export let state;
@@ -31,6 +33,26 @@
   let filteredStateData;
   let stateFill = "#d2d2d2";
 
+  function getMean(arr) {
+    let mean =
+      arr.reduce((acc, curr) => {
+        return acc + curr;
+      }, 0) / arr.length;
+    return mean;
+  }
+
+  function getStandardDeviation(arr) {
+    let mean = getMean(arr);
+    // Assigning (value - mean) ^ 2 to every array item
+    arr = arr.map((k) => {
+      return (k - mean) ** 2;
+    });
+    // Calculating the sum of updated array
+    let sum = arr.reduce((acc, curr) => acc + curr, 0);
+    // Returning the Standered deviation
+    return Math.sqrt(sum / arr.length);
+  }
+
   function updateState(st) {
     $clicked = true;
     $selectedState = st;
@@ -43,6 +65,17 @@
 
     $stateData = filteredStateData; // in order to zoom to bounding box
     $countiesData = filteredCountyData.filter((d) => d.stateID === $stateID);
+
+    const OTPcounts = $countiesData.map((d) => d.properties.OTPcount);
+    const mean = getMean(OTPcounts);
+    const sd = getStandardDeviation(OTPcounts);
+    $legendDomain = [
+      d3.max([mean - 2 * sd, 0]),
+      Math.ceil(mean - sd),
+      Math.ceil(mean),
+      Math.ceil(mean + sd),
+      Math.ceil(mean + 2 * sd),
+    ];
 
     $projection = d3
       .geoIdentity()
@@ -62,6 +95,8 @@
         : filteredStateMetricData.OUD_tx_6m;
 
     $countyList = $countiesData.map((county) => county.properties.name);
+
+    $selectedCounty = $countyList[0];
   }
 
   function handleMouseOver() {

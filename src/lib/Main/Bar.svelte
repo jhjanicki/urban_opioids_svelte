@@ -4,20 +4,18 @@
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
 
-	// gave width a default value and removed the bar width variable since it wasn't necessary
+  // gave width a default value and removed the bar width variable since it wasn't necessary
   let width = 400;
-
   let barHeight = 100;
 
   const margin = { top: 20, left: 5, bottom: 40, right: 5 };
+  // made this scale a reactive statement as well so that the xScale range updates when the width changes
 
-	// made this scale a reactive statement as well so that the xScale range updates when the width changes
   $: xScale = d3
     .scaleLinear()
     .domain([0, 100])
     .range([0, width - margin.left - margin.right]);
 
-	// made this a reactive statement as well so that the tweened value picks up any changes to the xScale
   $: barInnerWidth = tweened(xScale($statePercent) - margin.right, {
     duration: 400,
     easing: cubicOut,
@@ -31,6 +29,7 @@
 </script>
 
 <div class="bar-wrapper" bind:clientWidth={width}>
+  <svg {width} height={barHeight}>
   <svg width={width} height={barHeight}>
     <rect
       id="barOutline"
