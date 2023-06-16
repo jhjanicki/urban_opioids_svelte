@@ -308,9 +308,9 @@
 
   .main-selection .wrapper {
     display: grid;
-    /* minmax() helps these columns stay responsive even with SVGs with hard-coded widths inside them*/
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     column-gap: 10px;
+
   }
 
   .map-view {

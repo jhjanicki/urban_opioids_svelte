@@ -15,6 +15,7 @@
 
   const margin = { top: 20, left: 5, bottom: 40, right: 5 };
   // made this scale a reactive statement as well so that the xScale range updates when the width changes
+
   $: xScale = d3
     .scaleLinear()
     .domain([0, 100])
@@ -31,6 +32,7 @@
     barInnerWidth.set(xScale($countyPercent) - margin.right);
   }
 </script>
+
 
 {#if $clicked}
   <div class="bar-wrapper" bind:clientWidth={width}>
@@ -74,6 +76,7 @@
     </svg>
   </div>
 {/if}
+
 
 <style>
   .bar-wrapper {
