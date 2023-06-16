@@ -1,29 +1,60 @@
 <script>
+  import Radio from "./Radio.svelte";
   import Toggle from "./Toggle.svelte";
+  import {
+    submitted,
+    selectedTreatment,
+    selectedProvider,
+    selectedYear,
+  } from "../../store/store";
+  //newprov vs curpr, fill_gap vs 2xcap
+
+  const optionsTreatment = [
+    {
+      value: "2xcap",
+      label: "Double the current treatment",
+    },
+    {
+      value: "fill_gap",
+      label: "Close the treatment gap",
+    },
+  ];
+
+  const optionsProvider = [
+    {
+      value: "newprov",
+      label: "Adding new providers",
+    },
+    {
+      value: "curpr",
+      label: "Increasing capacity of current providers",
+    },
+  ];
+
+  const optionsYear = [
+    {
+      value: "12",
+      label: "No",
+    },
+    {
+      value: "6",
+      label: "Yes",
+    },
+  ];
 </script>
 
 <div class="toggle-selection">
   <div class="toggle-wrapper">
     <p>See what it would take to...</p>
-    <Toggle
-      id1={"double"}
-      id2={"close"}
-      name={"treatment"}
-      text1={"Double the current treatment"}
-      text2={"Close the treatment gap"}
-    />
+    <Radio options={optionsTreatment} bind:selected={$selectedTreatment} />
   </div>
   <div class="toggle-wrapper">
     <p>By...</p>
-    <Toggle
-      id1={"new"}
-      id2={"increase"}
-      name={"provider"}
-      text1={"Adding new providers"}
-      text2={"Increasing capacity of existing providers"}
-    />
+    <Radio options={optionsProvider} bind:selected={$selectedProvider} />
   </div>
   <hr />
+  <p>Reduce treatment length from 12 months to 6 months</p>
+  <Toggle options={optionsYear} bind:selected={$selectedYear} />
   <button class="button">CTA LANGUAGE HERE</button>
 </div>
 

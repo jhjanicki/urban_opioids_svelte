@@ -54,6 +54,7 @@
   }
 
   function updateState(st) {
+    $selectedCounty === ""; //reset county selection when clicking on another state, not working though
     $clicked = true;
     $selectedState = st;
     $stateID = id; // this shouldn't be ID here
@@ -95,8 +96,6 @@
         : filteredStateMetricData.OUD_tx_6m;
 
     $countyList = $countiesData.map((county) => county.properties.name);
-
-    $selectedCounty = $countyList[0];
   }
 
   function handleMouseOver() {

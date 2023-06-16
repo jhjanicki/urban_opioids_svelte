@@ -3,7 +3,7 @@
   import Tab from "./Tab.svelte";
   import Dropdown from "./Dropdown.svelte";
   import Viz from "./Viz.svelte";
-  import ToggleSelect from "./ToggleSelect.svelte";
+  import OptionsSection from "./OptionsSection.svelte";
   import Map from "./Map.svelte";
   import {
     selectedState,
@@ -14,11 +14,24 @@
     stateView,
   } from "../../store/store";
 
+  export let data;
+
   let width; //if I change to $: it doesn't work
 
-  export let data;
-  $: console.log($stateMetricData);
-  $: console.log($countyMetricData);
+  function getNumber(noYear, metric) {
+    //get metric given selected state / county and year
+    let metricFinal;
+    if (!noYear) {
+      metricFinal = `${metric}_${$selectedYear}m`;
+    } else {
+      metricFinal = `${metric}`;
+    }
+    if ($stateView === "stateview") {
+      return $stateMetricData[metricFinal];
+    } else {
+      return $countyMetricData[0][metricFinal];
+    }
+  }
 </script>
 
 <section class="main-selection">
@@ -40,9 +53,11 @@
   </div>
   <div class="wrapper">
     <Viz />
-    <ToggleSelect />
+    <OptionsSection />
   </div>
 </section>
+
+<!-- getNumber(true, "deaths_allod_rt_100k") -->
 <section class="map-view">
   <div class="wrapper">
     <div class="left-wrapper" bind:clientWidth={width}>
@@ -57,21 +72,24 @@
             <span class="number"
               >{$stateView === "stateview"
                 ? $stateMetricData.deaths_allod_rt_100k
-                : $countyMetricData[0].deaths_allod_rt_100k}</span
+                : $countyMetricData[0].deaths_allod_rt_100k} /
+              {getNumber(true, "deaths_allod_rt_100k")}</span
             > people die of overdoses each year (per 100,000 residents)
           </p>
           <p>
             <span class="number"
               >{$stateView === "stateview"
                 ? $stateMetricData.deaths_opioidod_rt_100k
-                : $countyMetricData[0].deaths_opioidod_rt_100k}</span
+                : $countyMetricData[0].deaths_opioidod_rt_100k} /
+              {getNumber(true, "deaths_opioidod_rt_100k")}</span
             > people die of opioid-related overdoses each year (per 100,000 residents)
           </p>
           <p>
             <span class="number"
               >{$stateView === "stateview"
                 ? $stateMetricData.deaths_opioidod_rt_allod
-                : $countyMetricData[0].deaths_opioidod_rt_allod}</span
+                : $countyMetricData[0].deaths_opioidod_rt_allod} /
+              {getNumber(true, "deaths_opioidod_rt_allod")}</span
             > percent of overdose deaths are opioid related
           </p>
         </div>
@@ -81,22 +99,25 @@
             <span class="number">
               {$stateView === "stateview"
                 ? $stateMetricData.ACS_PCT_LIMIT_ENGLISH
-                : $countyMetricData[0].ACS_PCT_LIMIT_ENGLISH}</span
+                : $countyMetricData[0].ACS_PCT_LIMIT_ENGLISH} /
+              {getNumber(true, "ACS_PCT_LIMIT_ENGLISH")}</span
             >
             percent of the population speaks limited English
           </p>
           <p>
             <span class="number">
               {$stateView === "stateview"
-                ? $stateMetricData.ACS_PCT_OTH_LANG
-                : $countyMetricData[0].ACS_PCT_OTH_LANG}</span
+                ? $stateMetricData.ACS_PCT_SPANISH
+                : $countyMetricData[0].ACS_PCT_SPANISH} /
+              {getNumber(true, "ACS_PCT_SPANISH")}</span
             > percent of the population speaks Spanish
           </p>
           <p>
             <span class="number">
               {$stateView === "stateview"
-                ? $stateMetricData.ACS_PCT_SPANISH
-                : $countyMetricData[0].ACS_PCT_SPANISH}</span
+                ? $stateMetricData.ACS_PCT_OTH_LANG
+                : $countyMetricData[0].ACS_PCT_OTH_LANG} /
+              {getNumber(true, "ACS_PCT_OTH_LANG")}</span
             > percent of the population speaks another language
           </p>
         </div>
@@ -110,79 +131,165 @@
           <p>
             <span class="number"
               >{$selectedYear === 12
-                ? $stateMetricData.gap_current_12m
-                : $stateMetricData.gap_current_6m}</span
-            > OTPs operate in the state
-          </p>
-          <p>
-            <span class="number"
-              >{$selectedYear === 12
-                ? $stateMetricData.capacity_current_12m
-                : $stateMetricData.capacity_current_6m}</span
-            > patients receive methadone at an OTP in the state (per 100,000 residents)
-          </p>
-          <p>
-            <span class="number">{$stateMetricData.OTPcount}</span> patients receive
-            buprenorphine (per 100,000 residents)
-          </p>
-          <p>
-            <span class="number"
-              >{$selectedYear === 12
-                ? $stateMetricData.methadone_rt_12m
-                : $stateMetricData.methadone_rt_6m}</span
+                ? $stateView === "stateview"
+                  ? $stateMetricData.gap_current_12m
+                  : $countyMetricData[0].gap_current_12m
+                : $stateView === "stateview"
+                ? $stateMetricData.gap_current_6m
+                : $countyMetricData[0].gap_current_6m}/
+              {getNumber(false, "gap_current")}</span
             > people lack access to treatment
           </p>
           <p>
             <span class="number"
               >{$selectedYear === 12
-                ? $stateMetricData.bup_patients_rt_12m
-                : $stateMetricData.bup_patients_rt_6m}</span
+                ? $stateView === "stateview"
+                  ? $stateMetricData.capacity_current_12m
+                  : $countyMetricData[0].capacity_current_12m
+                : $stateView === "stateview"
+                ? $stateMetricData.capacity_current_6m
+                : $countyMetricData[0].capacity_current_6m}/
+              {getNumber(false, "capacity_current")}</span
             > people have access to treatment
+          </p>
+          <p>
+            <span class="number">
+              {$stateView === "stateview"
+                ? $stateMetricData.OTPcount
+                : $countyMetricData[0].OTPcount}</span
+            > opioid treatment programs operate
+          </p>
+          <p>
+            <span class="number"
+              >{$selectedYear === 12
+                ? $stateView === "stateview"
+                  ? $stateMetricData.methadone_rt_12m
+                  : $countyMetricData[0].methadone_rt_12m
+                : $stateView === "stateview"
+                ? $stateMetricData.methadone_rt_6m
+                : $countyMetricData[0].methadone_rt_6m} /
+              {getNumber(false, "methadone_rt")}</span
+            > patients receive methadone at an opioid treatment program (per 100,000
+            residents)
+          </p>
+          <p>
+            <span class="number"
+              >{$selectedYear === 12
+                ? $stateView === "stateview"
+                  ? $stateMetricData.bup_patients_12m
+                  : $countyMetricData[0].bup_patients_12m
+                : $stateView === "stateview"
+                ? $stateMetricData.bup_patients_6m
+                : $countyMetricData[0].bup_patients_6m} /
+              {getNumber(false, "bup_patients")}</span
+            > patients receive buprenorphine at an opioid treatment program (per
+            100,000 residents)
           </p>
         </div>
         <h4>Prescribers and potential patient caseloads</h4>
         <div class="text-wrapper">
           <p>
-            <span class="number">{$stateMetricData.prescriber}</span> prescribers
-            practice in the state
+            <span class="number"
+              >{$stateView === "stateview"
+                ? $stateMetricData.prescriber
+                : $countyMetricData[0].prescriber} /
+              {getNumber(true, "prescriber")}</span
+            >
+            prescribers practice in the {$stateView === "stateview"
+              ? "state"
+              : "county"}
           </p>
           <p>
-            <span class="number">{$stateMetricData.perc_waiver_DEA}</span> prescribers
-            have a buprenorphine waiver
+            <span class="number"
+              >{$stateView === "stateview"
+                ? $stateMetricData.perc_waiver_DEA
+                : $countyMetricData[0].perc_waiver_DEA} /
+              {getNumber(true, "perc_waiver_DEA")}</span
+            > prescribers have a buprenorphine waiver
           </p>
           <p>
-            <span class="number">{$stateMetricData.activeprx30}</span> active buprenorphine
-            prescribers had a 30-patient limit in January 2023
+            <span class="number"
+              >{$stateView === "stateview"
+                ? $stateMetricData.activeprx30
+                : $countyMetricData[0].activeprx30} /
+              {getNumber(true, "activeprx30")}</span
+            > active buprenorphine prescribers had a 30-patient limit in January
+            2023
           </p>
           <p>
-            <span class="number">{$stateMetricData.activeprx100}</span> active buprenorphine
-            prescribers had a 100-patient limit in January 2023
+            <span class="number"
+              >{$stateView === "stateview"
+                ? $stateMetricData.activeprx100
+                : $countyMetricData[0].activeprx100}/
+              {getNumber(true, "activeprx100")}</span
+            > active buprenorphine prescribers had a 100-patient limit in January
+            2023
           </p>
           <p>
-            <span class="number">{$stateMetricData.activeprx275}</span> active buprenorphine
-            prescribers had a 275-patient limit in January 2023
+            <span class="number"
+              >{$stateView === "stateview"
+                ? $stateMetricData.activeprx275
+                : $countyMetricData[0].activeprx275}/
+              {getNumber(true, "activeprx275")}</span
+            > active buprenorphine prescribers had a 275-patient limit in January
+            2023
           </p>
         </div>
+
+        <h4>Opioid use disorder</h4>
+        <div class="text-wrapper">
+          <p>
+            <span class="number"
+              >{$stateView === "stateview"
+                ? $stateMetricData.OUD_num
+                : $countyMetricData[0].OUD_num}/
+              {getNumber(true, "OUD_num")}</span
+            >
+            {$stateView === "stateview" ? "state" : "county"}
+            residents ({$stateView === "stateview"
+              ? $stateMetricData.OUD_state
+              : $countyMetricData[0].OUD_state}/
+            {getNumber(true, "OUD_state")} percent) have opioid use disorder
+          </p>
+        </div>
+
         <h4>Transportation characteristics</h4>
         <div class="text-wrapper">
           <p>
-            <span class="number">{$stateMetricData.drivetime_methadone}</span> minutes
-            is the average driving time to the nearest opioid treatment program for
-            methadone treatment
+            <span class="number">
+              {$stateView === "stateview"
+                ? $stateMetricData.drivetime_methadone
+                : $countyMetricData[0].drivetime_methadone}/
+              {getNumber(true, "drivetime_methadone")}</span
+            > minutes is the average driving time to the nearest opioid treatment
+            program for methadone treatment
           </p>
           <p>
-            <span class="number">{$stateMetricData.transittime_methadone}</span>
+            <span class="number">
+              {$stateView === "stateview"
+                ? $stateMetricData.transittime_methadone
+                : $countyMetricData[0].transittime_methadone}/
+              {getNumber(true, "transittime_methadone")}</span
+            >
             minutes is the average travel time via public transit to nearest opioid
             treatment program for methadone treatment
           </p>
           <p>
-            <span class="number">{$stateMetricData.drivetime_bup}</span> minutes
-            is the average driving time to the nearest buprenorphine treatment
+            <span class="number"
+              >{$stateView === "stateview"
+                ? $stateMetricData.drivetime_bup
+                : $countyMetricData[0].drivetime_bup}/
+              {getNumber(true, "drivetime_bup")}</span
+            > minutes is the average driving time to the nearest buprenorphine treatment
           </p>
           <p>
-            <span class="number">{$stateMetricData.transittime_bup}</span> aminutes
-            is the average travel time via public transit to the nearest buprenorphine
-            treatment
+            <span class="number"
+              >{$stateView === "stateview"
+                ? $stateMetricData.transittime_bup
+                : $countyMetricData[0].transittime_bup}/
+              {getNumber(true, "transittime_bup")}</span
+            > aminutes is the average travel time via public transit to the nearest
+            buprenorphine treatment
           </p>
         </div>
       {/if}
