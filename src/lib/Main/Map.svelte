@@ -2,6 +2,12 @@
   import * as d3 from "d3";
   import Tooltip from "./Tooltip.svelte";
   import {
+    stateView,
+    selectedCounty,
+    selectedCountyData,
+    allCountyMetricData,
+    countyMetricData,
+    countyPercent,
     countiesData,
     path,
     stateID,
@@ -35,8 +41,6 @@
     .domain([42, 35, 21, 26, 37, 55, 34])
     .range([11, -5, 5, 5, 10, 3, 0]); //"PE", "NM", "KY", "MI", "NC", "WI", "NJ"
 
-  function calculateBreaks() {}
-
   let hoveredData;
   let hoveredPointer;
 
@@ -48,16 +52,21 @@
   {#if hoveredData}
     <Tooltip {hoveredData} {hoveredPointer} />
   {/if}
-  <svg {width} {height}>
-    <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
-      {#if $clicked}
+
+  {#if $clicked}
+    <svg {width} {height}>
+      <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
         {#each $countiesData as feature, i}
           <path
+            class="counties"
+            id={feature.properties.name.replaceAll(" ", "")}
             d={$path(feature)}
             fill={feature.id.toString().slice(0, 2) === "34"
               ? colorScale(feature.properties.OTPcount)
               : "black"}
-            stroke="white"
+            stroke={feature.properties.name === $selectedCounty
+              ? "black"
+              : "white"}
             stroke-width="1px"
             opacity={feature.stateID === $stateID ? 1 : 0}
             on:mouseout={() => {
@@ -67,35 +76,54 @@
               hoveredData = feature;
               hoveredPointer = d3.pointer(e);
             }}
+            on:click={(e) => {
+              $selectedCounty = feature.properties.name;
+              $selectedCountyData = $countiesData.filter(
+                (d) => d.properties.name === $selectedCounty
+              );
+              $countyPercent = $selectedCountyData[0].properties.OUD_tx_12m; //for now 12, but will need to update based on the toggles
+              $stateView = "countyview";
+
+              $countyMetricData = $allCountyMetricData.filter(
+                (d) => d.county === $selectedCounty
+              );
+            }}
           />
         {/each}
-      {/if}
-    </g>
-    <g
-      id="legend"
-      transform={`translate(${legendPadding},${height - legendHeight})`}
-      {width}
-      height={legendHeight}
-    >
-      <defs>
-        <linearGradient id="legendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          {#each colors as color, i}
-            <stop offset={`${(i * 100) / colors.length}%`} stop-color={color} />
-          {/each}
-        </linearGradient>
-      </defs>
-      <rect
-        width={width - legendPadding * 2}
+      </g>
+      <g
+        id="legend"
+        transform={`translate(${legendPadding},${height - legendHeight})`}
+        {width}
         height={legendHeight}
-        fill={`url("#legendGradient")`}
-      />
-    </g>
-  </svg>
+      >
+        <defs>
+          <linearGradient id="legendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            {#each colors as color, i}
+              <stop
+                offset={`${(i * 100) / colors.length}%`}
+                stop-color={color}
+              />
+            {/each}
+          </linearGradient>
+        </defs>
+        <rect
+          width={width - legendPadding * 2}
+          height={legendHeight}
+          fill={`url("#legendGradient")`}
+        />
+      </g>
+    </svg>
+  {/if}
 </div>
 
 <style>
   .map-wrapper {
     width: 100%;
     height: 400px;
+  }
+
+  .counties:hover {
+    cursor: pointer;
   }
 </style>

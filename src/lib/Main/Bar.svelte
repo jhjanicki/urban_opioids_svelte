@@ -1,6 +1,11 @@
 <script>
   import * as d3 from "d3";
-  import { stateView, statePercent, countyPercent } from "../../store/store";
+  import {
+    clicked,
+    stateView,
+    statePercent,
+    countyPercent,
+  } from "../../store/store";
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
 
@@ -27,46 +32,48 @@
   }
 </script>
 
-<div class="bar-wrapper" bind:clientWidth={width}>
-  <svg {width} height={barHeight}>
-    <rect
-      id="barOutline"
-      x={margin.left}
-      y="20"
-      width={width - margin.right}
-      height="50"
-      stroke="white"
-      stroke-width="2.5"
-      fill="#353535"
-    />
-    <rect
-      id="barInner"
-      x={margin.left}
-      y="20"
-      width={$barInnerWidth}
-      height="50"
-      stroke-width="2.5"
-      fill="#FDBF11"
-    />
-    <line
-      id="stateAvg"
-      x1={xScale($statePercent)}
-      x2={xScale($statePercent)}
-      y1={margin.top + 50}
-      y2={margin.top - 10}
-      stroke="white"
-      stroke-width="2.5"
-      fill="none"
-    />
-    <circle
-      id="circle"
-      cx={xScale($statePercent)}
-      cy={margin.top - 10}
-      r="5"
-      fill="white"
-    />
-  </svg>
-</div>
+{#if $clicked}
+  <div class="bar-wrapper" bind:clientWidth={width}>
+    <svg {width} height={barHeight}>
+      <rect
+        id="barOutline"
+        x={margin.left}
+        y="20"
+        width={width - margin.right}
+        height="50"
+        stroke="white"
+        stroke-width="2.5"
+        fill="#353535"
+      />
+      <rect
+        id="barInner"
+        x={margin.left}
+        y="20"
+        width={$barInnerWidth}
+        height="50"
+        stroke-width="2.5"
+        fill="#FDBF11"
+      />
+      <line
+        id="stateAvg"
+        x1={xScale($statePercent)}
+        x2={xScale($statePercent)}
+        y1={margin.top + 50}
+        y2={margin.top - 10}
+        stroke="white"
+        stroke-width="2.5"
+        fill="none"
+      />
+      <circle
+        id="circle"
+        cx={xScale($statePercent)}
+        cy={margin.top - 10}
+        r="5"
+        fill="white"
+      />
+    </svg>
+  </div>
+{/if}
 
 <style>
   .bar-wrapper {

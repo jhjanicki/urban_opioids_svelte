@@ -1,11 +1,22 @@
 <script>
-  import { stateView } from "../../store/store";
+  import { selectedCounty, countyList, stateView } from "../../store/store";
 
   export let id;
   export let text;
 
+  $: console.log($stateView);
+
   function updateView() {
     $stateView = id;
+    // the first county on the list
+    if ($stateView === "countyview" && $selectedCounty === "") {
+      $selectedCounty = $countyList[0];
+    }
+
+    if ($stateView === "stateview") {
+      // RESET county selection on state view so no county is selected on the map
+      $selectedCounty = "";
+    }
   }
 </script>
 

@@ -4,6 +4,7 @@
     countyList,
     selectedCounty,
     countiesData,
+    selectedCountyData,
     countyPercent,
     countyMetricData,
     allCountyMetricData,
@@ -12,7 +13,6 @@
 
   let active = false;
   let countySelected = false;
-  let selectedCountyData;
 
   function toggleDropdown() {
     active = !active;
@@ -22,11 +22,11 @@
     countySelected = true;
     $selectedCounty = county;
     active = false;
-    selectedCountyData = $countiesData.filter(
+    $selectedCountyData = $countiesData.filter(
       (d) => d.properties.name === county
     );
 
-    $countyPercent = selectedCountyData[0].properties.OUD_tx_12m;
+    $countyPercent = $selectedCountyData[0].properties.OUD_tx_12m; //for now 12, but will need to update based on the toggles
 
     $countyMetricData = $allCountyMetricData.filter(
       (d) => d.county === $selectedCounty
@@ -37,9 +37,7 @@
 <div class={$stateView === "stateview" ? "none" : "show"}>
   <div class={active ? "select-menu active" : "select-menu"}>
     <div class="select-menu-button" on:click={toggleDropdown}>
-      <span class="select-menu-text"
-        >{countySelected ? $selectedCounty : "Select a county"}</span
-      >
+      <span class="select-menu-text">{$selectedCounty}</span>
     </div>
     <ul class="options">
       {#if $clicked}

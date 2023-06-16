@@ -1,16 +1,51 @@
 <script>
   import Bar from "./Bar.svelte";
 
+  import {
+    selectedYear,
+    stateView,
+    stateMetricData,
+    countyMetricData,
+    submitted,
+    selectedTreatment,
+    selectedProvider,
+  } from "../../store/store";
+
   let width;
+
+  //newprov vs curpr, fill_gap vs 2xcap
+  function getNumber() {
+    const metric = `${$selectedTreatment}_${$selectedProvider}_${$selectedYear}m`;
+    if ($stateView === "stateview") {
+      return $stateMetricData[metric];
+    } else {
+      return $countyMetricData[0][metric];
+    }
+  }
 </script>
 
 <div class="main-viz">
   <div class="viz-wrapper" bind:clientWidth={width}>
     <h3>What would it take to change the treatment gap?</h3>
-    <h4>
-      <span id="bar-state" /> is treating
-      <span id="bar-percent">X% of residents</span> with opioid use disorder
-    </h4>
+    {#if $submitted}
+      <h4>{getNumber()}</h4>
+    {:else}
+      <h4>
+        {#if $stateMetricData && $countyMetricData}
+          <span id="bar-state" /> is treating
+          <span id="bar-percent"
+            >{$selectedYear === 12
+              ? $stateView === "stateview"
+                ? $stateMetricData.OUD_tx_12m
+                : $countyMetricData[0].OUD_tx_12m
+              : $stateView === "stateview"
+              ? $stateMetricData.OUD_tx_6m
+              : $countyMetricData[0].OUD_tx_6m}% of residents</span
+          >
+          with opioid use disorder
+        {/if}
+      </h4>
+    {/if}
     <Bar />
   </div>
 </div>
