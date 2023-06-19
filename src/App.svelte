@@ -4,18 +4,15 @@
   import StatesSelect from "./lib/StatesSelect/StatesSelect.svelte";
   import Main from "./lib/Main/Main.svelte";
   import data from "./assets/data/metricData.json";
-  import { clicked } from "./store/store";
-
-  //bind:selectedState bind:stateID
-  //bind:selectedState bind:stateView
+  import { stateClicked } from "./store/store";
 </script>
 
 <Header />
 <div class="main">
   <Intro />
   <StatesSelect />
-  {#if clicked}
-    <div class={$clicked ? "" : "none"}>
+  {#if $stateClicked}
+    <div class={$stateClicked ? "" : "none"}>
       <Main {data} />
     </div>
   {/if}

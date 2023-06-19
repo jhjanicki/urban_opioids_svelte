@@ -11,7 +11,7 @@
     stateMetricData,
     path,
     projection,
-    clicked,
+    stateClicked,
     selectedYear,
     statePercent,
     countyList,
@@ -55,7 +55,7 @@
 
   function updateState(st) {
     $selectedCounty === ""; //reset county selection when clicking on another state, not working though
-    $clicked = true;
+    $stateClicked = true;
     $selectedState = st;
     $stateID = id; // this shouldn't be ID here
 
@@ -81,7 +81,7 @@
     $projection = d3
       .geoIdentity()
       .fitSize([$mapWidth, $mapHeight], $stateData[0]);
-    // how to update this???
+
     $path = d3.geoPath().projection($projection);
 
     let filteredStateMetricData = $allMetricData.filter(

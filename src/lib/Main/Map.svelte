@@ -2,6 +2,8 @@
   import * as d3 from "d3";
   import Tooltip from "./Tooltip.svelte";
   import {
+    projection,
+    stateData,
     stateView,
     selectedCounty,
     selectedCountyData,
@@ -11,7 +13,7 @@
     countiesData,
     path,
     stateID,
-    clicked,
+    stateClicked,
     mapWidth,
     mapHeight,
     legendDomain,
@@ -46,6 +48,22 @@
 
   $: $mapWidth = width;
   $: $mapHeight = height - legendHeight - legendPadding;
+
+  $: $projection = d3
+    .geoIdentity()
+    .fitSize([$mapWidth, $mapHeight], $stateData[0]);
+
+  $: $path = d3.geoPath().projection($projection);
+
+  //also need it in the dropdown menu
+  function moveToFront(feature) {
+    //find selected county, then sort $countiesData and put it as the last feature
+    let counties = $countiesData.filter(
+      (d) => d.properties.name != feature.properties.name
+    );
+    counties.push(feature);
+    $countiesData = counties;
+  }
 </script>
 
 <div class="map-wrapper" bind:clientWidth={width} bind:clientHeight={height}>
@@ -53,7 +71,7 @@
     <Tooltip {hoveredData} {hoveredPointer} />
   {/if}
 
-  {#if $clicked}
+  {#if $stateClicked}
     <svg {width} {height}>
       <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
         {#each $countiesData as feature, i}
@@ -87,6 +105,7 @@
               $countyMetricData = $allCountyMetricData.filter(
                 (d) => d.county === $selectedCounty
               );
+              moveToFront(feature);
             }}
           />
         {/each}

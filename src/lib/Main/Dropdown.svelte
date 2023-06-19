@@ -1,6 +1,5 @@
 <script>
   import {
-    clicked,
     countyList,
     selectedCounty,
     countiesData,
@@ -40,7 +39,8 @@
       <span class="select-menu-text">{$selectedCounty}</span>
     </div>
     <ul class="options">
-      {#if $clicked}
+      <!-- need this if statement otherwise page won't load -->
+      {#if $countyList}
         {#each $countyList as d}
           <li class="option" on:click={closeDropdown(d)}>
             <span class="optionText">{d}</span>

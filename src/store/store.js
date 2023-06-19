@@ -3,8 +3,7 @@ import * as topojson from "topojson-client";
 import usData from "../assets/data/usData.json";
 import data from "../assets/data/metricData.json";
 
-
-// FILTER FOR RELEVANT STATES
+// filter for only the relevant states
 const ids = [21,26,34,35,37,42,55];
 
 // // get all geojson data for counties
@@ -21,7 +20,7 @@ let allCounties = topojson
 // get all geojson data for states
 let allStates = topojson.feature(usData, usData.objects.states)
 
-// for the map, bind metric data to counties geojson data, for map only, the rest of county data don't need to be bound to spatial data
+// for the map, bind metric data to counties geojson data, for map only, the rest of county metric data don't need to be bound to spatial data
 data.forEach(function(state){
   allCounties.forEach(function (county) {
     state.data.forEach(function (countyData) {
@@ -38,7 +37,7 @@ data.forEach(function(state){
   });
 })
 
-// PREP STATE LEVEL DATA HERE
+// Prepare state-level data
 // find all where countiesftp = ""
 let allMetrics = []
 
@@ -51,7 +50,6 @@ data.forEach(state=>{
 })
 
 // get county data: get the obj in the array that corresponds to the state
-
 let allCountyMetrics = []
 
 data.forEach(state=>{
@@ -63,7 +61,7 @@ data.forEach(state=>{
 })
 
 
-export const clicked = writable(false); //false on load, true after clicked on a state
+export const stateClicked = writable(false); //false on load, true after clicked on a state
 export const submitted = writable(false);
 
 export const selectedState = writable(""); //updated in State
@@ -75,7 +73,7 @@ export const selectedProvider = writable(""); // new vs increase capacity
 export const stateView = writable("stateview");
 export const stateID = writable();
 
-export const path = writable();
+export const path = writable(); // need to make reactive
 export const projection = writable(); //used in Map
 
 export const allCountiesData = writable(allCounties);

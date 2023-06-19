@@ -1,7 +1,7 @@
 <script>
   import * as d3 from "d3";
   import {
-    clicked,
+    stateClicked,
     stateView,
     statePercent,
     countyPercent,
@@ -33,8 +33,8 @@
   }
 </script>
 
-
-{#if $clicked}
+<!-- need this if statement otherwise I get an error on negative value in rect -->
+{#if $stateClicked}
   <div class="bar-wrapper" bind:clientWidth={width}>
     <svg {width} height={barHeight}>
       <rect
@@ -76,7 +76,6 @@
     </svg>
   </div>
 {/if}
-
 
 <style>
   .bar-wrapper {
