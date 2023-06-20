@@ -43,7 +43,7 @@
       <Button id={"download"} text={"Download data"} />
       <Button id={"print"} text={"Print page"} />
     </div>
-    <div class={$stateView === "stateview" ? "tab-wrapper" : "tab-wrapper2"}>
+    <div class={$stateView === "stateview" ? "tab-wrapper" : ""}>
       <Tab id="stateview" text="State view" />
       <Tab id="countyview" text="County view" />
     </div>
@@ -360,13 +360,6 @@
 
   .tab-wrapper {
     margin-bottom: 30px;
-    display: flex;
-    gap: 32px;
-  }
-
-  .tab-wrapper2 {
-    display: flex;
-    gap: 32px;
   }
 
   .text-wrapper {
