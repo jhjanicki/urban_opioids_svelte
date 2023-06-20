@@ -27,23 +27,20 @@
   export let id;
   export let imgWidth;
 
-  d3.selectAll("svg").attr("width", imgWidth);
-
   let filteredCountyData;
   let filteredStateData;
   let stateFill = "#d2d2d2";
 
-  function getMean(arr) {
+  const getMean = (arr) => {
     let mean =
       arr.reduce((acc, curr) => {
         return acc + curr;
       }, 0) / arr.length;
     return mean;
-  }
+  };
 
-  function getStandardDeviation(arr) {
-    let mean = getMean(arr);
-    // Assigning (value - mean) ^ 2 to every array item
+  const getStandardDeviation = (arr) => {
+    let mean = getMean(arr); // Assigning (value - mean) ^ 2 to every array item
     arr = arr.map((k) => {
       return (k - mean) ** 2;
     });
@@ -51,12 +48,12 @@
     let sum = arr.reduce((acc, curr) => acc + curr, 0);
     // Returning the Standered deviation
     return Math.sqrt(sum / arr.length);
-  }
+  };
 
-  function updateState(st) {
+  const updateState = (state) => {
     $selectedCounty === ""; //reset county selection when clicking on another state, not working though
-    $stateClicked = true;
-    $selectedState = st;
+    $stateClicked = true; //once selected the main part of the viz will display
+    $selectedState = state;
     $stateID = id; // this shouldn't be ID here
 
     filteredCountyData = $allCountiesData;
@@ -70,6 +67,7 @@
     const OTPcounts = $countiesData.map((d) => d.properties.OTPcount);
     const mean = getMean(OTPcounts);
     const sd = getStandardDeviation(OTPcounts);
+
     $legendDomain = [
       d3.max([mean - 2 * sd, 0]),
       Math.ceil(mean - sd),
@@ -96,15 +94,10 @@
         : filteredStateMetricData.OUD_tx_6m;
 
     $countyList = $countiesData.map((county) => county.properties.name);
-  }
+  };
 
-  function handleMouseOver() {
-    stateFill = "#fdbf11";
-  }
-
-  function handleMouseOut() {
-    stateFill = "#d2d2d2";
-  }
+  const handleMouseOver = () => (stateFill = "#fdbf11");
+  const handleMouseOut = () => (stateFill = "#d2d2d2");
 </script>
 
 <div class="img-wrapper" on:click={updateState(state)}>
@@ -114,7 +107,7 @@
     y="0px"
     viewBox="0 0 90 90"
     width={imgWidth ? imgWidth : 200}
-    fill={stateFill}
+    fill={state === $selectedState ? "#fdbf11" : stateFill}
     on:mouseover={handleMouseOver}
     on:mouseout={handleMouseOut}
   >
@@ -130,6 +123,8 @@
 </div>
 
 <style>
+
+  /* to center the svg */
   svg {
     flex: 1;
     padding: 0px 20px;
@@ -137,9 +132,6 @@
 
   svg:not(#wisconsin) {
     border-right: 0.5px solid #fff;
-  }
-  .selected {
-    color: #fdbf11;
   }
 
   p {

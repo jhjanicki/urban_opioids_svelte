@@ -7,7 +7,6 @@
     selectedProvider,
     selectedYear,
   } from "../../store/store";
-  //newprov vs curpr, fill_gap vs 2xcap
 
   const optionsTreatment = [
     {
@@ -33,11 +32,11 @@
 
   const optionsYear = [
     {
-      value: "12",
+      value: 12,
       label: "No",
     },
     {
-      value: "6",
+      value: 6,
       label: "Yes",
     },
   ];
@@ -55,7 +54,9 @@
   <hr />
   <p>Reduce treatment length from 12 months to 6 months</p>
   <Toggle options={optionsYear} bind:selected={$selectedYear} />
-  <button class="button">CTA LANGUAGE HERE</button>
+  <button class="button" on:click={() => ($submitted = true)}
+    >CTA LANGUAGE HERE</button
+  >
 </div>
 
 <style>
