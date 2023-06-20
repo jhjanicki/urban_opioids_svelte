@@ -53,17 +53,17 @@
     .geoIdentity()
     .fitSize([$mapWidth, $mapHeight], $stateData[0]);
 
-  $: $path = d3.geoPath().projection($projection);
+  $: $path = d3.geoPath().projection($projection); //to make projection & path responsive add $:
 
   //also need it in the dropdown menu
-  function moveToFront(feature) {
+  const moveToFront = (feature) => {
     //find selected county, then sort $countiesData and put it as the last feature
     let counties = $countiesData.filter(
       (d) => d.properties.name != feature.properties.name
     );
     counties.push(feature);
     $countiesData = counties;
-  }
+  };
 </script>
 
 <div class="map-wrapper" bind:clientWidth={width} bind:clientHeight={height}>

@@ -13,24 +13,22 @@
   let active = false;
   let countySelected = false;
 
-  function toggleDropdown() {
+  const toggleDropdown = () => {
     active = !active;
-  }
+  };
 
-  function closeDropdown(county) {
+  const closeDropdown = (county) => {
     countySelected = true;
     $selectedCounty = county;
     active = false;
     $selectedCountyData = $countiesData.filter(
       (d) => d.properties.name === county
     );
-
     $countyPercent = $selectedCountyData[0].properties.OUD_tx_12m; //for now 12, but will need to update based on the toggles
-
     $countyMetricData = $allCountyMetricData.filter(
       (d) => d.county === $selectedCounty
     );
-  }
+  };
 </script>
 
 <div class={$stateView === "stateview" ? "none" : "show"}>
@@ -102,20 +100,6 @@
   .option:hover {
     background: #1696d2;
     color: #fff;
-  }
-
-  .option i {
-    font-size: 25px;
-    margin-right: 12px;
-  }
-
-  .option-text {
-    font-size: 18px;
-    color: #333;
-  }
-
-  .select-menu.active .select-menu-button i {
-    transform: rotate(-180deg);
   }
 
   .select-menu.active .options {

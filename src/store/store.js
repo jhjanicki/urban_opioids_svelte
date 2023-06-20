@@ -60,9 +60,8 @@ data.forEach(state=>{
   })
 })
 
-
 export const stateClicked = writable(false); //false on load, true after clicked on a state
-export const submitted = writable(false);
+export const submitted = writable(false); //when the toggle button values are submitted
 
 export const selectedState = writable(""); //updated in State
 export const selectedCounty = writable(""); //updated in Dropdown
@@ -90,7 +89,7 @@ export const countyMetricData = writable(allCountyMetrics); //filter allMetricDa
 export const statePercent = writable(50); //updated in State
 export const countyPercent = writable(30); //updated in Dropdown
 
-export const countyList = writable(); //for dropdown
+export const countyList = writable(); // list of counties for selectef state for dropdown
 export const mapWidth = writable();
 export const mapHeight = writable();
 export const legendDomain = writable([]); //to store the legend breaks
