@@ -18,6 +18,8 @@
     mapHeight,
     legendDomain,
   } from "../../store/store";
+	// importing moveToFront from the utils module
+	import { moveToFront } from "../utils";
 
   let width = 100;
   let height = 100;
@@ -55,15 +57,6 @@
 
   $: $path = d3.geoPath().projection($projection); //to make projection & path responsive add $:
 
-  //also need it in the dropdown menu
-  const moveToFront = (feature) => {
-    //find selected county, then sort $countiesData and put it as the last feature
-    let counties = $countiesData.filter(
-      (d) => d.properties.name != feature.properties.name
-    );
-    counties.push(feature);
-    $countiesData = counties;
-  };
 </script>
 
 <div class="map-wrapper" bind:clientWidth={width} bind:clientHeight={height}>
@@ -105,7 +98,7 @@
               $countyMetricData = $allCountyMetricData.filter(
                 (d) => d.county === $selectedCounty
               );
-              moveToFront(feature);
+              $countiesData = moveToFront(feature, $countiesData);
             }}
           />
         {/each}
