@@ -12,14 +12,9 @@
   <Intro />
   <StatesSelect />
   {#if $stateClicked}
-    <div class={$stateClicked ? "" : "none"}>
       <Main {data} />
-    </div>
   {/if}
 </div>
 
 <style>
-  .none {
-    display: none;
-  }
 </style>
