@@ -40,21 +40,32 @@
       label: "Yes",
     },
   ];
+
+  let treatment;
+  let provider;
+  let year;
+
+  const submitParameters = () => {
+    $submitted = true;
+    $selectedTreatment = treatment;
+    $selectedProvider = provider;
+    $selectedYear = year;
+  };
 </script>
 
 <div class="toggle-selection">
   <div class="toggle-wrapper">
     <p>See what it would take to...</p>
-    <Radio options={optionsTreatment} bind:selected={$selectedTreatment} />
+    <Radio options={optionsTreatment} bind:selected={treatment} />
   </div>
   <div class="toggle-wrapper">
     <p>By...</p>
-    <Radio options={optionsProvider} bind:selected={$selectedProvider} />
+    <Radio options={optionsProvider} bind:selected={provider} />
   </div>
   <hr />
   <p>Reduce treatment length from 12 months to 6 months</p>
-  <Toggle options={optionsYear} bind:selected={$selectedYear} />
-  <button class="button" on:click={() => ($submitted = true)}
+  <Toggle options={optionsYear} bind:selected={year} />
+  <button class="button" on:click={() => submitParameters()}
     >CTA LANGUAGE HERE</button
   >
 </div>

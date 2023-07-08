@@ -18,21 +18,184 @@
   export let data;
   let width;
 
-	// adding extra arguments so that the values that change can be passed down to the function rather than referenced inside
-  const getMetricOutput = (noYear, metric, metricData) => {
-    //get metric given selected state / county and year
-    let metricFinal;
-    if (!noYear) {
-      metricFinal = `${metric}_${$submitted ? $selectedYear : 12}m`;
-    } else {
-      metricFinal = `${metric}`;
-    }
-		return metricData[metricFinal];
-	}
+  $: isStateView = $stateView == "stateview";
+  $: year = $selectedYear;
 
+  const metricName = {
+    deaths_opioidod_rt_100k: "deaths_opioidod_rt_100k",
+    deaths_allod_rt_100k: "deaths_allod_rt_100k",
+    deaths_opioidod_rt_allod: "deaths_opioidod_rt_allod",
+    ACS_PCT_LIMIT_ENGLISH: "ACS_PCT_LIMIT_ENGLISH",
+    ACS_PCT_SPANISH: "ACS_PCT_SPANISH",
+    ACS_PCT_OTH_LANG: "ACS_PCT_OTH_LANG",
+    gap_current: "gap_current",
+    capacity_current: "capacity_current",
+    methadone_rt: "methadone_rt",
+    bup_patients: "bup_patients",
+    prescriber: "prescriber",
+    perc_waiver_DEA: "perc_waiver_DEA",
+    activeprx30: "activeprx30",
+    activeprx100: "activeprx100",
+    activeprx275: "activeprx275",
+    OUD_num: "OUD_num",
+    OUD_state: "OUD_state",
+    drivetime_methadone: "drivetime_methadone",
+    transittime_methadone: "transittime_methadone",
+    drivetime_bup: "drivetime_bup",
+    transittime_bup: "transittime_bup",
+  };
 
-	// storing the result of isStateView so you don't have to keep checking it throughout the template
-	$: isStateView = $stateView == "stateview";
+  $: deathsop = getMetricOutput(
+    true,
+    metricName.deaths_opioidod_rt_100k,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+  $: deathall = getMetricOutput(
+    true,
+    metricName.deaths_allod_rt_100k,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: deathsopall = getMetricOutput(
+    true,
+    metricName.deaths_opioidod_rt_allod,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: eng = getMetricOutput(
+    true,
+    metricName.ACS_PCT_LIMIT_ENGLISH,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: esp = getMetricOutput(
+    true,
+    metricName.ACS_PCT_SPANISH,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: otherLang = getMetricOutput(
+    true,
+    metricName.ACS_PCT_OTH_LANG,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: gap_curr = getMetricOutput(
+    false,
+    metricName.gap_current,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+  $: cap_curr = getMetricOutput(
+    false,
+    metricName.capacity_current,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: methadone = getMetricOutput(
+    false,
+    metricName.methadone_rt,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: bupP = getMetricOutput(
+    false,
+    metricName.bup_patients,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: prescriber = getMetricOutput(
+    true,
+    metricName.prescriber,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: waiver = getMetricOutput(
+    true,
+    metricName.perc_waiver_DEA,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: activeprx30 = getMetricOutput(
+    true,
+    metricName.activeprx30,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: activeprx100 = getMetricOutput(
+    true,
+    metricName.activeprx100,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: activeprx275 = getMetricOutput(
+    true,
+    metricName.activeprx275,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: OUDnum = getMetricOutput(
+    true,
+    metricName.OUD_num,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: OUDstate = getMetricOutput(
+    true,
+    metricName.OUD_state,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: driveM = getMetricOutput(
+    true,
+    metricName.drivetime_methadone,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: transitM = getMetricOutput(
+    true,
+    metricName.transittime_methadone,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: driveB = getMetricOutput(
+    true,
+    metricName.drivetime_bup,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: transitB = getMetricOutput(
+    true,
+    metricName.transittime_bup,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  const getMetricOutput = (noYear, metric, metricData, year) => {
+    const metricFinal = noYear
+      ? metric
+      : `${metric}_${$submitted ? year : 12}m`;
+    return metricData[metricFinal];
+  };
 </script>
 
 <section class="main-selection">
@@ -70,79 +233,38 @@
         <h4>Overdose deaths</h4>
         <div class="text-wrapper">
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.deaths_allod_rt_100k
-                : $countyMetricData[0].deaths_allod_rt_100k} /
-							{#if isStateView}
-								{getMetricOutput(true, "deaths_allod_rt_100k", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "deaths_allod_rt_100k", $countyMetricData[0])}
-							{/if}
-             </span>people die of overdoses each year (per 100,000 residents)
+            <span class="number">
+              {deathall}
+            </span>people die of overdoses each year (per 100,000 residents)
           </p>
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.deaths_opioidod_rt_100k
-                : $countyMetricData[0].deaths_opioidod_rt_100k} /
-							{#if isStateView}
-								{getMetricOutput(true, "deaths_opioidod_rt_100k", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "deaths_opioidod_rt_100k", $countyMetricData[0])}
-							{/if}
-            </span> people die of opioid-related overdoses each year (per 100,000 residents)
+            <span class="number">
+              {deathsop}
+            </span> people die of opioid-related overdoses each year (per 100,000
+            residents)
           </p>
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.deaths_opioidod_rt_allod
-                : $countyMetricData[0].deaths_opioidod_rt_allod} /
-							{#if isStateView}
-								{getMetricOutput(true, "deaths_opioidod_rt_allod", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "deaths_opioidod_rt_allod",$countyMetricData[0])}
-							{/if}
-							</span> percent of overdose deaths are opioid related
+            <span class="number">
+              {deathsopall}
+            </span> percent of overdose deaths are opioid related
           </p>
         </div>
         <h4>Language characteristics</h4>
         <div class="text-wrapper">
           <p>
             <span class="number">
-              {isStateView
-                ? $stateMetricData.ACS_PCT_LIMIT_ENGLISH
-                : $countyMetricData[0].ACS_PCT_LIMIT_ENGLISH} /
-							{#if isStateView}
-								{getMetricOutput(true, "ACS_PCT_LIMIT_ENGLISH", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "ACS_PCT_LIMIT_ENGLISH", $countyMetricData[0])}
-							{/if}
-							</span>
+              {eng}
+            </span>
             percent of the population speaks limited English
           </p>
           <p>
             <span class="number">
-              {isStateView
-                ? $stateMetricData.ACS_PCT_SPANISH
-                : $countyMetricData[0].ACS_PCT_SPANISH} /
-							{#if isStateView}
-								{getMetricOutput(true, "ACS_PCT_SPANISH", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "ACS_PCT_SPANISH", $countyMetricData[0])}
-							{/if}
-							</span> percent of the population speaks Spanish
+              {esp}
+            </span> percent of the population speaks Spanish
           </p>
           <p>
             <span class="number">
-              {isStateView
-                ? $stateMetricData.ACS_PCT_OTH_LANG
-                : $countyMetricData[0].ACS_PCT_OTH_LANG} /
-							{#if isStateView}
-								{getMetricOutput(true, "ACS_PCT_OTH_LANG", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "ACS_PCT_OTH_LANG", $countyMetricData[0])}
-							{/if}
+              {otherLang}
             </span> percent of the population speaks another language
           </p>
         </div>
@@ -154,35 +276,13 @@
         <h4>Access to treatment</h4>
         <div class="text-wrapper">
           <p>
-            <span class="number"
-              >{$selectedYear === 12
-                ? isStateView
-                  ? $stateMetricData.gap_current_12m
-                  : $countyMetricData[0].gap_current_12m
-                : isStateView
-                ? $stateMetricData.gap_current_6m
-                : $countyMetricData[0].gap_current_6m}/
-							{#if isStateView}
-								{getMetricOutput(false, "gap_current", $stateMetricData)}
-							{:else}
-								{getMetricOutput(false, "gap_current", $countyMetricData[0])}
-							{/if}
+            <span class="number">
+              {gap_curr}
             </span> people lack access to treatment
           </p>
           <p>
-            <span class="number"
-              >{$selectedYear === 12
-                ? isStateView
-                  ? $stateMetricData.capacity_current_12m
-                  : $countyMetricData[0].capacity_current_12m
-                : isStateView
-                ? $stateMetricData.capacity_current_6m
-                : $countyMetricData[0].capacity_current_6m}/
-							{#if isStateView}
-								{getMetricOutput(false, "capacity_current", $stateMetricData)}
-							{:else}
-								{getMetricOutput(false, "capacity_current", $countyMetricData[0])}
-							{/if}
+            <span class="number">
+              {cap_curr}
             </span> people have access to treatment
           </p>
           <p>
@@ -193,105 +293,46 @@
             > opioid treatment programs operate
           </p>
           <p>
-            <span class="number"
-              >{$selectedYear === 12
-                ? isStateView
-                  ? $stateMetricData.methadone_rt_12m
-                  : $countyMetricData[0].methadone_rt_12m
-                : isStateView
-                ? $stateMetricData.methadone_rt_6m
-                : $countyMetricData[0].methadone_rt_6m} /
-							{#if isStateView}
-								{getMetricOutput(false, "methadone_rt", $stateMetricData)}
-							{:else}
-								{getMetricOutput(false, "methadone_rt", $countyMetricData[0])}
-							{/if}
-            </span> patients receive methadone at an opioid treatment program (per 100,000
-            residents)
+            <span class="number">
+              {methadone}
+            </span> patients receive methadone at an opioid treatment program (per
+            100,000 residents)
           </p>
           <p>
-            <span class="number"
-              >{$selectedYear === 12
-                ? isStateView
-                  ? $stateMetricData.bup_patients_12m
-                  : $countyMetricData[0].bup_patients_12m
-                : isStateView
-                ? $stateMetricData.bup_patients_6m
-                : $countyMetricData[0].bup_patients_6m} /
-							{#if isStateView}
-								{getMetricOutput(false, "bup_patients", $stateMetricData)}
-							{:else}
-								{getMetricOutput(false, "bup_patients", $countyMetricData[0])}
-							{/if}
-            </span> patients receive buprenorphine at an opioid treatment program (per
-            100,000 residents)
+            <span class="number">
+              {bupP}
+            </span> patients receive buprenorphine at an opioid treatment program
+            (per 100,000 residents)
           </p>
         </div>
         <h4>Prescribers and potential patient caseloads</h4>
         <div class="text-wrapper">
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.prescriber
-                : $countyMetricData[0].prescriber} /
-							{#if isStateView}
-								{getMetricOutput(true, "prescriber", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "prescriber", $countyMetricData[0])}
-							{/if}
+            <span class="number">
+              {prescriber}
             </span>
-            prescribers practice in the {isStateView
-              ? "state"
-              : "county"}
+            prescribers practice in the {isStateView ? "state" : "county"}
           </p>
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.perc_waiver_DEA
-                : $countyMetricData[0].perc_waiver_DEA} /
-							{#if isStateView}
-								{getMetricOutput(true, "perc_waiver_DEA", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "perc_waiver_DEA", $countyMetricData[0])}
-							{/if}
-            </span> prescribers have a buprenorphine waiver
+            <span class="number">
+              {waiver}
+            </span> percent of prescribers have a buprenorphine waiver
           </p>
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.activeprx30
-                : $countyMetricData[0].activeprx30} /
-							{#if isStateView}
-								{getMetricOutput(true, "activeprx30", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "activeprx30", $countyMetricData[0])}
-							{/if}
+            <span class="number">
+              {activeprx30}
             </span> active buprenorphine prescribers had a 30-patient limit in January
             2023
           </p>
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.activeprx100
-                : $countyMetricData[0].activeprx100}/
-							{#if isStateView}
-								{getMetricOutput(true, "activeprx100", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "activeprx100", $countyMetricData[0])}
-							{/if}
+            <span class="number">
+              {activeprx100}
             </span> active buprenorphine prescribers had a 100-patient limit in January
             2023
           </p>
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.activeprx275
-                : $countyMetricData[0].activeprx275}/
-							{#if isStateView}
-								{getMetricOutput(true, "activeprx275", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "activeprx275", $countyMetricData[0])}
-							{/if}
+            <span class="number">
+              {activeprx275}
             </span> active buprenorphine prescribers had a 275-patient limit in January
             2023
           </p>
@@ -300,25 +341,12 @@
         <h4>Opioid use disorder</h4>
         <div class="text-wrapper">
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.OUD_num
-                : $countyMetricData[0].OUD_num}/
-							{#if isStateView}
-								{getMetricOutput(true, "OUD_num", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "OUD_num", $countyMetricData[0])}
-							{/if}
+            <span class="number">
+              {OUDnum}
             </span>
-            {isStateView ? "state" : "county"}
-            residents ({isStateView
-              ? $stateMetricData.OUD_state
-              : $countyMetricData[0].OUD_state}/
-							{#if isStateView}
-								{getMetricOutput(true, "OUD_state", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "OUD_state", $countyMetricData[0])}
-							{/if}
+            state residents (
+            {OUDstate}
+            percent) have opioid use disorder
           </p>
         </div>
 
@@ -326,55 +354,28 @@
         <div class="text-wrapper">
           <p>
             <span class="number">
-              {isStateView
-                ? $stateMetricData.drivetime_methadone
-                : $countyMetricData[0].drivetime_methadone}/
-							{#if isStateView}
-								{getMetricOutput(true, "drivetime_methadone", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "drivetime_methadone", $countyMetricData[0])}
-							{/if}
+              {driveM}
             </span> minutes is the average driving time to the nearest opioid treatment
             program for methadone treatment
           </p>
           <p>
             <span class="number">
-              {isStateView
-                ? $stateMetricData.transittime_methadone
-                : $countyMetricData[0].transittime_methadone}/
-							{#if isStateView}
-								{getMetricOutput(true, "transittime_methadone", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "transittime_methadone", $countyMetricData[0])}
-							{/if}
+              {transitM}
             </span>
             minutes is the average travel time via public transit to nearest opioid
             treatment program for methadone treatment
           </p>
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.drivetime_bup
-                : $countyMetricData[0].drivetime_bup}/
-							{#if isStateView}
-								{getMetricOutput(true, "drivetime_bup", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "drivetime_bup", $countyMetricData[0])}
-							{/if}
-            </span> minutes is the average driving time to the nearest buprenorphine treatment
+            <span class="number">
+              {driveB}
+            </span> minutes is the average driving time to the nearest buprenorphine
+            treatment
           </p>
           <p>
-            <span class="number"
-              >{isStateView
-                ? $stateMetricData.transittime_bup
-                : $countyMetricData[0].transittime_bup}/
-							{#if isStateView}
-								{getMetricOutput(true, "transittime_bup", $stateMetricData)}
-							{:else}
-								{getMetricOutput(true, "transittime_bup", $countyMetricData[0])}
-							{/if}
-            </span> aminutes is the average travel time via public transit to the nearest
-            buprenorphine treatment
+            <span class="number">
+              {transitB}
+            </span> minutes is the average travel time via public transit to the
+            nearest buprenorphine treatment
           </p>
         </div>
       {/if}
