@@ -5,6 +5,7 @@
     projection,
     stateData,
     stateView,
+    selectedYear,
     selectedCounty,
     selectedCountyData,
     allCountyMetricData,
@@ -18,8 +19,8 @@
     mapHeight,
     legendDomain,
   } from "../../store/store";
-	// importing moveToFront from the utils module
-	import { moveToFront } from "../utils";
+  // importing moveToFront from the utils module
+  import { moveToFront } from "../utils";
 
   let width = 100;
   let height = 100;
@@ -56,7 +57,6 @@
     .fitSize([$mapWidth, $mapHeight], $stateData[0]);
 
   $: $path = d3.geoPath().projection($projection); //to make projection & path responsive add $:
-
 </script>
 
 <div class="map-wrapper" bind:clientWidth={width} bind:clientHeight={height}>
@@ -67,18 +67,25 @@
   {#if $stateClicked}
     <svg {width} {height}>
       <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
-        {#each $countiesData as feature, i}
+        {#each $countiesData as feature}
           <path
             class="counties"
             id={feature.properties.name.replaceAll(" ", "")}
             d={$path(feature)}
             fill={feature.id.toString().slice(0, 2) === "34"
-              ? colorScale(feature.properties.OTPcount)
+              ? colorScale(
+                  $selectedYear == 12
+                    ? feature.properties.OUD_tx_12m
+                    : feature.properties.OUD_tx_6m
+                )
               : "black"}
+            stroke-linecap="round"
             stroke={feature.properties.name === $selectedCounty
               ? "black"
               : "white"}
-            stroke-width="1px"
+            stroke-width={feature.properties.name === $selectedCounty
+              ? "2.5px"
+              : "1px"}
             opacity={feature.stateID === $stateID ? 1 : 0}
             on:mouseout={() => {
               hoveredData = null;
@@ -92,7 +99,10 @@
               $selectedCountyData = $countiesData.filter(
                 (d) => d.properties.name === $selectedCounty
               );
-              $countyPercent = $selectedCountyData[0].properties.OUD_tx_12m; //for now 12, but will need to update based on the toggles
+              $countyPercent =
+                $selectedYear == 12
+                  ? $selectedCountyData[0].properties.OUD_tx_12m
+                  : $selectedCountyData[0].properties.OUD_tx_6m; //for now 12, but will need to update based on the toggles
               $stateView = "countyview";
 
               $countyMetricData = $allCountyMetricData.filter(

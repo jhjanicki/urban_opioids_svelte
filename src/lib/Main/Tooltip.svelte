@@ -1,4 +1,5 @@
 <script>
+  import { selectedYear } from "../../store/store";
   export let hoveredData;
   export let hoveredPointer;
 
@@ -12,7 +13,11 @@
     80}px; left: {hoveredPointer[0] - 60}px"
   bind:clientWidth={tooltipWidth}
 >
-  <h1>{hoveredData.properties.OTPcount}%</h1>
+  <h1>
+    {$selectedYear == 12
+      ? hoveredData.properties.OUD_tx_12m
+      : hoveredData.properties.OUD_tx_6m}%
+  </h1>
   <h2>{hoveredData.properties.name} county</h2>
 </div>
 

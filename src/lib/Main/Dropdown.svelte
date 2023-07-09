@@ -10,6 +10,21 @@
     stateView,
   } from "../../store/store";
 
+  import { moveToFront } from "../utils";
+
+  $: feature = $countiesData.filter((d) => {
+    if ($selectedCounty) {
+      return d.properties.name === $selectedCounty;
+    } else {
+      return "";
+    }
+  });
+
+  // $: console.log(feature);
+  // if ($countiesData) {
+  //   $countiesData = moveToFront(feature[0], $countiesData);
+  // }
+
   let active = false;
   let countySelected = false;
 

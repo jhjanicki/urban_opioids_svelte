@@ -1,6 +1,6 @@
 <script>
   export let options;
-  export let selected = options[0].value;
+  export let selected = "";
 
   const id = Math.floor(Math.random() * 100);
 
