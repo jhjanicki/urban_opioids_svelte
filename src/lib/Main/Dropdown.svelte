@@ -1,6 +1,7 @@
 <script>
   import {
     countyList,
+    selectedYear,
     selectedCounty,
     countiesData,
     selectedCountyData,
@@ -32,6 +33,8 @@
     active = !active;
   };
 
+  $: console.log($selectedCountyData);
+
   const closeDropdown = (county) => {
     countySelected = true;
     $selectedCounty = county;
@@ -39,7 +42,16 @@
     $selectedCountyData = $countiesData.filter(
       (d) => d.properties.name === county
     );
-    $countyPercent = $selectedCountyData[0].properties.OUD_tx_12m; //for now 12, but will need to update based on the toggles
+
+    $: $countyPercent =
+      $selectedYear === 12
+        ? $selectedCountyData[0].properties.OUD_tx_12m
+        : $selectedCountyData[0].properties.OUD_tx_6m;
+
+    $: console.log($countyPercent);
+
+    //for now 12, but will need to update based on the toggles
+
     $countyMetricData = $allCountyMetricData.filter(
       (d) => d.county === $selectedCounty
     );

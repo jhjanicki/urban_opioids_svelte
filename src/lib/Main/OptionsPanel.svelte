@@ -43,7 +43,7 @@
 
   let treatment;
   let provider;
-  let year;
+  // let year;
   let isActive = false;
 
   const submitParameters = () => {
@@ -52,15 +52,18 @@
       isActive = true;
       $selectedTreatment = treatment;
       $selectedProvider = provider;
-      $selectedYear = year;
+      // $selectedYear = year;
     }
   };
 
   const clearSelection = () => {
     isActive = false;
+    treatment = "";
+    provider = "";
     $selectedTreatment = "";
     $selectedProvider = "";
     $selectedYear = 12;
+    $submitted = false;
   };
 </script>
 
@@ -75,7 +78,7 @@
   </div>
   <hr />
   <p>Reduce treatment length from 12 months to 6 months</p>
-  <Toggle options={optionsYear} bind:selected={year} />
+  <Toggle options={optionsYear} bind:selected={$selectedYear} />
   <button
     class={isActive ? "active button" : "button"}
     on:click={() => submitParameters()}>CTA LANGUAGE HERE</button
@@ -144,5 +147,9 @@
   .clear {
     color: #000000;
     text-decoration: underline;
+  }
+
+  .clear:hover {
+    cursor: pointer;
   }
 </style>

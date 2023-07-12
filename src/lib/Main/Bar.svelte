@@ -5,6 +5,9 @@
     stateView,
     statePercent,
     countyPercent,
+    selectedYear,
+    stateMetricData,
+    countyMetricData,
   } from "../../store/store";
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
@@ -15,6 +18,16 @@
 
   const margin = { top: 20, left: 5, bottom: 40, right: 5 };
   // made this scale a reactive statement as well so that the xScale range updates when the width changes
+  $: $statePercent =
+    $selectedYear === 12
+      ? $stateMetricData.OUD_tx_12m
+      : $stateMetricData.OUD_tx_6m;
+  $: $countyPercent =
+    $selectedYear === 12
+      ? $countyMetricData[0].OUD_tx_12m
+      : $countyMetricData[0].OUD_tx_6m;
+
+  //I had to add the above code for the bar to update when the year is toggled
 
   $: xScale = d3
     .scaleLinear()

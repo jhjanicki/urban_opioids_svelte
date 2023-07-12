@@ -38,7 +38,10 @@
     "#1c9099",
     "#016c59",
   ];
-  const colorScale = d3.scaleOrdinal().domain($legendDomain).range(colors);
+  const colorScale = d3
+    .scaleLinear()
+    .domain([0, 20, 40, 60, 80, 100])
+    .range(colors);
 
   //rotate state due to projection distortions
   const rotateScale = d3
@@ -103,6 +106,7 @@
                 $selectedYear == 12
                   ? $selectedCountyData[0].properties.OUD_tx_12m
                   : $selectedCountyData[0].properties.OUD_tx_6m; //for now 12, but will need to update based on the toggles
+              console.log($countyPercent);
               $stateView = "countyview";
 
               $countyMetricData = $allCountyMetricData.filter(

@@ -3,15 +3,24 @@ import * as topojson from "topojson-client";
 import usData from "../assets/data/usData.json";
 import data from "../assets/data/metricData.json";
 
+
+const processCountyData = (state, county) => {
+  county.id = +county.id;
+  state.data.forEach(function (countyData) {
+    if (county.stateID === state.id && county.id === countyData.countyfips) {
+      county.properties.OTPcount = countyData.OTPcount;
+      county.properties.OUD_tx_12m = countyData.OUD_tx_12m;
+      county.properties.OUD_tx_6m = countyData.OUD_tx_6m;
+    }
+  });
+}
+
 // filter for only the relevant states
 const ids = [21,26,34,35,37,42,55];
 
 // // get all geojson data for counties
 let allCounties = topojson
-.feature(usData, usData.objects.counties).features.filter(d=>{
-    const idPrefix = +d.id.substr(0, 2);
-    return ids.includes(idPrefix); // returns true or false
-  })
+.feature(usData, usData.objects.counties).features.filter(d => ids.includes(+d.id.substr(0, 2)))
   .map(d => ({
     ...d,
     stateID:+d.id.substr(0, 2)
@@ -21,33 +30,15 @@ let allCounties = topojson
 let allStates = topojson.feature(usData, usData.objects.states)
 
 // for the map, bind metric data to counties geojson data, for map only, the rest of county metric data don't need to be bound to spatial data
-data.forEach(function(state){
-  allCounties.forEach(function (county) {
-    state.data.forEach(function (countyData) {
-      county.id = +county.id;
-      if (
-        county.stateID === state.id &&
-        county.id === countyData.countyfips
-      ) {
-        county.properties.OTPcount = countyData.OTPcount;
-        county.properties.OUD_tx_12m = countyData.OUD_tx_12m;
-        county.properties.OUD_tx_6m = countyData.OUD_tx_6m;
-      }
-    });
-  });
-})
+data.forEach(state => {
+  allCounties.forEach(county => processCountyData(state, county));
+});
 
 // Prepare state-level data
 // find all where countiesftp = ""
-let allMetrics = []
-
-data.forEach(state=>{
-  state.data.forEach(row=>{
-    if(row.countyfips===""){
-      allMetrics.push(row);
-    }
-  })
-})
+const allMetrics = data.reduce((all, state) => all.concat(
+  state.data.filter(row => row.countyfips === "")
+), []);
 
 // get county data: get the obj in the array that corresponds to the state
 let allCountyMetrics = []
@@ -59,6 +50,10 @@ data.forEach(state=>{
     }
   })
 })
+
+// const allCountyMetrics = data.reduce((all, state) => all.concat(
+//   state.data.filter(row => row.countyfips !== "")
+// ), []);
 
 export const stateClicked = writable(false); //false on load, true after clicked on a state
 export const submitted = writable(false); //when the toggle button values are submitted

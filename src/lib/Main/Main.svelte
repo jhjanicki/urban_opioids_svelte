@@ -191,9 +191,8 @@
   );
 
   const getMetricOutput = (noYear, metric, metricData, year) => {
-    const metricFinal = noYear
-      ? metric
-      : `${metric}_${$submitted ? year : 12}m`;
+    const metricFinal = noYear ? metric : `${metric}_${year}m`;
+    // : `${metric}_${$submitted ? year : 12}m`;
     return metricData[metricFinal];
   };
 </script>
