@@ -220,7 +220,6 @@
   </div>
 </section>
 
-<!-- getMetricOutput(true, "deaths_allod_rt_100k") -->
 <section class="map-view">
   <div class="wrapper">
     <div class="left-wrapper" bind:clientWidth={width}>

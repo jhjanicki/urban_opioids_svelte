@@ -13,19 +13,6 @@
 
   import { moveToFront } from "../utils";
 
-  $: feature = $countiesData.filter((d) => {
-    if ($selectedCounty) {
-      return d.properties.name === $selectedCounty;
-    } else {
-      return "";
-    }
-  });
-
-  // $: console.log(feature);
-  // if ($countiesData) {
-  //   $countiesData = moveToFront(feature[0], $countiesData);
-  // }
-
   let active = false;
   let countySelected = false;
 
@@ -48,7 +35,16 @@
         ? $selectedCountyData[0].properties.OUD_tx_12m
         : $selectedCountyData[0].properties.OUD_tx_6m;
 
-    $: console.log($countyPercent);
+    if ($stateView !== "stateview") {
+      let feature = $countiesData.filter((d) => {
+        if ($selectedCounty) {
+          return d.properties.name === $selectedCounty;
+        } else {
+          return "";
+        }
+      });
+      $countiesData = moveToFront(feature[0], $countiesData);
+    }
 
     //for now 12, but will need to update based on the toggles
 

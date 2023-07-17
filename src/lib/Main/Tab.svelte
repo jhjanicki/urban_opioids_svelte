@@ -27,8 +27,9 @@
 
 <style>
   .button {
-    font-size: 100%;
-    font-weight: 400;
+    font-family: "Lato";
+    font-size: 24px;
+    font-weight: 300;
     color: #696969;
     background-color: #fff;
     cursor: pointer;
@@ -46,5 +47,9 @@
   .button:hover {
     border-bottom: 4px solid #fdbf11;
     color: #000;
+  }
+
+  #tab-countyview {
+    margin-left: 30px;
   }
 </style>

@@ -106,7 +106,6 @@
                 $selectedYear == 12
                   ? $selectedCountyData[0].properties.OUD_tx_12m
                   : $selectedCountyData[0].properties.OUD_tx_6m; //for now 12, but will need to update based on the toggles
-              console.log($countyPercent);
               $stateView = "countyview";
 
               $countyMetricData = $allCountyMetricData.filter(

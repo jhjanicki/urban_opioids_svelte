@@ -1,16 +1,24 @@
 <script>
-
 </script>
 
-  <header id="header-pinned" class="no-touch">
-    <div class="header-container">
-      <a target="_blank" href="https://www.urban.org" title="Home" rel="home" class="site-logo"></a>
-      <div class="title">What Would It Take to Close the Opioid Treatment Gap</div>
+<header id="header-pinned" class="no-touch">
+  <div class="header-container">
+    <a
+      target="_blank"
+      href="https://www.urban.org"
+      title="Home"
+      rel="home"
+      class="site-logo"
+    />
+    <div class="title">
+      What Would It Take to Get Medication for Opioid Use Disorder to More
+      People in Need?
     </div>
-  </header>
+  </div>
+</header>
 
-  <style>
-    #header-pinned {
+<style>
+  #header-pinned {
     font: 16px Lato;
     color: #333;
     font-weight: 400;
@@ -59,7 +67,8 @@
     position: absolute;
     left: 26px;
     margin-top: 12px;
-    background: url(https://www.urban.org/sites/all/themes/urban/images/logo-mini-dark.png) no-repeat;
+    background: url(https://www.urban.org/sites/all/themes/urban/images/logo-mini-dark.png)
+      no-repeat;
     background-size: 34px 34px;
   }
 
@@ -68,4 +77,4 @@
     line-height: 56px;
     margin-left: 85px;
   }
-  </style>
+</style>

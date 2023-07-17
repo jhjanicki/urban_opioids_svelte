@@ -8,6 +8,8 @@
     selectedYear,
   } from "../../store/store";
 
+  let tooltipActive = false;
+
   const optionsTreatment = [
     {
       value: "2xcap",
@@ -73,15 +75,29 @@
     <Radio options={optionsTreatment} bind:selected={treatment} />
   </div>
   <div class="toggle-wrapper">
-    <p>By...</p>
+    <p>by...</p>
     <Radio options={optionsProvider} bind:selected={provider} />
   </div>
   <hr />
-  <p>Reduce treatment length from 12 months to 6 months</p>
+  <div id="yearToggle">
+    <p class="inline">Reduce treatment length from 12 months to 6 months</p>
+    <img
+      class="inline"
+      id="info"
+      src="information-gray.svg"
+      on:mouseover={() => (tooltipActive = true)}
+      on:mouseleave={() => (tooltipActive = false)}
+    />
+    <span class={tooltipActive ? "tooltiptext visible" : "tooltiptext hidden"}
+      >Buprenorphine (sold under several brand names including Suboxone and
+      Subutex) and methadone are two of the main medication treatments available
+      for opioid use disorder.</span
+    >
+  </div>
   <Toggle options={optionsYear} bind:selected={$selectedYear} />
   <button
     class={isActive ? "active button" : "button"}
-    on:click={() => submitParameters()}>CTA LANGUAGE HERE</button
+    on:click={() => submitParameters()}>SEE RESULTS</button
   >
   <span
     class={isActive ? "clear show" : "clear none"}
@@ -151,5 +167,43 @@
 
   .clear:hover {
     cursor: pointer;
+  }
+
+  #yearToggle {
+    margin-bottom: 20px;
+  }
+
+  /* Tooltip related */
+
+  .inline {
+    display: inline;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+
+  #info:hover {
+    cursor: pointer;
+  }
+  .tooltiptext {
+    width: 230px;
+    margin-top: 8px;
+    margin-left: 5px;
+    background-color: #d2d2d2;
+    color: #353535;
+    text-align: left;
+    padding: 8px;
+    border-radius: 6px;
+    position: absolute;
+    font-size: 16px;
+    z-index: 100;
+  }
+
+  .tooltiptext.hidden {
+    display: none;
+  }
+
+  .tooltiptext.visible {
+    display: inline-block;
   }
 </style>

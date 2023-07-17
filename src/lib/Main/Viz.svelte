@@ -16,20 +16,70 @@
   let width;
   let active = false;
 
-  //newprov vs curpr, fill_gap vs 2xcap...currently not being called
-  const getMetricOutput = () => {
-    const metric = `${$selectedTreatment}_${$selectedProvider}_${$selectedYear}m`;
-    if ($stateView === "stateview") {
-      return $stateMetricData[metric];
-    } else {
-      return $countyMetricData[0][metric];
-    }
+  $: isStateView = $stateView == "stateview";
+  $: year = $selectedYear;
+
+  const metricName = {
+    OUD_tx: "OUD_tx",
+    capacity_current: "capacity_current",
+    bup_patients: "bup_patients",
+    methadone: "methadone",
+    bup_tx: "bup_tx",
+    methadone_tx: "methadone_tx",
+  };
+
+  $: capacity = getMetricOutput(
+    false,
+    metricName.capacity_current,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: OUD = getMetricOutput(
+    false,
+    metricName.OUD_tx,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: bup = getMetricOutput(
+    false,
+    metricName.bup_tx,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: methadone = getMetricOutput(
+    false,
+    metricName.methadone_tx,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: bup_num = getMetricOutput(
+    false,
+    metricName.bup_patients,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: methadone_num = getMetricOutput(
+    false,
+    metricName.methadone,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  const getMetricOutput = (noYear, metric, metricData, year) => {
+    const metricFinal = noYear ? metric : `${metric}_${year}m`;
+    // : `${metric}_${$submitted ? year : 12}m`;
+    return metricData[metricFinal];
   };
 </script>
 
 <div class="main-viz">
   <div class="viz-wrapper" bind:clientWidth={width}>
-    <h3>What would it take to change the treatment gap?</h3>
+    <h3>What would it take to narrow the treatment gap?</h3>
     {#if $submitted}
       <h4>
         It would take {$stateView === "stateview"
@@ -44,40 +94,19 @@
         {#if $stateMetricData && $countyMetricData}
           {$stateView === "stateview" ? $selectedState : $selectedCounty}
           <span id="bar-state" /> is treating
-          <span id="bar-percent"
-            >{$selectedYear === 12
-              ? $stateView === "stateview"
-                ? $stateMetricData.OUD_tx_12m
-                : $countyMetricData[0].OUD_tx_12m
-              : $stateView === "stateview"
-              ? $stateMetricData.OUD_tx_6m
-              : $countyMetricData[0].OUD_tx_6m}% of residents</span
-          >
+          <span id="bar-percent">{OUD}% of residents</span>
           with opioid use disorder
         {/if}
       </h4>
     {/if}
-    <Bar />
+    <Bar {OUD} {bup} {methadone} />
     <p>
-      {$selectedYear === 12
-        ? $stateView === "stateview"
-          ? $stateMetricData.capacity_current_12m
-          : $countyMetricData[0].capacity_current_12m
-        : $stateView === "stateview"
-        ? $stateMetricData.capacity_current_6m
-        : $countyMetricData[0].capacity_current_6m} people are receiving treatment
-      for opioid use disorder
+      {capacity} residents are receiving treatment for opioid use disorder
     </p>
     <br />
     <div>
       <p class="inline">
-        {$selectedYear === 12
-          ? $stateView === "stateview"
-            ? $stateMetricData.bup_patients_12m
-            : $countyMetricData[0].bup_patients_12m
-          : $stateView === "stateview"
-          ? $stateMetricData.bup_patients_6m
-          : $countyMetricData[0].bup_patients_6m} people are receiving buprenorphine
+        {bup_num} residents are receiving buprenorphine
       </p>
       <img
         class="inline"
@@ -87,19 +116,13 @@
         on:mouseleave={() => (active = false)}
       />
       <span class={active ? "tooltiptext visible" : "tooltiptext hidden"}
-        >Buprenorphine and methadone are two of the main opioid use treatment
-        medications available.</span
+        >Buprenorphine (sold under several brand names including Suboxone and
+        Subutex) and methadone are two of the main medication treatments
+        available for opioid use disorder.</span
       >
     </div>
     <p>
-      {$selectedYear === 12
-        ? $stateView === "stateview"
-          ? $stateMetricData.methadone_12m
-          : $countyMetricData[0].methadone_12m
-        : $stateView === "stateview"
-        ? $stateMetricData.methadone_6m
-        : $countyMetricData[0].methadone_6m} people are receiving methadone at an
-      opioid treatment program
+      {methadone_num} residents are receiving methadone at an opioid treatment program
     </p>
   </div>
 </div>
@@ -152,15 +175,16 @@
 
   /* Tooltip text */
   .tooltiptext {
-    width: 250px;
+    width: 230px;
     margin-top: 8px;
     margin-left: 5px;
     background-color: #d2d2d2;
     color: #353535;
-    text-align: center;
-    padding: 5px 0;
+    text-align: left;
+    padding: 8px;
     border-radius: 6px;
     position: absolute;
+    font-size: 16px;
     z-index: 1;
   }
 

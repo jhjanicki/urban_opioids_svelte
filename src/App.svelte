@@ -12,7 +12,7 @@
   <Intro />
   <StatesSelect />
   {#if $stateClicked}
-      <Main {data} />
+    <Main {data} />
   {/if}
 </div>
 

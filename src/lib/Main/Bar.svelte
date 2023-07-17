@@ -1,5 +1,6 @@
 <script>
   import * as d3 from "d3";
+  import TooltipBar from "./TooltipBar.svelte";
   import {
     stateClicked,
     stateView,
@@ -12,9 +13,14 @@
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
 
+  export let OUD;
+  export let bup;
+  export let methadone;
+
   // gave width a default value and removed the bar width variable since it wasn't necessary
   let width = 400;
   let barHeight = 100;
+  let hoveredPointer;
 
   const margin = { top: 20, left: 5, bottom: 40, right: 5 };
   // made this scale a reactive statement as well so that the xScale range updates when the width changes
@@ -46,6 +52,10 @@
   }
 </script>
 
+{#if hoveredPointer}
+  <TooltipBar {OUD} {bup} {methadone} {hoveredPointer} />
+{/if}
+
 <!-- need this if statement otherwise I get an error on negative value in rect -->
 {#if $stateClicked}
   <div class="bar-wrapper" bind:clientWidth={width}>
@@ -68,6 +78,12 @@
         height="50"
         stroke-width="2.5"
         fill="#FDBF11"
+        on:mouseout={() => {
+          hoveredPointer = null;
+        }}
+        on:mousemove={(e) => {
+          hoveredPointer = d3.pointer(e);
+        }}
       />
       <line
         id="stateAvg"
