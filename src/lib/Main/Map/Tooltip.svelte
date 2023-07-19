@@ -1,5 +1,5 @@
 <script>
-  import { selectedYear } from "../../store/store";
+  import { selectedYear } from "../../../store/store";
   export let hoveredData;
   export let hoveredPointer;
 

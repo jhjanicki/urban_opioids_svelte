@@ -2,11 +2,10 @@
   import Button from "./Button.svelte";
   import Tab from "./Tab.svelte";
   import Dropdown from "./Dropdown.svelte";
-  import Viz from "./Viz.svelte";
-  import OptionsPanel from "./OptionsPanel.svelte";
-  import Map from "./Map.svelte";
+  import Viz from "./Bar/Viz.svelte";
+  import OptionsPanel from "./Toggles/OptionsPanel.svelte";
+  import Map from "./Map/Map.svelte";
   import {
-    submitted,
     selectedState,
     selectedCounty,
     stateMetricData,
@@ -38,7 +37,7 @@
     activeprx100: "activeprx100",
     activeprx275: "activeprx275",
     OUD_num: "OUD_num",
-    OUD_state: "OUD_state",
+    OUD: "OUD",
     drivetime_methadone: "drivetime_methadone",
     transittime_methadone: "transittime_methadone",
     drivetime_bup: "drivetime_bup",
@@ -155,9 +154,9 @@
     year
   );
 
-  $: OUDstate = getMetricOutput(
+  $: OUD = getMetricOutput(
     true,
-    metricName.OUD_state,
+    metricName.OUD,
     isStateView ? $stateMetricData : $countyMetricData[0],
     year
   );
@@ -228,6 +227,17 @@
         <Map {data} />
       </div>
       {#if $stateMetricData && $countyMetricData}
+        <h4>Opioid use disorder</h4>
+        <div class="text-wrapper">
+          <p>
+            <span class="number">
+              {OUDnum}
+            </span>
+            residents (
+            {OUD}
+            percent) have opioid use disorder
+          </p>
+        </div>
         <h4>Overdose deaths</h4>
         <div class="text-wrapper">
           <p>
@@ -333,18 +343,6 @@
               {activeprx275}
             </span> active buprenorphine prescribers had a 275-patient limit in January
             2023
-          </p>
-        </div>
-
-        <h4>Opioid use disorder</h4>
-        <div class="text-wrapper">
-          <p>
-            <span class="number">
-              {OUDnum}
-            </span>
-            state residents (
-            {OUDstate}
-            percent) have opioid use disorder
           </p>
         </div>
 

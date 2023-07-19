@@ -11,13 +11,17 @@
     submitted,
     selectedTreatment,
     selectedProvider,
-  } from "../../store/store";
+    statePercent,
+    countyPercent,
+  } from "../../../store/store";
 
   let width;
   let active = false;
 
   $: isStateView = $stateView == "stateview";
   $: year = $selectedYear;
+  $: treatment = $selectedTreatment;
+  $: provider = $selectedProvider;
 
   const metricName = {
     OUD_tx: "OUD_tx",
@@ -70,32 +74,97 @@
     year
   );
 
+  $: above = $countyPercent > $statePercent;
+
   const getMetricOutput = (noYear, metric, metricData, year) => {
     const metricFinal = noYear ? metric : `${metric}_${year}m`;
     // : `${metric}_${$submitted ? year : 12}m`;
     return metricData[metricFinal];
   };
+
+  const getToggleMetric = (metric, metricData, year, treatment, provider) => {
+    let metricFinal = `${metric}_${year}m`;
+    return metricData[metricFinal];
+  };
+
+  $: outputText = getText(
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year,
+    treatment,
+    provider
+  );
+
+  const getText = (metricData, year, treatment, provider) => {
+    let metricFinal = `${provider}_${treatment}_${year}m`;
+    let final = metricData[metricFinal];
+    console.log(provider);
+    console.log(metricFinal);
+    if (provider === "newprov") {
+      if (treatment === "fill_gap") {
+        return `${
+          isStateView ? $selectedState : $selectedCounty
+        } would need ${final} new buprenorphine prescribers to close the treatment gap of Y residents with opioid use disorder, assuming all prescribers offer
+treatment for ${year} months.`;
+      } else {
+        return `${
+          isStateView ? $selectedState : $selectedCounty
+        } would need ${final} new buprenorphine prescribers to double the current treatment capacity, assuming all prescribers offer
+treatment for ${year} months.`;
+      }
+    } else {
+      if (treatment === "fill_gap") {
+        return `Active buprenorphine prescribers would have to treat ${final} times as many patients to close the treatment
+gap of Y residents with opioid use disorder in ${
+          isStateView ? $selectedState : $selectedCounty
+        }, assuming all prescribers offer treatment
+for ${year} months.`;
+      } else {
+        return `Active buprenorphine prescribers would have to treat ${final} times as many patients to double the current treatment capacity in ${
+          isStateView ? $selectedState : $selectedCounty
+        }, assuming all prescribers offer treatment for ${year} months.`;
+      }
+    }
+  };
+  // new provider + double (newprov_2xcap)
+  //new provider + close gap (newprov_fill_gap)
+  // active provide + double .... doesn't exist in data atm
+  // active provider + close gap (no gap)  (curprx_fill_gap)
+  // active provider + close gap (gap exists)  (curprx_fill_gap)
+  //newprov_incr_fill_gap... what is this?
+
+  //
 </script>
 
 <div class="main-viz">
   <div class="viz-wrapper" bind:clientWidth={width}>
     <h3>What would it take to narrow the treatment gap?</h3>
-    {#if $submitted}
+    {#if $stateView === "stateview"}
+      {#if $submitted}
+        <h4>
+          {outputText}
+        </h4>
+      {:else}
+        <h4>
+          {#if $stateMetricData}
+            {$selectedState}
+            <span id="bar-state" /> is treating
+            <span id="bar-percent">{OUD}% of residents</span>
+            <!-- {$statePercent} -->
+            with opioid use disorder
+          {/if}
+        </h4>
+      {/if}
+    {:else if $submitted}
       <h4>
-        It would take {$stateView === "stateview"
-          ? $stateMetricData.newprov_fill_gap_12m
-          : $countyMetricData[0].newprov_fill_gap_12m} new providers offering treatment
-        for
-        {$selectedYear} months to close the current treatment gap of xxx people in
-        {$selectedCounty} County, {$selectedState}.
+        {outputText}
       </h4>
     {:else}
       <h4>
         {#if $stateMetricData && $countyMetricData}
-          {$stateView === "stateview" ? $selectedState : $selectedCounty}
-          <span id="bar-state" /> is treating
-          <span id="bar-percent">{OUD}% of residents</span>
-          with opioid use disorder
+          {$selectedCounty}is treating {OUD}% of residents with opioid use
+          disorder. That is
+          <!-- {$countyPercent} -->
+          {above ? "above" : "below"} the state average of {$statePercent}%.
         {/if}
       </h4>
     {/if}

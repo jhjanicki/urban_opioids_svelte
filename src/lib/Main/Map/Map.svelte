@@ -18,9 +18,9 @@
     mapWidth,
     mapHeight,
     legendDomain,
-  } from "../../store/store";
+  } from "../../../store/store";
   // importing moveToFront from the utils module
-  import { moveToFront } from "../utils";
+  import { moveToFront } from "../../utils";
 
   let width = 100;
   let height = 100;

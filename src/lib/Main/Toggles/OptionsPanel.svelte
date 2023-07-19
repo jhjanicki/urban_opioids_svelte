@@ -6,9 +6,7 @@
     selectedTreatment,
     selectedProvider,
     selectedYear,
-  } from "../../store/store";
-
-  let tooltipActive = false;
+  } from "../../../store/store";
 
   const optionsTreatment = [
     {
@@ -27,7 +25,7 @@
       label: "Adding new providers",
     },
     {
-      value: "curpr",
+      value: "curprx",
       label: "Increasing capacity of current providers",
     },
   ];
@@ -43,15 +41,15 @@
     },
   ];
 
+  let tooltipActive = false;
+  $: isActive = treatment != "" && provider != "";
   let treatment;
   let provider;
   // let year;
-  let isActive = false;
 
   const submitParameters = () => {
     if (treatment != "" && provider != "") {
       $submitted = true;
-      isActive = true;
       $selectedTreatment = treatment;
       $selectedProvider = provider;
       // $selectedYear = year;
@@ -59,7 +57,6 @@
   };
 
   const clearSelection = () => {
-    isActive = false;
     treatment = "";
     provider = "";
     $selectedTreatment = "";
@@ -89,9 +86,9 @@
       on:mouseleave={() => (tooltipActive = false)}
     />
     <span class={tooltipActive ? "tooltiptext visible" : "tooltiptext hidden"}
-      >Buprenorphine (sold under several brand names including Suboxone and
-      Subutex) and methadone are two of the main medication treatments available
-      for opioid use disorder.</span
+      >Reducing treatment length could help more people access treatment, but it
+      may also mean treatment is less effective. Selecting this option affects
+      several statistics below.</span
     >
   </div>
   <Toggle options={optionsYear} bind:selected={$selectedYear} />
@@ -150,6 +147,10 @@
     background-color: #fdbf11;
     border: solid 1.5px #fdbf11;
     color: #000000;
+  }
+
+  .active:hover {
+    cursor: pointer;
   }
 
   .show {

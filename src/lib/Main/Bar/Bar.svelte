@@ -9,7 +9,7 @@
     selectedYear,
     stateMetricData,
     countyMetricData,
-  } from "../../store/store";
+  } from "../../../store/store";
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
 
