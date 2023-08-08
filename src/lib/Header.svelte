@@ -10,10 +10,7 @@
       rel="home"
       class="site-logo"
     />
-    <div class="title">
-      What Would It Take to Get Medication for Opioid Use Disorder to More
-      People in Need?
-    </div>
+    <div class="title">Stories and data tools</div>
   </div>
 </header>
 

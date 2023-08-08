@@ -18,7 +18,7 @@
   export let methadone;
 
   // gave width a default value and removed the bar width variable since it wasn't necessary
-  let width = 400;
+  let width = 200;
   let barHeight = 100;
   let hoveredPointer;
 
@@ -40,7 +40,7 @@
     .domain([0, 100])
     .range([0, width - margin.left - margin.right]);
 
-  $: barInnerWidth = tweened(xScale($statePercent) - margin.right, {
+  let barInnerWidth = tweened(0, {
     duration: 400,
     easing: cubicOut,
   });

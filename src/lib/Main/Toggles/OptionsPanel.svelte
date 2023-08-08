@@ -68,7 +68,7 @@
 
 <div class="toggle-selection">
   <div class="toggle-wrapper">
-    <p>See what it would take to...</p>
+    <p id="question">See what it would take to...</p>
     <Radio options={optionsTreatment} bind:selected={treatment} />
   </div>
   <div class="toggle-wrapper">
@@ -206,5 +206,11 @@
 
   .tooltiptext.visible {
     display: inline-block;
+  }
+
+  @media (max-width: 576px) {
+    #question {
+      padding-top: 20px;
+    }
   }
 </style>

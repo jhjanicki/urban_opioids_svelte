@@ -44,4 +44,16 @@
     width: 100%;
     height: 100%;
   }
+
+  @media (max-width: 576px) {
+    .states-wrapper {
+      padding: 10px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+      max-width: 100%;
+      margin: 0px;
+      padding: 0px;
+    }
+  }
 </style>

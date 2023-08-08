@@ -20,8 +20,6 @@
     active = !active;
   };
 
-  $: console.log($selectedCountyData);
-
   const closeDropdown = (county) => {
     countySelected = true;
     $selectedCounty = county;

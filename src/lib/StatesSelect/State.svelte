@@ -98,16 +98,35 @@
 
   const handleMouseOver = () => (stateFill = "#fdbf11");
   const handleMouseOut = () => (stateFill = "#d2d2d2");
+
+  let innerWidth = 0;
+  let innerHeight = 0;
 </script>
 
-<div class="img-wrapper" on:click={updateState(state)}>
+<svelte:window bind:innerWidth bind:innerHeight />
+
+<div
+  class="img-wrapper"
+  on:click={updateState(state)}
+  on:mouseover={handleMouseOver}
+  on:mouseout={handleMouseOut}
+  style="background-color: {innerWidth > 576
+    ? '#353535'
+    : state === $selectedState
+    ? '#fdbf11'
+    : stateFill}"
+>
   <svg
     id={state}
     x="0px"
     y="0px"
     viewBox="0 0 90 90"
-    width={imgWidth ? imgWidth : 200}
-    fill={state === $selectedState ? "#fdbf11" : stateFill}
+    width={innerWidth <= 576 ? 0 : imgWidth ? imgWidth : 200}
+    fill={innerWidth <= 576
+      ? "#353535"
+      : state === $selectedState
+      ? "#fdbf11"
+      : stateFill}
     on:mouseover={handleMouseOver}
     on:mouseout={handleMouseOut}
   >
@@ -119,11 +138,10 @@
       {/each}
     {/if}
   </svg>
-  <p>{stateCode}</p>
+  <p class="stateText">{stateCode}</p>
 </div>
 
 <style>
-
   /* to center the svg */
   svg {
     flex: 1;
@@ -156,5 +174,43 @@
     left: 50%;
     margin-left: -20px;
     top: calc(100% + 30px);
+  }
+
+  @media (max-width: 576px) {
+    .states-wrapper {
+      padding: 10px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+    }
+
+    svg:not(#wisconsin) {
+      border: none;
+    }
+
+    svg {
+      padding: 0px;
+      width: 70%;
+      margin-left: 15%;
+      margin-right: 15%;
+    }
+
+    .img-wrapper {
+      width: 100%;
+      margin: 0px;
+      padding: 0px;
+      background-color: #d2d2d2;
+    }
+
+    .img-wrapper:hover:after {
+      display: none;
+    }
+
+    .stateText {
+      position: absolute;
+      bottom: 0px;
+      right: 20px;
+      color: #353535;
+    }
   }
 </style>

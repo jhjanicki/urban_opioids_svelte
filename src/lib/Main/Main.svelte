@@ -194,14 +194,19 @@
     // : `${metric}_${$submitted ? year : 12}m`;
     return metricData[metricFinal];
   };
+
+  let innerWidth = 0;
+  let innerHeight = 0;
 </script>
+
+<svelte:window bind:innerWidth bind:innerHeight />
 
 <section class="main-selection">
   <div class="wrapper">
     <h3 id="main-selection-title">
       {isStateView ? $selectedState : $selectedCounty}
     </h3>
-    <div class="buttons-wrapper">
+    <div class={innerWidth <= 576 ? "none" : "buttons-wrapper"}>
       <Button id={"download"} text={"Download data"} />
       <Button id={"print"} text={"Print page"} />
     </div>
@@ -379,6 +384,11 @@
   </div>
 </section>
 
+<div class={innerWidth > 576 ? "none" : "buttons-wrapper"}>
+  <Button id={"download"} text={"Download data"} />
+  <Button id={"print"} text={"Print page"} />
+</div>
+
 <style>
   /* MAIN VIZ */
 
@@ -435,6 +445,10 @@
     font-weight: 700;
   }
 
+  .none {
+    display: none;
+  }
+
   .buttons-wrapper {
     text-align: left;
     padding: 0px 30px;
@@ -447,5 +461,26 @@
   .text-wrapper {
     border-left: 14px solid #fdbf11;
     padding-left: 20px;
+  }
+
+  @media (max-width: 576px) {
+    .main-selection .wrapper {
+      grid-template-columns: 1fr;
+      column-gap: 10px;
+    }
+
+    .main-selection {
+      padding: 10px 0px;
+    }
+
+    #main-selection-title,
+    .tab-wrapper {
+      padding-left: 30px;
+    }
+
+    .buttons-wrapper {
+      text-align: center;
+      padding: 0px;
+    }
   }
 </style>

@@ -3,7 +3,9 @@
 </script>
 
 <section class="intro-main">
-  <div class="intro-left" />
+  <div class="intro-left">
+    <p>placeholder</p>
+  </div>
   <div class="intro-right">
     <h1>
       What Would It Take to Get Medication for Opioid Use Disorder to More
@@ -36,12 +38,6 @@
     margin: 20px 0px;
   }
 
-  .intro-left {
-    background-color: #fdbf11;
-    margin: 10px 5px 5px 0px;
-    padding: 10px;
-  }
-
   .intro-main {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -55,6 +51,12 @@
     line-height: 1.6;
     margin: 0 auto;
     margin-bottom: 30px;
+  }
+
+  .intro-left {
+    background-color: #fdbf11;
+    margin: 10px 5px 5px 0px;
+    padding: 10px;
   }
 
   .intro-right {
@@ -78,5 +80,28 @@
     line-height: 1.4;
     margin: 15px auto;
     text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .intro-right h1 {
+      font-size: 1.8rem;
+      line-height: 2rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .intro-main {
+      grid-template-columns: 1fr;
+    }
+    .intro-left,
+    .intro-right {
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    .intro-right {
+      margin-top: 5px;
+      text-align: center;
+    }
   }
 </style>
