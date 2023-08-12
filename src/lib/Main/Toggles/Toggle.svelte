@@ -8,7 +8,7 @@
     str.toLowerCase().replace(/ /g, "-").replace(/\./g, "");
 </script>
 
-<div class="s s--multi">
+<div class="toggle">
   <div
     role="radiogroup"
     class="group-container"
@@ -17,36 +17,34 @@
   >
     {#each options as { value, label }}
       <input type="radio" id={slugify(label)} bind:group={selected} {value} />
-      <label for={slugify(label)}> {label} </label>
+      <label for={slugify(label)}> {""} </label>
     {/each}
   </div>
 </div>
 
 <style>
-  .s--multi label {
-    display: inline-block;
-    /* line-height: 1.6; */
+  .toggle label {
     position: relative;
     z-index: 2;
   }
 
-  .s--multi input {
+  .toggle input {
     opacity: 0;
     position: absolute;
   }
 
-  .s--multi label:first-of-type {
+  .toggle label:first-of-type {
     padding-right: 5em;
   }
 
-  .s--multi label:last-child {
+  .toggle label:last-child {
     margin-left: -5em;
     padding-left: 5em;
   }
 
   /* making the switch UI.  */
-  .s--multi label:first-of-type:before,
-  .s--multi label:first-of-type:after {
+  .toggle label:first-of-type:before,
+  .toggle label:first-of-type:after {
     content: "";
     height: 1.25em;
     overflow: hidden;
@@ -55,8 +53,8 @@
     vertical-align: middle;
   }
 
-  .s--multi label:first-of-type:before {
-    content: "Yes";
+  .toggle label:first-of-type:before {
+    content: "YES";
     text-align: center;
     border-radius: 20px;
     z-index: 2;
@@ -65,13 +63,15 @@
     height: 1.2em;
     background: #000;
     top: 0.2em;
-    right: 0.5em;
+    right: 0.55em;
     /* position of yes at start */
     transition: transform 0.3s;
     color: #fff;
+    font-size: 16px;
+    padding: 3px 9px;
   }
 
-  .s--multi label:first-of-type:after {
+  .toggle label:first-of-type:after {
     background: #d2d2d2;
     border-radius: 1em;
     margin: 0 1em;
@@ -81,16 +81,16 @@
     margin-left: 4px;
   }
 
-  .s--multi input:first-of-type:checked ~ label:first-of-type:after {
+  .toggle input:first-of-type:checked ~ label:first-of-type:after {
     background: #d2d2d2;
   }
 
-  .s--multi input:first-of-type:checked ~ label:first-of-type:before {
-    content: "No";
+  .toggle input:first-of-type:checked ~ label:first-of-type:before {
+    content: "NO";
     transform: translateX(-2.1em);
   }
 
-  .s--multi input:last-of-type:checked ~ label:last-of-type {
+  .toggle input:last-of-type:checked ~ label:last-of-type {
     z-index: 1;
   }
 </style>

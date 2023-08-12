@@ -389,6 +389,201 @@
   <Button id={"print"} text={"Print page"} />
 </div>
 
+<section class="other-section">
+  <h3>Other Strategies to Close the Treatment Gap</h3>
+  <p>
+    It will take more than increasing the number and capacity of buprenorphine
+    prescribers to close gaps in access to medication for opioid use disorder
+    treatment. The following strategies can help ensure all people who need
+    medication treatment for opioid use disorder can access it:
+  </p>
+  <ul>
+    <li>
+      <b>Engage health plans in prescriber outreach.</b> In some states,
+      <a
+        href="https://substanceabusepolicy.biomedcentral.com/articles/10.1186/s13011-022-00478-y"
+        target="_blank">Medicaid reimbursement</a
+      > for assessing patient needs and prescribing medication treatment for opioid
+      use disorder is low, which can dissuade prescribers from offering treatment
+      medications. But if prescribers know that a health plan—whether public or private—will
+      adequately reimburse them for providing these services, they may be more willing
+      to prescribe medications for treating opioid use disorder.
+    </li>
+    <li>
+      <b
+        >Make medication for opioid use disorder available in more places where
+        people receive health care.</b
+      >
+      Making treatment
+      <a
+        href="https://www.dea.gov/press-releases/2022/03/23/deas-commitment-expanding-access-medication-assisted-treatment"
+        target="_blank">more broadly available</a
+      >—in places such as health centers, jails, emergency rooms, hospitals,
+      primary care offices, and addiction treatment programs—meets people where
+      they are and can increase engagement in treatment.
+    </li>
+    <li>
+      <b>Expand telehealth options.</b> Opioid use disorder–related telehealth
+      services have been shown to
+      <a
+        href="https://www.cdc.gov/media/releases/2022/p0831-ccovid-19-opioids.html"
+        target="_blank"
+      >
+        retention in treatment and reduce risks of overdose</a
+      >. Telehealth can make treatment more accessible to people in rural areas
+      and to people lacking transportation, and it can help counteract stigma by
+      allowing people to receive care where they’re most comfortable.
+    </li>
+    <li>
+      <b
+        >Coordinate with community partners, such as <a
+          href="https://www.behavioralhealthworkforce.org/project/understanding-the-roles-of-peer-providers-addiction-counselors-and-community-health-workers-in-behavioral-health/"
+          target="_blank">community health workers and peer recovery workers</a
+        >.</b
+      >
+      Because
+      <a
+        href="https://store.samhsa.gov/product/community-engagement-essential-component-substance-use-prevention-system/pep22-06-01-005"
+        target="_blank">community partners</a
+      > often have (or can build) trust with residents with opioid use disorder,
+      they are well positioned to inform strategies to meet community needs for treatment
+      and other services. They can also help community members understand their care
+      options and access treatment.
+    </li>
+    <li>
+      <b
+        >Remove regulatory barriers to prescribing medications to treat opioid
+        use disorder.</b
+      >
+      Restrictions on who can prescribe
+      <a
+        href="https://www.pewtrusts.org/en/research-and-analysis/issue-briefs/2021/05/policies-should-promote-access-to-buprenorphine-for-opioid-use-disorder"
+        target="_blank">buprenorphine</a
+      >
+      and
+      <a
+        href="https://www.healthaffairs.org/content/forefront/expedited-regulatory-strategy-expanding-access-methadone-treatment-opioid-use-disorder"
+        target="_blank">methadone</a
+      >
+      treatment for opioid use disorder and when and where patients can initiate
+      treatment can deter people from getting needed care. Reforms to reimbursement
+      policies, treatment guidelines, and
+      <a
+        href="https://www.healthaffairs.org/content/forefront/save-lives-opioid-overdose-deaths-bring-methadone-into-mainstream-medicine"
+        target="_blank"
+      >
+        regulations</a
+      > could help prescribers better serve people with opioid use disorder.
+    </li>
+    <li>
+      <b>Ensure pharmacies stock medication to treat opioid use disorder.</b>
+      Barriers like stigma, prescribing restrictions, and limits on the amount of
+      medication pharmacists can order can
+      <a
+        href="https://www.npr.org/sections/health-shots/2019/08/13/741113454/its-the-go-to-drug-for-opioid-addiction-so-why-won-t-more-pharmacists-stock-it"
+        target="_blank">prevent pharmacists from stocking medications</a
+      > to treat opioid use disorder. Policymakers, regulators, and advocates can
+      work together to advance policies that would ensure pharmacies carry these
+      medications.
+    </li>
+  </ul>
+</section>
+
+<section class="about-section">
+  <h2>About</h2>
+  <p>
+    For this project, Urban Institute researchers collaborated with colleagues
+    at Johns Hopkins University to conduct treatment capacity assessments for
+    four states in the Bloomberg Philanthropies <a
+      href="https://www.bloomberg.org/public-health/combating-the-overdose-epidemic/"
+      target="_blank">Overdoes Prevention Initiative</a
+    >.
+  </p>
+  <p>
+    Throughout this tool, we use “active buprenorphine prescriber” to refer to
+    the primary buprenorphine prescriber for at least one patient episode during
+    the last 12 or 6 months. In the “prescribers and patient caseloads” section,
+    we show the number of active buprenorphine prescribers across three patient
+    limits associated with the <a
+      href="https://www.acponline.org/advocacy/acp-advocate/archive/february-10-2023/elimination-of-x-waiver-removes-major-barrier-to-opioid-use-disorder-treatment"
+      target="_blank">buprenorphine X-waiver</a
+    > as of January 2023. The Substance Abuse and Mental Health Services Administration
+    and the Drug Enforcement Administration eliminated the waiver and associated
+    patient limits in January 2023.
+  </p>
+  <p>For more about the data and methodology, see our technical appendix.</p>
+  <div class="buttons-wrapper">
+    <Button id={"download2"} text={"Download data"} />
+    <Button id={"appendix"} text={"Download Appendix"} />
+  </div>
+</section>
+
+<section class="credit-section">
+  <h2>Project credit</h2>
+  <p>
+    This data tool was funded by Bloomberg Philanthropies. We are grateful to
+    them and to all our funders, who make it possible for Urban to advance its
+    mission. The views expressed are those of the authors and should not be
+    attributed to the Urban Institute, its trustees, or its funders. Funders do
+    not determine our research findings or the insights and recommendations of
+    our experts. More information on our funding principles is available here.
+  </p>
+  <div class="creditItem">
+    <h4 class="inline">RESEARCH</h4>
+    <p class="inline">
+      <a href="https://www.urban.org/author/lisa-clemans-cope" target="_blank"
+        >Lisa Clemans-Cope</a
+      >
+    </p>
+    <p class="inline">
+      <a href="https://www.urban.org/author/douglas-wissoker" target="_blank"
+        >Doug Wissoker</a
+      >
+    </p>
+    <p class="inline">
+      <a href="https://www.urban.org/author/maya-payton" target="_blank"
+        >Maya Payton</a
+      >
+    </p>
+    and
+    <p class="inline">
+      <a href="https://www.urban.org/author/nikhil-rao" target="_blank"
+        >Nikhil Rao</a
+      >
+    </p>
+  </div>
+  <div class="creditItem">
+    <h4 class="inline">DESIGN</h4>
+    <p class="inline">
+      <a href="https://www.urban.org/author/christina-baird" target="_blank"
+        >Christina Baird</a
+      >
+    </p>
+  </div>
+  <div class="creditItem">
+    <h4 class="inline">DEVELOPMENT</h4>
+    <p class="inline">
+      <a href="https://juliahanjanicki.com/" target="_blank">Julia Janicki</a>
+    </p>
+  </div>
+  <div class="creditItem">
+    <h4 class="inline">EDITING</h4>
+    <p class="inline">
+      <a href="https://www.urban.org/author/lauren-lastowka" target="_blank"
+        >Lauren Lastowka</a
+      >
+    </p>
+  </div>
+  <div class="creditItem">
+    <h4 class="inline">WRITING</h4>
+    <p class="inline">
+      <a href="https://www.urban.org/author/rachel-kenney" target="_blank"
+        >Rachel Kenney</a
+      >
+    </p>
+  </div>
+</section>
+
 <style>
   /* MAIN VIZ */
 
@@ -449,6 +644,10 @@
     display: none;
   }
 
+  .inline {
+    display: inline;
+  }
+
   .buttons-wrapper {
     text-align: left;
     padding: 0px 30px;
@@ -463,6 +662,48 @@
     padding-left: 20px;
   }
 
+  .other-section,
+  .about-section,
+  .credit-section {
+    max-width: 900px;
+    margin: auto;
+    padding: 50px 20px;
+  }
+
+  .other-section p,
+  .about-section p,
+  .credit-section p {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 300;
+  }
+
+  .other-section li {
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 300;
+  }
+
+  .other-section h3 {
+    font-size: 1.4rem;
+    font-weight: 300;
+  }
+
+  .credit-section {
+    margin-bottom: 50px;
+  }
+
+  .about-section h2,
+  .credit-section h2 {
+    font-size: 1.6rem;
+    font-weight: 300;
+    text-transform: uppercase;
+  }
+
+  .creditItem {
+    margin-top: 40px;
+  }
+
   @media (max-width: 576px) {
     .main-selection .wrapper {
       grid-template-columns: 1fr;
@@ -471,6 +712,12 @@
 
     .main-selection {
       padding: 10px 0px;
+    }
+
+    .other-section,
+    .about-section,
+    .credit-section {
+      padding: 10px 40px;
     }
 
     #main-selection-title,

@@ -45,14 +45,14 @@
   $: isActive = treatment != "" && provider != "";
   let treatment;
   let provider;
-  // let year;
+  let year;
 
   const submitParameters = () => {
     if (treatment != "" && provider != "") {
       $submitted = true;
       $selectedTreatment = treatment;
       $selectedProvider = provider;
-      // $selectedYear = year;
+      $selectedYear = year;
     }
   };
 
@@ -72,12 +72,14 @@
     <Radio options={optionsTreatment} bind:selected={treatment} />
   </div>
   <div class="toggle-wrapper">
-    <p>by...</p>
+    <p id="by">By...</p>
     <Radio options={optionsProvider} bind:selected={provider} />
   </div>
   <hr />
   <div id="yearToggle">
-    <p class="inline">Reduce treatment length from 12 months to 6 months</p>
+    <p id="reduce" class="inline">
+      Reduce treatment length from 12 months to 6 months
+    </p>
     <img
       class="inline"
       id="info"
@@ -91,7 +93,7 @@
       several statistics below.</span
     >
   </div>
-  <Toggle options={optionsYear} bind:selected={$selectedYear} />
+  <Toggle options={optionsYear} bind:selected={year} />
   <button
     class={isActive ? "active button" : "button"}
     on:click={() => submitParameters()}>SEE RESULTS</button
@@ -111,7 +113,8 @@
 
   hr {
     height: 0.5px;
-    margin: 40px auto;
+    margin: 40px auto 25px auto;
+    opacity: 0.5;
   }
 
   p {
@@ -121,6 +124,24 @@
   label {
     font-size: 0.85rem;
     color: #353535;
+  }
+
+  #question,
+  #by {
+    font-weight: 700;
+  }
+
+  #by {
+    margin-top: 20px;
+  }
+
+  #reduce {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  #yearToggle {
+    margin-bottom: 20px;
   }
 
   .button {
@@ -169,12 +190,6 @@
   .clear:hover {
     cursor: pointer;
   }
-
-  #yearToggle {
-    margin-bottom: 20px;
-  }
-
-  /* Tooltip related */
 
   .inline {
     display: inline;
