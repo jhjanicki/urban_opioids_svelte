@@ -51,6 +51,7 @@ data.forEach(state=>{
   })
 })
 
+
 // const allCountyMetrics = data.reduce((all, state) => all.concat(
 //   state.data.filter(row => row.countyfips !== "")
 // ), []);
@@ -81,8 +82,8 @@ export const stateMetricData = writable();  //filter allMetricData to only the s
 export const allCountyMetricData = writable(allCountyMetrics); // all metric data on county level
 export const countyMetricData = writable(allCountyMetrics); //filter allMetricData to only the selected county
 
-export const statePercent = writable(50); //updated in State
-export const countyPercent = writable(30); //updated in Dropdown
+export const statePercent = writable(0); //updated in State
+export const countyPercent = writable(0); //updated in Dropdown
 
 export const countyList = writable(); // list of counties for selectef state for dropdown
 export const mapWidth = writable();

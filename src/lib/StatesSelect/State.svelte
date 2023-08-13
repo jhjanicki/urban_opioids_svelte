@@ -93,7 +93,8 @@
         ? filteredStateMetricData.OUD_tx_12m
         : filteredStateMetricData.OUD_tx_6m;
 
-    $countyList = $countiesData.map((county) => county.properties.name);
+    //so the dropdown list is alphabetical
+    $countyList = $countiesData.map((county) => county.properties.name).sort();
   };
 
   const handleMouseOver = () => (stateFill = "#fdbf11");

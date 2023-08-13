@@ -210,12 +210,12 @@
       <Button id={"download"} text={"Download data"} />
       <Button id={"print"} text={"Print page"} />
     </div>
-    <div class={isStateView ? "tab-wrapper" : ""}>
+    <div class="tab-wrapper">
       <Tab id="stateview" text="State view" />
       <Tab id="countyview" text="County view" />
     </div>
   </div>
-  <div class="wrapper">
+  <div class="wrapper dropdownwrapper">
     <Dropdown />
   </div>
   <div class="wrapper">
@@ -721,8 +721,13 @@
     }
 
     #main-selection-title,
-    .tab-wrapper {
+    .tab-wrapper,
+    .dropdownwrapper {
       padding-left: 30px;
+    }
+
+    .dropdownwrapper {
+      margin-top: -20px;
     }
 
     .buttons-wrapper {

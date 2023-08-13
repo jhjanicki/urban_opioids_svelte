@@ -4,7 +4,7 @@
 
 <section class="intro-main">
   <div class="intro-left">
-    <p>placeholder</p>
+    <img src="./bar.gif" />
   </div>
   <div class="intro-right">
     <h1>
@@ -57,6 +57,13 @@
     background-color: #fdbf11;
     margin: 10px 5px 5px 0px;
     padding: 10px;
+    align-items: center;
+    display: flex;
+  }
+
+  .intro-left img {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .intro-right {
@@ -102,6 +109,10 @@
     .intro-right {
       margin-top: 5px;
       text-align: center;
+    }
+
+    .intro-right h1 {
+      font-size: 1.5rem;
     }
   }
 </style>

@@ -161,7 +161,7 @@ for ${year} months.`;
     {:else}
       <h4>
         {#if $stateMetricData && $countyMetricData}
-          {$selectedCounty}is treating {OUD}% of residents with opioid use
+          {$selectedCounty} is treating {OUD}% of residents with opioid use
           disorder. That is
           <!-- {$countyPercent} -->
           {above ? "above" : "below"} the state average of {$statePercent}%.
