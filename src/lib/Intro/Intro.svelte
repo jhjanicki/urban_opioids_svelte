@@ -1,8 +1,9 @@
 <script>
   import Social from "./Social.svelte";
+  import { print } from "../../store/store";
 </script>
 
-<section class="intro-main">
+<section class="intro-main" class:print={$print}>
   <div class="intro-left">
     <img src="./bar.gif" />
   </div>
@@ -31,11 +32,18 @@
 </section>
 
 <style>
+
+  .print .intro-left { display: none; }
   .date {
     font-size: 0.7rem;
     color: #696969;
     text-align: center;
     margin: 20px 0px;
+  }
+
+  .intro-main.print {
+    display: block;
+    min-height: none;
   }
 
   .intro-main {
