@@ -149,8 +149,9 @@
     padding: 0px 20px;
   }
 
-  svg:not(#wisconsin) {
+  svg:not(#Wisconsin) {
     border-right: 0.5px solid #fff;
+    margin-left: -0.5px;
   }
 
   p {

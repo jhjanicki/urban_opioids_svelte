@@ -7,8 +7,10 @@
   import { stateClicked, print } from "./store/store";
 </script>
 
-<Header />
-<div class="main">
+{#if !$print}
+  <Header />
+{/if}
+<div class="main" class:print={$print}>
   <Intro />
   {#if !$print}
     <StatesSelect />
@@ -19,4 +21,8 @@
 </div>
 
 <style>
+  .main.print {
+    max-width: 1200px;
+    margin: auto;
+  }
 </style>

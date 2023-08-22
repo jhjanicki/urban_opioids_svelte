@@ -12,7 +12,7 @@
     countyMetricData,
     selectedYear,
     stateView,
-    print
+    print,
   } from "../../store/store";
 
   export let data;
@@ -199,38 +199,39 @@
   let innerWidth = 0;
   let innerHeight = 0;
 
-
   const togglePrintView = () => {
     $print = !$print;
-  }
+  };
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
-<section class="main-selection" class:print={$print}>
+<section class="mainSelection" class:print={$print}>
   <div class="wrapper">
-    <h3 id="main-selection-title">
+    <h3 id="mainTitle">
       {isStateView ? $selectedState : $selectedCounty}
     </h3>
-    <div class={innerWidth <= 576 ? "none" : "buttons-wrapper"}>
+    <div class={innerWidth <= 576 ? "none" : "buttonsWrapper"}>
       <Button id={"download"} text={"Download data"} />
-      <Button id={"print"} text={"Print page"} on:click={togglePrintView}/>
+      <Button id={"print"} text={"Print page"} on:click={togglePrintView} />
     </div>
-    <div class="tab-wrapper">
+    <div class="tabWrapper">
       <Tab id="stateview" text="State view" />
       <Tab id="countyview" text="County view" />
     </div>
   </div>
-  <div class="wrapper dropdownwrapper">
+  <div class="wrapper" id="dropdownWrapper">
     <Dropdown />
   </div>
   <div class="wrapper">
     <Viz />
-    <OptionsPanel />
+    <div id="optionsWrapper">
+      <OptionsPanel />
+    </div>
   </div>
 </section>
 
-<section class="map-view">
+<section class="mapView">
   <div class="wrapper">
     <div class="left-wrapper" bind:clientWidth={width}>
       <div>
@@ -239,7 +240,7 @@
       </div>
       {#if $stateMetricData && $countyMetricData}
         <h4>Opioid use disorder</h4>
-        <div class="text-wrapper">
+        <div class="textWrapper">
           <p>
             <span class="number">
               {OUDnum}
@@ -250,7 +251,7 @@
           </p>
         </div>
         <h4>Overdose deaths</h4>
-        <div class="text-wrapper">
+        <div class="textWrapper">
           <p>
             <span class="number">
               {deathall}
@@ -269,7 +270,7 @@
           </p>
         </div>
         <h4>Language characteristics</h4>
-        <div class="text-wrapper">
+        <div class="textWrapper">
           <p>
             <span class="number">
               {eng}
@@ -293,7 +294,7 @@
     <div class="right-wrapper" bind:clientWidth={width}>
       {#if $stateMetricData && $countyMetricData}
         <h4>Access to treatment</h4>
-        <div class="text-wrapper">
+        <div class="textWrapper">
           <p>
             <span class="number">
               {gap_curr}
@@ -325,7 +326,7 @@
           </p>
         </div>
         <h4>Prescribers and potential patient caseloads</h4>
-        <div class="text-wrapper">
+        <div class="textWrapper">
           <p>
             <span class="number">
               {prescriber}
@@ -358,7 +359,7 @@
         </div>
 
         <h4>Transportation characteristics</h4>
-        <div class="text-wrapper">
+        <div class="textWrapper">
           <p>
             <span class="number">
               {driveM}
@@ -390,12 +391,12 @@
   </div>
 </section>
 
-<div class={innerWidth > 576 ? "none" : "buttons-wrapper"}>
+<div class={innerWidth > 576 ? "none" : "buttonsWrapper"}>
   <Button id={"download"} text={"Download data"} />
   <Button id={"print"} text={"Print page"} />
 </div>
 
-<section class="other-section">
+<section class="otherSection">
   <h3>Other Strategies to Close the Treatment Gap</h3>
   <p>
     It will take more than increasing the number and capacity of buprenorphine
@@ -495,7 +496,7 @@
   </ul>
 </section>
 
-<section class="about-section">
+<section class="aboutSection">
   <h2>About</h2>
   <p>
     For this project, Urban Institute researchers collaborated with colleagues
@@ -518,13 +519,13 @@
     patient limits in January 2023.
   </p>
   <p>For more about the data and methodology, see our technical appendix.</p>
-  <div class="buttons-wrapper">
+  <div class="buttonsWrapper">
     <Button id={"download2"} text={"Download data"} />
     <Button id={"appendix"} text={"Download Appendix"} />
   </div>
 </section>
 
-<section class="credit-section">
+<section class="creditSection">
   <h2>Project credit</h2>
   <p>
     This data tool was funded by Bloomberg Philanthropies. We are grateful to
@@ -593,33 +594,58 @@
 <style>
   /* MAIN VIZ */
 
-  .main-selection {
+  .mainSelection.print {
+    max-width: calc(100% - 40px);
+    padding: 0px 30px;
+    margin: 0px;
+  }
+
+  .print #mainTitle {
+    font-weight: 300;
+  }
+
+  .print .tabWrapper {
+    display: none;
+  }
+  .print #dropdownWrapper {
+    display: none;
+  }
+
+  .print #optionsWrapper {
+    display: none;
+  }
+
+  .mainSelection {
     background-color: #fff;
     margin: 0px;
     padding: 10px 40px;
   }
 
-  .main-selection .wrapper {
+  .mainSelection .wrapper {
     display: grid;
     /* minmax() helps these columns stay responsive even with SVGs with hard-coded widths inside them*/
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     column-gap: 10px;
   }
 
-  .map-view {
+  .mainSelection.print .wrapper {
+    display: block;
+  }
+
+  .mapView {
     background-color: #fff;
     margin: 0px;
     padding: 10px 40px;
   }
 
-  .map-view .wrapper {
+  .mapView .wrapper {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     column-gap: 20px;
   }
 
   @media screen and (max-width: 600px) {
-    .map-view .wrapper {
+    .mapView .wrapper {
       grid-template-columns: 1fr;
       column-gap: 0px;
     }
@@ -654,53 +680,53 @@
     display: inline;
   }
 
-  .buttons-wrapper {
+  .buttonsWrapper {
     text-align: left;
     padding: 0px 30px;
   }
 
-  .tab-wrapper {
+  .tabWrapper {
     margin-bottom: 30px;
   }
 
-  .text-wrapper {
+  .textWrapper {
     border-left: 14px solid #fdbf11;
     padding-left: 20px;
   }
 
-  .other-section,
-  .about-section,
-  .credit-section {
+  .otherSection,
+  .aboutSection,
+  .creditSection {
     max-width: 900px;
     margin: auto;
     padding: 50px 20px;
   }
 
-  .other-section p,
-  .about-section p,
-  .credit-section p {
+  .otherSection p,
+  .aboutSection p,
+  .creditSection p {
     font-size: 20px;
     line-height: 28px;
     font-weight: 300;
   }
 
-  .other-section li {
+  .otherSection li {
     font-size: 18px;
     line-height: 26px;
     font-weight: 300;
   }
 
-  .other-section h3 {
+  .otherSection h3 {
     font-size: 1.4rem;
     font-weight: 300;
   }
 
-  .credit-section {
+  .creditSection {
     margin-bottom: 50px;
   }
 
-  .about-section h2,
-  .credit-section h2 {
+  .aboutSection h2,
+  .creditSection h2 {
     font-size: 1.6rem;
     font-weight: 300;
     text-transform: uppercase;
@@ -711,32 +737,38 @@
   }
 
   @media (max-width: 576px) {
-    .main-selection .wrapper {
+    .mainSelection .wrapper {
       grid-template-columns: 1fr;
       column-gap: 10px;
     }
 
-    .main-selection {
+    .mainSelection {
       padding: 10px 0px;
     }
 
-    .other-section,
-    .about-section,
-    .credit-section {
+    .otherSection,
+    .aboutSection,
+    .creditSection {
       padding: 10px 40px;
     }
 
-    #main-selection-title,
-    .tab-wrapper,
-    .dropdownwrapper {
+    #mainTitle,
+    .tabWrapper,
+    .dropdownWrapper {
       padding-left: 30px;
     }
 
-    .dropdownwrapper {
+    .print #mainTitle,
+    .print .tabWrapper,
+    .print .dropdownWrapper {
+      padding-left: 0px;
+    }
+
+    .dropdownWrapper {
       margin-top: -20px;
     }
 
-    .buttons-wrapper {
+    .buttonsWrapper {
       text-align: center;
       padding: 0px;
     }

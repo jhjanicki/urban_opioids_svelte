@@ -17,7 +17,9 @@
       disorder, but not enough people can access them.
     </h4>
     <div class="date">September 21, 2023</div>
-    <Social />
+    <div class="socialWrapper">
+      <Social />
+    </div>
     <p>
       Opioid use disorder affects millions of Americans, and opioid overdose
       deaths reached a historic high in 2023. Even though medication treatments
@@ -32,13 +34,45 @@
 </section>
 
 <style>
+  .print .intro-left,
+  .print .socialWrapper {
+    display: none;
+  }
+  .print .intro-right {
+    background-color: #fff;
+    margin: 0px auto;
+    max-width: 1200px;
+  }
 
-  .print .intro-left { display: none; }
-  .date {
-    font-size: 0.7rem;
-    color: #696969;
-    text-align: center;
-    margin: 20px 0px;
+  .print .intro-right h1,
+  .print .intro-right h4,
+  .print .intro-right p,
+  .print .date {
+    text-align: left;
+    margin: 0px;
+    padding: 0px 20px;
+    max-width: calc(100% - 40px);
+    color: #353535;
+    font-weight: 400;
+  }
+
+  .print .intro-right h1 {
+    font-size: 1.8rem;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-weight: 600;
+  }
+  .print .intro-right h4 {
+    font-size: 1.2rem;
+  }
+  .print .intro-right p {
+    font-size: 0.9rem;
+  }
+
+  .print .date {
+    font-size: 0.8rem;
+    padding-top: 10px;
+    padding-bottom: 30px;
   }
 
   .intro-main.print {
@@ -54,6 +88,7 @@
   }
 
   .intro-main p {
+    font-size: 1rem;
     max-width: 760px;
     width: 100%;
     line-height: 1.6;
@@ -95,6 +130,13 @@
     line-height: 1.4;
     margin: 15px auto;
     text-align: center;
+  }
+
+  .date {
+    font-size: 0.7rem;
+    color: #696969;
+    text-align: center;
+    margin: 20px 0px;
   }
 
   @media (max-width: 768px) {

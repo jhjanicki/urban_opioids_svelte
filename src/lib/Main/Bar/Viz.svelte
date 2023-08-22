@@ -13,6 +13,7 @@
     selectedProvider,
     statePercent,
     countyPercent,
+    print,
   } from "../../../store/store";
 
   let width;
@@ -97,8 +98,6 @@
   const getText = (metricData, year, treatment, provider) => {
     let metricFinal = `${provider}_${treatment}_${year}m`;
     let final = metricData[metricFinal];
-    console.log(provider);
-    console.log(metricFinal);
     if (provider === "newprov") {
       if (treatment === "fill_gap") {
         return `${
@@ -135,7 +134,7 @@ for ${year} months.`;
   //
 </script>
 
-<div class="main-viz">
+<div class="main-viz" class:print={$print}>
   <div class="viz-wrapper" bind:clientWidth={width}>
     <h3>What would it take to narrow the treatment gap?</h3>
     {#if $stateView === "stateview"}
@@ -197,9 +196,22 @@ for ${year} months.`;
 </div>
 
 <style>
+  .main-viz.print {
+    background-color: #fff;
+  }
+  .print h3,
+  .print h4,
+  .print p {
+    color: #353535;
+  }
+
+  .print .viz-wrapper {
+    padding: 0px;
+  }
+
   .main-viz {
     background-color: #353535;
-    color: #3f2626;
+    color: #353535;
     height: auto;
   }
 
