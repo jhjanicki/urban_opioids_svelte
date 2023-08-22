@@ -3,7 +3,7 @@
   export let text;
 </script>
 
-<button id="buttons-{id}" class="button">{text}</button>
+<button id="buttons-{id}" class="button" on:click>{text}</button>
 
 <style>
   .button {

@@ -4,13 +4,15 @@
   import StatesSelect from "./lib/StatesSelect/StatesSelect.svelte";
   import Main from "./lib/Main/Main.svelte";
   import data from "./assets/data/metricData.json";
-  import { stateClicked } from "./store/store";
+  import { stateClicked, print } from "./store/store";
 </script>
 
 <Header />
 <div class="main">
   <Intro />
-  <StatesSelect />
+  {#if !$print}
+    <StatesSelect />
+  {/if}
   {#if $stateClicked}
     <Main {data} />
   {/if}

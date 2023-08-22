@@ -12,6 +12,7 @@
     countyMetricData,
     selectedYear,
     stateView,
+    print
   } from "../../store/store";
 
   export let data;
@@ -197,18 +198,23 @@
 
   let innerWidth = 0;
   let innerHeight = 0;
+
+
+  const togglePrintView = () => {
+    $print = !$print;
+  }
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
-<section class="main-selection">
+<section class="main-selection" class:print={$print}>
   <div class="wrapper">
     <h3 id="main-selection-title">
       {isStateView ? $selectedState : $selectedCounty}
     </h3>
     <div class={innerWidth <= 576 ? "none" : "buttons-wrapper"}>
       <Button id={"download"} text={"Download data"} />
-      <Button id={"print"} text={"Print page"} />
+      <Button id={"print"} text={"Print page"} on:click={togglePrintView}/>
     </div>
     <div class="tab-wrapper">
       <Tab id="stateview" text="State view" />
