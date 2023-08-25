@@ -207,11 +207,20 @@
 <svelte:window bind:innerWidth bind:innerHeight />
 
 <section class="mainSelection" class:print={$print}>
+  <div class={$print ? "" : "none"}>
+    <Button id={"print"} text={"Back to app"} on:click={togglePrintView} />
+  </div>
   <div class="wrapper">
     <h3 id="mainTitle">
-      {isStateView ? $selectedState : $selectedCounty}
+      {#if $print}
+        {isStateView
+          ? $selectedState
+          : `${$selectedCounty} county, ${$selectedState}`}
+      {:else}
+        {isStateView ? $selectedState : $selectedCounty}
+      {/if}
     </h3>
-    <div class={innerWidth <= 576 ? "none" : "buttonsWrapper"}>
+    <div class={innerWidth <= 576 || $print ? "none" : "buttonsWrapper"}>
       <Button id={"download"} text={"Download data"} />
       <Button id={"print"} text={"Print page"} on:click={togglePrintView} />
     </div>
@@ -231,162 +240,169 @@
   </div>
 </section>
 
-<section class="mapView">
+<section class="mapView" class:print={$print}>
   <div class="wrapper">
     <div class="left-wrapper" bind:clientWidth={width}>
-      <div>
-        <h4>Where people with opioid use disorder are receiving treatment</h4>
+      <h4 id="treatmentLength">
+        {$print ? `TREATMENT LENGTH: ${$selectedYear} MONTH` : ""}
+      </h4>
+      <h4>Where people with opioid use disorder are receiving treatment</h4>
+      <div class="mapWrapper">
         <Map {data} />
       </div>
-      {#if $stateMetricData && $countyMetricData}
-        <h4>Opioid use disorder</h4>
-        <div class="textWrapper">
-          <p>
-            <span class="number">
-              {OUDnum}
-            </span>
-            residents (
-            {OUD}
-            percent) have opioid use disorder
-          </p>
-        </div>
-        <h4>Overdose deaths</h4>
-        <div class="textWrapper">
-          <p>
-            <span class="number">
-              {deathall}
-            </span>people die of overdoses each year (per 100,000 residents)
-          </p>
-          <p>
-            <span class="number">
-              {deathsop}
-            </span> people die of opioid-related overdoses each year (per 100,000
-            residents)
-          </p>
-          <p>
-            <span class="number">
-              {deathsopall}
-            </span> percent of overdose deaths are opioid related
-          </p>
-        </div>
-        <h4>Language characteristics</h4>
-        <div class="textWrapper">
-          <p>
-            <span class="number">
-              {eng}
-            </span>
-            percent of the population speaks limited English
-          </p>
-          <p>
-            <span class="number">
-              {esp}
-            </span> percent of the population speaks Spanish
-          </p>
-          <p>
-            <span class="number">
-              {otherLang}
-            </span> percent of the population speaks another language
-          </p>
-        </div>
-      {/if}
+      <div class="statsWrapper">
+        {#if $stateMetricData && $countyMetricData}
+          <h4>Opioid use disorder</h4>
+          <div class="textWrapper">
+            <p>
+              <span class="number">
+                {OUDnum}
+              </span>
+              residents (
+              {OUD}
+              percent) have opioid use disorder
+            </p>
+          </div>
+          <h4>Overdose deaths</h4>
+          <div class="textWrapper">
+            <p>
+              <span class="number">
+                {deathall}
+              </span>people die of overdoses each year (per 100,000 residents)
+            </p>
+            <p>
+              <span class="number">
+                {deathsop}
+              </span> people die of opioid-related overdoses each year (per 100,000
+              residents)
+            </p>
+            <p>
+              <span class="number">
+                {deathsopall}
+              </span> percent of overdose deaths are opioid related
+            </p>
+          </div>
+          <h4>Language characteristics</h4>
+          <div class="textWrapper">
+            <p>
+              <span class="number">
+                {eng}
+              </span>
+              percent of the population speaks limited English
+            </p>
+            <p>
+              <span class="number">
+                {esp}
+              </span> percent of the population speaks Spanish
+            </p>
+            <p>
+              <span class="number">
+                {otherLang}
+              </span> percent of the population speaks another language
+            </p>
+          </div>
+        {/if}
+      </div>
     </div>
 
     <div class="right-wrapper" bind:clientWidth={width}>
-      {#if $stateMetricData && $countyMetricData}
-        <h4>Access to treatment</h4>
-        <div class="textWrapper">
-          <p>
-            <span class="number">
-              {gap_curr}
-            </span> people lack access to treatment
-          </p>
-          <p>
-            <span class="number">
-              {cap_curr}
-            </span> people have access to treatment
-          </p>
-          <p>
-            <span class="number">
-              {isStateView
-                ? $stateMetricData.OTPcount
-                : $countyMetricData[0].OTPcount}</span
-            > opioid treatment programs operate
-          </p>
-          <p>
-            <span class="number">
-              {methadone}
-            </span> patients receive methadone at an opioid treatment program (per
-            100,000 residents)
-          </p>
-          <p>
-            <span class="number">
-              {bupP}
-            </span> patients receive buprenorphine at an opioid treatment program
-            (per 100,000 residents)
-          </p>
-        </div>
-        <h4>Prescribers and potential patient caseloads</h4>
-        <div class="textWrapper">
-          <p>
-            <span class="number">
-              {prescriber}
-            </span>
-            prescribers practice in the {isStateView ? "state" : "county"}
-          </p>
-          <p>
-            <span class="number">
-              {waiver}
-            </span> percent of prescribers have a buprenorphine waiver
-          </p>
-          <p>
-            <span class="number">
-              {activeprx30}
-            </span> active buprenorphine prescribers had a 30-patient limit in January
-            2023
-          </p>
-          <p>
-            <span class="number">
-              {activeprx100}
-            </span> active buprenorphine prescribers had a 100-patient limit in January
-            2023
-          </p>
-          <p>
-            <span class="number">
-              {activeprx275}
-            </span> active buprenorphine prescribers had a 275-patient limit in January
-            2023
-          </p>
-        </div>
+      <div class="statsWrapper">
+        {#if $stateMetricData && $countyMetricData}
+          <h4>Access to treatment</h4>
+          <div class="textWrapper">
+            <p>
+              <span class="number">
+                {gap_curr}
+              </span> people lack access to treatment
+            </p>
+            <p>
+              <span class="number">
+                {cap_curr}
+              </span> people have access to treatment
+            </p>
+            <p>
+              <span class="number">
+                {isStateView
+                  ? $stateMetricData.OTPcount
+                  : $countyMetricData[0].OTPcount}</span
+              > opioid treatment programs operate
+            </p>
+            <p>
+              <span class="number">
+                {methadone}
+              </span> patients receive methadone at an opioid treatment program (per
+              100,000 residents)
+            </p>
+            <p>
+              <span class="number">
+                {bupP}
+              </span> patients receive buprenorphine at an opioid treatment program
+              (per 100,000 residents)
+            </p>
+          </div>
+          <h4>Prescribers and potential patient caseloads</h4>
+          <div class="textWrapper">
+            <p>
+              <span class="number">
+                {prescriber}
+              </span>
+              prescribers practice in the {isStateView ? "state" : "county"}
+            </p>
+            <p>
+              <span class="number">
+                {waiver}
+              </span> percent of prescribers have a buprenorphine waiver
+            </p>
+            <p>
+              <span class="number">
+                {activeprx30}
+              </span> active buprenorphine prescribers had a 30-patient limit in
+              January 2023
+            </p>
+            <p>
+              <span class="number">
+                {activeprx100}
+              </span> active buprenorphine prescribers had a 100-patient limit in
+              January 2023
+            </p>
+            <p>
+              <span class="number">
+                {activeprx275}
+              </span> active buprenorphine prescribers had a 275-patient limit in
+              January 2023
+            </p>
+          </div>
 
-        <h4>Transportation characteristics</h4>
-        <div class="textWrapper">
-          <p>
-            <span class="number">
-              {driveM}
-            </span> minutes is the average driving time to the nearest opioid treatment
-            program for methadone treatment
-          </p>
-          <p>
-            <span class="number">
-              {transitM}
-            </span>
-            minutes is the average travel time via public transit to nearest opioid
-            treatment program for methadone treatment
-          </p>
-          <p>
-            <span class="number">
-              {driveB}
-            </span> minutes is the average driving time to the nearest buprenorphine
-            treatment
-          </p>
-          <p>
-            <span class="number">
-              {transitB}
-            </span> minutes is the average travel time via public transit to the
-            nearest buprenorphine treatment
-          </p>
-        </div>
-      {/if}
+          <h4>Transportation characteristics</h4>
+          <div class="textWrapper">
+            <p>
+              <span class="number">
+                {driveM}
+              </span> minutes is the average driving time to the nearest opioid treatment
+              program for methadone treatment
+            </p>
+            <p>
+              <span class="number">
+                {transitM}
+              </span>
+              minutes is the average travel time via public transit to nearest opioid
+              treatment program for methadone treatment
+            </p>
+            <p>
+              <span class="number">
+                {driveB}
+              </span> minutes is the average driving time to the nearest buprenorphine
+              treatment
+            </p>
+            <p>
+              <span class="number">
+                {transitB}
+              </span> minutes is the average travel time via public transit to the
+              nearest buprenorphine treatment
+            </p>
+          </div>
+        {/if}
+      </div>
     </div>
   </div>
 </section>
@@ -396,7 +412,7 @@
   <Button id={"print"} text={"Print page"} />
 </div>
 
-<section class="otherSection">
+<section class="otherSection" class:print={$print}>
   <h3>Other Strategies to Close the Treatment Gap</h3>
   <p>
     It will take more than increasing the number and capacity of buprenorphine
@@ -496,7 +512,7 @@
   </ul>
 </section>
 
-<section class="aboutSection">
+<section class="aboutSection" class:print={$print}>
   <h2>About</h2>
   <p>
     For this project, Urban Institute researchers collaborated with colleagues
@@ -519,13 +535,13 @@
     patient limits in January 2023.
   </p>
   <p>For more about the data and methodology, see our technical appendix.</p>
-  <div class="buttonsWrapper">
+  <div class={$print ? "none" : "buttonsWrapper"}>
     <Button id={"download2"} text={"Download data"} />
     <Button id={"appendix"} text={"Download Appendix"} />
   </div>
 </section>
 
-<section class="creditSection">
+<section class="creditSection" class:print={$print}>
   <h2>Project credit</h2>
   <p>
     This data tool was funded by Bloomberg Philanthropies. We are grateful to
@@ -540,12 +556,12 @@
     <p class="inline">
       <a href="https://www.urban.org/author/lisa-clemans-cope" target="_blank"
         >Lisa Clemans-Cope</a
-      >
+      >,
     </p>
     <p class="inline">
       <a href="https://www.urban.org/author/douglas-wissoker" target="_blank"
         >Doug Wissoker</a
-      >
+      >,
     </p>
     <p class="inline">
       <a href="https://www.urban.org/author/maya-payton" target="_blank"
@@ -602,6 +618,7 @@
 
   .print #mainTitle {
     font-weight: 300;
+    text-transform: uppercase;
   }
 
   .print .tabWrapper {
@@ -613,6 +630,60 @@
 
   .print #optionsWrapper {
     display: none;
+  }
+
+  .mapView.print {
+    padding: 0px 30px;
+  }
+  .mapView.print .wrapper {
+    display: block;
+  }
+
+  .print #treatmentLength {
+    font-weight: 300;
+    margin-bottom: -20px;
+  }
+
+  .print .mapWrapper {
+    max-width: 500px;
+    margin-bottom: 50px;
+  }
+
+  .print .statsWrapper {
+    padding: 0px 30px;
+  }
+
+  .print h4 {
+    font-size: 1rem;
+  }
+
+  .print a {
+    color: #353535;
+  }
+
+  .print li {
+    list-style: none;
+  }
+
+  .print .textWrapper {
+    border-left: none;
+    padding-left: 0px;
+  }
+
+  .otherSection.print,
+  .aboutSection.print,
+  .creditSection.print {
+    max-width: 100%;
+    padding: 0px 60px;
+    margin: 50px 0px;
+  }
+
+  .creditSection.print a {
+    font-weight: 300;
+  }
+  .creditSection.print .creditItem {
+    font-weight: 300;
+    margin-top: 10px;
   }
 
   .mainSelection {
@@ -718,7 +789,7 @@
 
   .otherSection h3 {
     font-size: 1.4rem;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .creditSection {
@@ -727,7 +798,7 @@
 
   .aboutSection h2,
   .creditSection h2 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 300;
     text-transform: uppercase;
   }

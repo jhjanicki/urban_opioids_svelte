@@ -9,6 +9,7 @@
     selectedYear,
     stateMetricData,
     countyMetricData,
+    print,
   } from "../../../store/store";
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
@@ -59,31 +60,33 @@
 <!-- need this if statement otherwise I get an error on negative value in rect -->
 {#if $stateClicked}
   <div class="bar-wrapper" bind:clientWidth={width}>
-    <svg {width} height={barHeight}>
-      <rect
-        id="barOutline"
-        x={margin.left}
-        y="20"
-        width={width - margin.right}
-        height="50"
-        stroke="white"
-        stroke-width="2.5"
-        fill="#353535"
-      />
+    <svg {width} height={$print ? 60 : barHeight}>
       <rect
         id="barInner"
         x={margin.left}
         y="20"
         width={$barInnerWidth}
-        height="50"
-        stroke-width="2.5"
+        height={$print ? 30 : 50}
+        stroke-width={$print ? 1.5 : 2.5}
         fill="#FDBF11"
         on:mouseout={() => {
           hoveredPointer = null;
         }}
         on:mousemove={(e) => {
-          hoveredPointer = d3.pointer(e);
+          if (!$print) {
+            hoveredPointer = d3.pointer(e);
+          }
         }}
+      />
+      <rect
+        id="barOutline"
+        x={margin.left}
+        y="20"
+        width={width - margin.right}
+        height={$print ? 30 : 50}
+        stroke={$print ? "#353535" : "#fff"}
+        stroke-width={$print ? 1.5 : 2.5}
+        fill="none"
       />
       <line
         id="stateAvg"
@@ -94,6 +97,7 @@
         stroke="white"
         stroke-width="2.5"
         fill="none"
+        display={$print ? "none" : "inherit"}
       />
       <circle
         id="circle"
@@ -101,6 +105,7 @@
         cy={margin.top - 10}
         r="5"
         fill="white"
+        display={$print ? "none" : "inherit"}
       />
     </svg>
   </div>

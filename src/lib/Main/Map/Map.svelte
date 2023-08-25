@@ -18,6 +18,7 @@
     mapWidth,
     mapHeight,
     legendDomain,
+    print,
   } from "../../../store/store";
   // importing moveToFront from the utils module
   import { moveToFront } from "../../utils";
@@ -26,6 +27,8 @@
   let height = 100;
   let legendHeight = 20;
   let legendPadding = 30;
+
+  let innerWidth = 0;
 
   $stateID = 34;
 
@@ -62,13 +65,15 @@
   $: $path = d3.geoPath().projection($projection); //to make projection & path responsive add $:
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div class="map-wrapper" bind:clientWidth={width} bind:clientHeight={height}>
   {#if hoveredData}
     <Tooltip {hoveredData} {hoveredPointer} />
   {/if}
 
   {#if $stateClicked}
-    <svg {width} {height}>
+    <svg {width} height={height + 10} class:print={$print}>
       <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
         {#each $countiesData as feature}
           <path
@@ -94,8 +99,11 @@
               hoveredData = null;
             }}
             on:mousemove={(e) => {
-              hoveredData = feature;
-              hoveredPointer = d3.pointer(e);
+              // prevent hover on print layout
+              if (!$print) {
+                hoveredData = feature;
+                hoveredPointer = d3.pointer(e);
+              }
             }}
             on:click={(e) => {
               $selectedCounty = feature.properties.name;
@@ -120,8 +128,13 @@
         id="legend"
         transform={`translate(${legendPadding},${height - legendHeight})`}
         {width}
-        height={legendHeight}
+        height={legendHeight + 10}
       >
+        <text font-size={innerWidth <= 1040 ? 14 : 16}
+          >{innerWidth <= 1040
+            ? "% people with OUD receiving treatment"
+            : "Share of people with opioid use disorder receiving treatment"}</text
+        >
         <defs>
           <linearGradient id="legendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             {#each colors as color, i}
@@ -136,6 +149,7 @@
           width={width - legendPadding * 2}
           height={legendHeight}
           fill={`url("#legendGradient")`}
+          transform={`translate(0,10)`}
         />
       </g>
     </svg>
@@ -143,6 +157,9 @@
 </div>
 
 <style>
+  .print .counties:hover {
+    cursor: inherit;
+  }
   .map-wrapper {
     width: 100%;
     height: 400px;
@@ -150,5 +167,9 @@
 
   .counties:hover {
     cursor: pointer;
+  }
+
+  .none {
+    display: none;
   }
 </style>

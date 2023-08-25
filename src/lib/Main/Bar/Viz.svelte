@@ -168,10 +168,12 @@ for ${year} months.`;
       </h4>
     {/if}
     <Bar {OUD} {bup} {methadone} />
-    <p>
+    <p id="numTreatment">
+      {OUD}% receiving treatment ({bup}% buprenorphine, {methadone}% methadone)
+    </p>
+    <p id="capacity">
       {capacity} residents are receiving treatment for opioid use disorder
     </p>
-    <br />
     <div>
       <p class="inline">
         {bup_num} residents are receiving buprenorphine
@@ -205,8 +207,48 @@ for ${year} months.`;
     color: #353535;
   }
 
+  .print h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 0px;
+  }
+  .print h4 {
+    font-size: 1rem;
+    color: #353535;
+    margin: 30px 0px 0px 0px;
+  }
+
+  .print p {
+    font-size: 0.8rem;
+    line-height: 1.4rem;
+    margin: 0px;
+  }
+
   .print .viz-wrapper {
     padding: 0px;
+  }
+
+  .print #numTreatment {
+    display: inherit;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .print #capacity {
+    margin-bottom: 0px;
+  }
+
+  .print #info {
+    display: none;
+  }
+
+  .print #bar-percent {
+    color: #353535;
+  }
+
+  .print .tooltiptext.visible {
+    display: none;
+    visibility: hidden;
   }
 
   .main-viz {
@@ -275,5 +317,13 @@ for ${year} months.`;
 
   .tooltiptext.visible {
     display: inline-block;
+  }
+
+  #numTreatment {
+    display: none;
+  }
+
+  #capacity {
+    margin-bottom: 40px;
   }
 </style>
