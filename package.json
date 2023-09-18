@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "Echo no tests configured"
+    "test": "echo \"no tests configured\" && exit 0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.3",
