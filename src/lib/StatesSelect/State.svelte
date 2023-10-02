@@ -50,6 +50,11 @@
     return Math.sqrt(sum / arr.length);
   };
 
+  const scrollToElement = () => {
+    const targetElement = document.getElementById("mainTitle");
+    targetElement.scrollIntoView({ behavior: "smooth" });
+  };
+
   const updateState = (state) => {
     $selectedCounty === ""; //reset county selection when clicking on another state, not working though
     $stateClicked = true; //once selected the main part of the viz will display
@@ -95,6 +100,8 @@
 
     //so the dropdown list is alphabetical
     $countyList = $countiesData.map((county) => county.properties.name).sort();
+
+    setTimeout(scrollToElement, 10); //need to delay since the element needs to be drawn first otherwise it would throw an error
   };
 
   const handleMouseOver = () => (stateFill = "#fdbf11");
@@ -112,7 +119,7 @@
   on:mouseover={handleMouseOver}
   on:mouseout={handleMouseOut}
   style="background-color: {innerWidth > 576
-    ? '#353535'
+    ? '#000000'
     : state === $selectedState
     ? '#fdbf11'
     : stateFill}"
@@ -124,7 +131,7 @@
     viewBox="0 0 90 90"
     width={innerWidth <= 576 ? 0 : imgWidth ? imgWidth : 200}
     fill={innerWidth <= 576
-      ? "#353535"
+      ? "#000000"
       : state === $selectedState
       ? "#fdbf11"
       : stateFill}
@@ -147,16 +154,18 @@
   svg {
     flex: 1;
     padding: 0px 20px;
+    height: 100px;
   }
 
   svg:not(#Wisconsin) {
-    border-right: 0.5px solid #fff;
+    border-right: 0.5px solid #696969;
     margin-left: -0.5px;
   }
 
-  p {
+  .stateText {
     text-align: center;
     color: #d9d9d9;
+    font-weight: 400;
   }
 
   .img-wrapper {
@@ -171,11 +180,24 @@
     content: "";
     display: block;
     border: 20px solid #fff;
-    border-top-color: #353535;
+    border-top-color: #000000;
     position: absolute;
     left: 50%;
     margin-left: -20px;
-    top: calc(100% + 30px);
+    top: calc(100% + 6px);
+  }
+
+  @media (max-width: 768px) {
+    svg {
+      height: 50px;
+    }
+    .stateText {
+      font-size: 18px;
+      margin-top: 0px;
+    }
+    .img-wrapper:hover:after {
+      top: calc(100% + 4px);
+    }
   }
 
   @media (max-width: 576px) {
@@ -192,9 +214,8 @@
 
     svg {
       padding: 0px;
-      width: 70%;
-      margin-left: 15%;
-      margin-right: 15%;
+      height: calc(445px / 4 - 35px);
+      width: 100%;
     }
 
     .img-wrapper {

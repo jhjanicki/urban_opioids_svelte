@@ -25,16 +25,17 @@
 
 <style>
   .states-selection {
-    background-color: #353535;
-    margin: 5px 0px 20px 0px;
-    padding: 20px;
+    background-color: #000000;
+    margin: -20px 0px 0px 0px;
+    height: 280px;
+    padding: 0px 20px;
   }
 
   p {
     color: white;
     text-align: left;
-    font-size: 1.2rem;
-    padding: 20px 40px;
+    font-size: 24px;
+    padding-top: 42px;
   }
 
   .states-wrapper {
@@ -45,15 +46,32 @@
     height: 100%;
   }
 
+  @media (max-width: 768px) {
+    .states-selection {
+      height: 185px;
+    }
+
+    p {
+      padding-top: 32px;
+      font-size: 20px;
+    }
+  }
   @media (max-width: 576px) {
     .states-wrapper {
-      padding: 10px 20px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 10px;
       max-width: 100%;
       margin: 0px;
       padding: 0px;
+    }
+
+    .states-selection {
+      height: 445px;
+    }
+
+    p {
+      margin-top: 0px;
     }
   }
 </style>

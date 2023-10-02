@@ -17,7 +17,6 @@
     stateClicked,
     mapWidth,
     mapHeight,
-    legendDomain,
     print,
   } from "../../../store/store";
   // importing moveToFront from the utils module
