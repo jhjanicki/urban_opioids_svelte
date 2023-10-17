@@ -34,19 +34,19 @@
   }
 
   .toggle label:first-of-type {
-    padding-right: 5em;
+    padding-right: 100px;
   }
 
   .toggle label:last-child {
-    margin-left: -5em;
-    padding-left: 5em;
+    margin-left: -100px;
+    padding-left: 100px;
   }
 
   /* making the switch UI.  */
   .toggle label:first-of-type:before,
   .toggle label:first-of-type:after {
     content: "";
-    height: 1.25em;
+    /* height: 1.25em; */
     overflow: hidden;
     pointer-events: none;
     position: absolute;
@@ -59,8 +59,8 @@
     border-radius: 20px;
     z-index: 2;
     position: absolute;
-    width: 2em;
-    height: 1.2em;
+    width: 32px;
+    height: 20px;
     background: #000;
     top: 0.2em;
     right: 0.55em;
@@ -77,7 +77,7 @@
     margin: 0 1em;
     transition: background 0.2s ease-in-out;
     width: 4.5em;
-    height: 1.6em;
+    height: 32px;
     margin-left: 4px;
   }
 

@@ -220,10 +220,12 @@
         {isStateView ? $selectedState : $selectedCounty}
       {/if}
     </h3>
-    <div class={innerWidth <= 576 || $print ? "none" : "buttonsWrapper"}>
+    <div class={innerWidth <= 1000 || $print ? "none" : "buttonsWrapper"}>
       <Button id={"download"} text={"Download data"} />
       <Button id={"print"} text={"Print page"} on:click={togglePrintView} />
     </div>
+  </div>
+  <div class="wrapper">
     <div class="tabWrapper">
       <Tab id="stateview" text="State view" />
       <Tab id="countyview" text="County view" />
@@ -407,7 +409,7 @@
   </div>
 </section>
 
-<div class={innerWidth > 576 ? "none" : "buttonsWrapper"}>
+<div class={innerWidth > 1000 ? "none" : "buttonsWrapper"}>
   <Button id={"download"} text={"Download data"} />
   <Button id={"print"} text={"Print page"} />
 </div>
@@ -610,6 +612,179 @@
 <style>
   /* MAIN VIZ */
 
+  .mainSelection {
+    background-color: #fff;
+    margin: 0px;
+    padding: 10px 40px;
+  }
+
+  .mainSelection .wrapper {
+    display: grid;
+    /* minmax() helps these columns stay responsive even with SVGs with hard-coded widths inside them*/
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    column-gap: 10px;
+  }
+
+  #optionsWrapper {
+    max-width: 360px;
+  }
+
+  .mainSelection.print .wrapper {
+    display: block;
+  }
+
+  .mapView {
+    background-color: #fff;
+    margin: 0px;
+    padding: 10px 40px;
+  }
+
+  .mapView .wrapper {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 20px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .mapView .wrapper {
+      grid-template-columns: 1fr;
+      column-gap: 0px;
+    }
+  }
+
+  h3 {
+    font-size: 36px;
+    max-width: 650px;
+    font-weight: 600;
+    margin: 24px 0px 48px 0px;
+  }
+
+  h4 {
+    font-size: 30px;
+    font-weight: 400;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  .number {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .none {
+    display: none;
+  }
+
+  .inline {
+    display: inline;
+  }
+
+  .buttonsWrapper {
+    text-align: left;
+    padding: 0px 30px;
+  }
+
+  .tabWrapper {
+    margin-bottom: 30px;
+  }
+
+  .textWrapper {
+    border-left: 14px solid #fdbf11;
+    padding-left: 20px;
+  }
+
+  .otherSection,
+  .aboutSection,
+  .creditSection {
+    max-width: 900px;
+    margin: auto;
+    padding: 50px 20px;
+  }
+
+  .otherSection p,
+  .aboutSection p,
+  .creditSection p {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 300;
+  }
+
+  .otherSection li {
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 300;
+  }
+
+  .otherSection h3 {
+    font-size: 36px;
+    font-weight: 400;
+  }
+
+  .creditSection {
+    margin-bottom: 50px;
+  }
+
+  .aboutSection h2,
+  .creditSection h2 {
+    font-size: 1.4rem;
+    font-weight: 300;
+    text-transform: uppercase;
+  }
+
+  .creditItem {
+    margin-top: 40px;
+  }
+
+  @media (max-width: 768px) {
+    h3 {
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .mainSelection .wrapper {
+      grid-template-columns: 1fr;
+      column-gap: 10px;
+    }
+
+    .mainSelection {
+      padding: 10px 0px;
+    }
+
+    #optionsWrapper {
+      max-width: 100%;
+    }
+
+    .otherSection,
+    .aboutSection,
+    .creditSection {
+      padding: 10px 40px;
+    }
+
+    #mainTitle,
+    .tabWrapper,
+    .dropdownWrapper {
+      padding-left: 30px;
+    }
+
+    .print #mainTitle,
+    .print .tabWrapper,
+    .print .dropdownWrapper {
+      padding-left: 0px;
+    }
+
+    .dropdownWrapper {
+      margin-top: -20px;
+    }
+
+    .buttonsWrapper {
+      text-align: center;
+      padding: 0px;
+    }
+  }
+
   .mainSelection.print {
     max-width: calc(100% - 40px);
     padding: 0px 30px;
@@ -684,164 +859,5 @@
   .creditSection.print .creditItem {
     font-weight: 300;
     margin-top: 10px;
-  }
-
-  .mainSelection {
-    background-color: #fff;
-    margin: 0px;
-    padding: 10px 40px;
-  }
-
-  .mainSelection .wrapper {
-    display: grid;
-    /* minmax() helps these columns stay responsive even with SVGs with hard-coded widths inside them*/
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    column-gap: 10px;
-  }
-
-  .mainSelection.print .wrapper {
-    display: block;
-  }
-
-  .mapView {
-    background-color: #fff;
-    margin: 0px;
-    padding: 10px 40px;
-  }
-
-  .mapView .wrapper {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 20px;
-  }
-
-  @media screen and (max-width: 600px) {
-    .mapView .wrapper {
-      grid-template-columns: 1fr;
-      column-gap: 0px;
-    }
-  }
-
-  h3 {
-    font-size: 1.4rem;
-    max-width: 650px;
-    font-weight: 600;
-    margin: 20px 0px;
-  }
-
-  h4 {
-    font-size: 1.2rem;
-    font-weight: 400;
-  }
-
-  p {
-    font-size: 0.8rem;
-  }
-
-  .number {
-    font-size: 0.9rem;
-    font-weight: 700;
-  }
-
-  .none {
-    display: none;
-  }
-
-  .inline {
-    display: inline;
-  }
-
-  .buttonsWrapper {
-    text-align: left;
-    padding: 0px 30px;
-  }
-
-  .tabWrapper {
-    margin-bottom: 30px;
-  }
-
-  .textWrapper {
-    border-left: 14px solid #fdbf11;
-    padding-left: 20px;
-  }
-
-  .otherSection,
-  .aboutSection,
-  .creditSection {
-    max-width: 900px;
-    margin: auto;
-    padding: 50px 20px;
-  }
-
-  .otherSection p,
-  .aboutSection p,
-  .creditSection p {
-    font-size: 20px;
-    line-height: 28px;
-    font-weight: 300;
-  }
-
-  .otherSection li {
-    font-size: 18px;
-    line-height: 26px;
-    font-weight: 300;
-  }
-
-  .otherSection h3 {
-    font-size: 1.4rem;
-    font-weight: 400;
-  }
-
-  .creditSection {
-    margin-bottom: 50px;
-  }
-
-  .aboutSection h2,
-  .creditSection h2 {
-    font-size: 1.4rem;
-    font-weight: 300;
-    text-transform: uppercase;
-  }
-
-  .creditItem {
-    margin-top: 40px;
-  }
-
-  @media (max-width: 576px) {
-    .mainSelection .wrapper {
-      grid-template-columns: 1fr;
-      column-gap: 10px;
-    }
-
-    .mainSelection {
-      padding: 10px 0px;
-    }
-
-    .otherSection,
-    .aboutSection,
-    .creditSection {
-      padding: 10px 40px;
-    }
-
-    #mainTitle,
-    .tabWrapper,
-    .dropdownWrapper {
-      padding-left: 30px;
-    }
-
-    .print #mainTitle,
-    .print .tabWrapper,
-    .print .dropdownWrapper {
-      padding-left: 0px;
-    }
-
-    .dropdownWrapper {
-      margin-top: -20px;
-    }
-
-    .buttonsWrapper {
-      text-align: center;
-      padding: 0px;
-    }
   }
 </style>

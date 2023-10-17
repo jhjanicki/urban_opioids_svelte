@@ -85,9 +85,13 @@
         width={width - margin.right}
         height={$print ? 30 : 50}
         stroke={$print ? "#353535" : "#fff"}
-        stroke-width={$print ? 1.5 : 2.5}
+        stroke-width="1.5"
         fill="none"
       />
+      <text x={$barInnerWidth / 2 - 10} y={barHeight / 2 + 2} fill="black">
+        {$stateView === "stateview" ? $statePercent : $countyPercent}%
+      </text>
+
       <line
         id="stateAvg"
         x1={xScale($statePercent)}
@@ -97,7 +101,7 @@
         stroke="white"
         stroke-width="2.5"
         fill="none"
-        display={$print ? "none" : "inherit"}
+        display={$print || $stateView === "stateview" ? "none" : "inherit"}
       />
       <circle
         id="circle"
@@ -105,7 +109,7 @@
         cy={margin.top - 10}
         r="5"
         fill="white"
-        display={$print ? "none" : "inherit"}
+        display={$print || $stateView === "stateview" ? "none" : "inherit"}
       />
     </svg>
   </div>

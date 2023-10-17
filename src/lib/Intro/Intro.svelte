@@ -34,44 +34,6 @@
 </section>
 
 <style>
-  .print .intro-left,
-  .print .socialWrapper {
-    display: none;
-  }
-  .print .intro-right {
-    background-color: #fff;
-    margin: 0px auto;
-    max-width: 1200px;
-  }
-
-  .print .intro-right h1,
-  .print .intro-right h4,
-  .print .intro-right p,
-  .print .date {
-    text-align: left;
-    margin: 32px 0px;
-    max-width: calc(100% - 40px);
-    font-weight: 400;
-  }
-
-  .print .intro-right h1 {
-    font-size: 36px;
-    padding-top: 50px;
-    padding-bottom: 20px;
-    font-weight: 600;
-  }
-  .print .intro-right h4 {
-    font-size: 1.2rem;
-  }
-  .print .intro-right p {
-    font-size: 0.9rem;
-  }
-
-  .intro-main.print {
-    display: block;
-    min-height: none;
-  }
-
   .intro-main {
     color: #000000;
     display: grid;
@@ -81,7 +43,7 @@
   }
 
   .intro-main p {
-    font-size: 1rem;
+    font-size: 20px;
     max-width: 760px;
     width: 100%;
     line-height: 1.6;
@@ -150,7 +112,7 @@
     }
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 768px) {
     .intro-main {
       grid-template-columns: 1fr;
     }
@@ -172,5 +134,43 @@
     .intro-main h4 {
       font-size: 18px;
     }
+  }
+
+  .print .intro-left,
+  .print .socialWrapper {
+    display: none;
+  }
+  .print .intro-right {
+    background-color: #fff;
+    margin: 0px auto;
+    max-width: 1200px;
+  }
+
+  .print .intro-right h1,
+  .print .intro-right h4,
+  .print .intro-right p,
+  .print .date {
+    text-align: left;
+    margin: 32px 0px;
+    max-width: calc(100% - 40px);
+    font-weight: 400;
+  }
+
+  .print .intro-right h1 {
+    font-size: 36px;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-weight: 600;
+  }
+  .print .intro-right h4 {
+    font-size: 1.2rem;
+  }
+  .print .intro-right p {
+    font-size: 0.9rem;
+  }
+
+  .intro-main.print {
+    display: block;
+    min-height: none;
   }
 </style>

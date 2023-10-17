@@ -32,4 +32,9 @@
     background-color: #353535;
     transition: all 0.5s ease;
   }
+  @media screen and (max-width: 1058px) {
+    .button {
+      font-size: 14px;
+    }
+  }
 </style>

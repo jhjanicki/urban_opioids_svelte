@@ -108,17 +108,17 @@
 
 <style>
   .toggle-selection {
-    padding: 0px 30px;
+    padding: 0px 0px 0px 30px;
   }
 
   hr {
     height: 0.5px;
-    margin: 40px auto 25px auto;
+    margin: 32px auto 25px auto;
     opacity: 0.5;
   }
 
   p {
-    margin: 0px 0px 1rem 0px;
+    margin: 0px;
   }
 
   label {
@@ -129,10 +129,11 @@
   #question,
   #by {
     font-weight: 700;
+    margin-bottom: 14px;
   }
 
   #by {
-    margin-top: 20px;
+    margin-top: 32px;
   }
 
   #reduce {
@@ -146,8 +147,8 @@
 
   .button {
     max-width: 300px;
-    margin: 20px 15px 20px auto;
-    padding: 8px 12px;
+    margin: 48px 15px 14px auto;
+    padding: 12px 16px;
     text-decoration: none;
     font-weight: 500;
     font-size: 16px;
@@ -183,6 +184,7 @@
   }
 
   .clear {
+    font-size: 18px;
     color: #000000;
     text-decoration: underline;
   }
@@ -223,9 +225,18 @@
     display: inline-block;
   }
 
+  @media (max-width: 768px) {
+    .toggle-selection {
+      padding: 0px;
+    }
+  }
   @media (max-width: 576px) {
     #question {
       padding-top: 20px;
+    }
+
+    .toggle-selection {
+      padding: 0px 30px;
     }
   }
 </style>

@@ -81,7 +81,7 @@
     -moz-appearance: none;
     appearance: none;
     /* remove default arrow */
-    margin: 1rem 0px;
+    margin: 18px 0px;
     border: 1px solid #d2d2d2;
     border-radius: 0;
     font-family: Lato;
@@ -165,6 +165,12 @@
     to {
       transform: translate3d(0, 20px, 0);
       opacity: 0;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .select-menu-button {
+      margin: 18px 30px;
     }
   }
 </style>

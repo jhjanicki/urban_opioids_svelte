@@ -44,7 +44,7 @@
 <style>
   .button {
     font-family: "Lato";
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 300;
     color: #696969;
     background-color: #fff;
@@ -67,5 +67,14 @@
 
   #tab-countyview {
     margin-left: 30px;
+  }
+
+  @media (max-width: 768px) {
+    .button {
+      font-size: 24px;
+    }
+    #tab-countyview {
+      margin-left: 5px;
+    }
   }
 </style>

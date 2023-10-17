@@ -79,6 +79,7 @@
 
   const getMetricOutput = (noYear, metric, metricData, year) => {
     const metricFinal = noYear ? metric : `${metric}_${year}m`;
+    $: console.log(metricFinal);
     // : `${metric}_${$submitted ? year : 12}m`;
     return metricData[metricFinal];
   };
@@ -95,25 +96,30 @@
     provider
   );
 
+  // the OUD_num below is where the Y residents was before
   const getText = (metricData, year, treatment, provider) => {
     let metricFinal = `${provider}_${treatment}_${year}m`;
     let final = metricData[metricFinal];
     if (provider === "newprov") {
       if (treatment === "fill_gap") {
         return `${
-          isStateView ? $selectedState : $selectedCounty
-        } would need ${final} new buprenorphine prescribers to close the treatment gap of Y residents with opioid use disorder, assuming all prescribers offer
+          isStateView ? $selectedState : $selectedCounty + " county"
+        } would need ${final} new buprenorphine prescribers to close the treatment gap of ${
+          isStateView ? $stateMetricData.OUD_num : $countyMetricData[0].OUD_num
+        } residents with opioid use disorder, assuming all prescribers offer
 treatment for ${year} months.`;
       } else {
         return `${
-          isStateView ? $selectedState : $selectedCounty
+          isStateView ? $selectedState : $selectedCounty + " county"
         } would need ${final} new buprenorphine prescribers to double the current treatment capacity, assuming all prescribers offer
 treatment for ${year} months.`;
       }
     } else {
       if (treatment === "fill_gap") {
         return `Active buprenorphine prescribers would have to treat ${final} times as many patients to close the treatment
-gap of Y residents with opioid use disorder in ${
+gap of ${
+          isStateView ? $stateMetricData.OUD_num : $countyMetricData[0].OUD_num
+        } residents with opioid use disorder in ${
           isStateView ? $selectedState : $selectedCounty
         }, assuming all prescribers offer treatment
 for ${year} months.`;
@@ -198,6 +204,84 @@ for ${year} months.`;
 </div>
 
 <style>
+  .main-viz {
+    background-color: #000000;
+    color: #000000;
+    height: auto;
+  }
+
+  h3 {
+    margin: 18px 0px;
+    font-size: 30px;
+    line-height: 40px;
+    font-weight: 600;
+    color: white;
+  }
+
+  h4 {
+    margin: 28px 0px;
+    font-size: 26px;
+    font-weight: 400;
+    color: white;
+  }
+
+  p {
+    color: white;
+    margin: 8px 0px;
+    font-size: 16px;
+  }
+
+  .viz-wrapper {
+    padding: 48px;
+  }
+
+  #bar-percent {
+    color: #fdbf11;
+  }
+
+  .inline {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+
+  #info:hover {
+    cursor: pointer;
+  }
+
+  /* Tooltip text */
+  .tooltiptext {
+    width: 230px;
+    margin-top: 8px;
+    margin-left: 5px;
+    background-color: #d2d2d2;
+    color: #353535;
+    text-align: left;
+    padding: 8px;
+    border-radius: 6px;
+    position: absolute;
+    font-size: 16px;
+    z-index: 1;
+  }
+
+  .tooltiptext.hidden {
+    display: none;
+  }
+
+  .tooltiptext.visible {
+    display: inline-block;
+  }
+
+  #numTreatment {
+    display: none;
+  }
+
+  #capacity {
+    margin-top: -20px;
+    margin-bottom: 8px;
+  }
+
   .main-viz.print {
     background-color: #fff;
   }
@@ -251,79 +335,9 @@ for ${year} months.`;
     visibility: hidden;
   }
 
-  .main-viz {
-    background-color: #353535;
-    color: #353535;
-    height: auto;
-  }
-
-  h3 {
-    margin: 0.9rem 0px;
-    font-size: 1.5rem;
-    line-height: 2rem;
-    font-weight: 600;
-    color: white;
-  }
-
-  h4 {
-    margin: 1.4rem 0px;
-    font-size: 1.3rem;
-    font-weight: 400;
-    color: white;
-  }
-
-  p {
-    color: white;
-    margin: 10px 0px;
-  }
-
-  .viz-wrapper {
-    padding: 30px;
-  }
-
-  #bar-percent {
-    color: #fdbf11;
-  }
-
-  .inline {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 10px;
-    margin-left: 0px;
-  }
-
-  #info:hover {
-    cursor: pointer;
-  }
-
-  /* Tooltip text */
-  .tooltiptext {
-    width: 230px;
-    margin-top: 8px;
-    margin-left: 5px;
-    background-color: #d2d2d2;
-    color: #353535;
-    text-align: left;
-    padding: 8px;
-    border-radius: 6px;
-    position: absolute;
-    font-size: 16px;
-    z-index: 1;
-  }
-
-  .tooltiptext.hidden {
-    display: none;
-  }
-
-  .tooltiptext.visible {
-    display: inline-block;
-  }
-
-  #numTreatment {
-    display: none;
-  }
-
-  #capacity {
-    margin-bottom: 40px;
+  @media (max-width: 576px) {
+    .viz-wrapper {
+      padding: 30px;
+    }
   }
 </style>

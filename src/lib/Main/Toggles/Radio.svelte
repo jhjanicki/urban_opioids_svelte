@@ -20,6 +20,11 @@
   .radio {
     accent-color: black;
   }
+  input[type="radio"] {
+    -ms-transform: scale(1.3); /* IE 9 */
+    -webkit-transform: scale(1.3); /* Chrome, Safari, Opera */
+    transform: scale(1.3);
+  }
 
   input {
     cursor: pointer;
