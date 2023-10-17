@@ -244,11 +244,15 @@
 
 <section class="mapView" class:print={$print}>
   <div class="wrapper">
+    <h4 id="treatmentLength">
+      TREATMENT LENGTH: {$selectedYear} MONTH
+    </h4>
+  </div>
+  <div class="wrapper">
     <div class="left-wrapper" bind:clientWidth={width}>
-      <h4 id="treatmentLength">
-        {$print ? `TREATMENT LENGTH: ${$selectedYear} MONTH` : ""}
+      <h4 id="mapTitle">
+        Where people with opioid use disorder are receiving treatment
       </h4>
-      <h4>Where people with opioid use disorder are receiving treatment</h4>
       <div class="mapWrapper">
         <Map {data} />
       </div>
@@ -424,7 +428,7 @@
   </p>
   <ul>
     <li>
-      <b>Engage health plans in prescriber outreach.</b> In some states,
+      Engage health plans in prescriber outreach. In some states,
       <a
         href="https://substanceabusepolicy.biomedcentral.com/articles/10.1186/s13011-022-00478-y"
         target="_blank">Medicaid reimbursement</a
@@ -435,11 +439,8 @@
       to prescribe medications for treating opioid use disorder.
     </li>
     <li>
-      <b
-        >Make medication for opioid use disorder available in more places where
-        people receive health care.</b
-      >
-      Making treatment
+      Make medication for opioid use disorder available in more places where
+      people receive health care. Making treatment
       <a
         href="https://www.dea.gov/press-releases/2022/03/23/deas-commitment-expanding-access-medication-assisted-treatment"
         target="_blank">more broadly available</a
@@ -448,8 +449,8 @@
       they are and can increase engagement in treatment.
     </li>
     <li>
-      <b>Expand telehealth options.</b> Opioid use disorder–related telehealth
-      services have been shown to
+      Expand telehealth options. Opioid use disorder–related telehealth services
+      have been shown to
       <a
         href="https://www.cdc.gov/media/releases/2022/p0831-ccovid-19-opioids.html"
         target="_blank"
@@ -460,13 +461,10 @@
       allowing people to receive care where they’re most comfortable.
     </li>
     <li>
-      <b
-        >Coordinate with community partners, such as <a
-          href="https://www.behavioralhealthworkforce.org/project/understanding-the-roles-of-peer-providers-addiction-counselors-and-community-health-workers-in-behavioral-health/"
-          target="_blank">community health workers and peer recovery workers</a
-        >.</b
-      >
-      Because
+      Coordinate with community partners, such as <a
+        href="https://www.behavioralhealthworkforce.org/project/understanding-the-roles-of-peer-providers-addiction-counselors-and-community-health-workers-in-behavioral-health/"
+        target="_blank">community health workers and peer recovery workers</a
+      >. Because
       <a
         href="https://store.samhsa.gov/product/community-engagement-essential-component-substance-use-prevention-system/pep22-06-01-005"
         target="_blank">community partners</a
@@ -476,11 +474,8 @@
       options and access treatment.
     </li>
     <li>
-      <b
-        >Remove regulatory barriers to prescribing medications to treat opioid
-        use disorder.</b
-      >
-      Restrictions on who can prescribe
+      Remove regulatory barriers to prescribing medications to treat opioid use
+      disorder. Restrictions on who can prescribe
       <a
         href="https://www.pewtrusts.org/en/research-and-analysis/issue-briefs/2021/05/policies-should-promote-access-to-buprenorphine-for-opioid-use-disorder"
         target="_blank">buprenorphine</a
@@ -501,8 +496,8 @@
       > could help prescribers better serve people with opioid use disorder.
     </li>
     <li>
-      <b>Ensure pharmacies stock medication to treat opioid use disorder.</b>
-      Barriers like stigma, prescribing restrictions, and limits on the amount of
+      Ensure pharmacies stock medication to treat opioid use disorder. Barriers
+      like stigma, prescribing restrictions, and limits on the amount of
       medication pharmacists can order can
       <a
         href="https://www.npr.org/sections/health-shots/2019/08/13/741113454/its-the-go-to-drug-for-opioid-addiction-so-why-won-t-more-pharmacists-stock-it"
@@ -537,7 +532,7 @@
     patient limits in January 2023.
   </p>
   <p>For more about the data and methodology, see our technical appendix.</p>
-  <div class={$print ? "none" : "buttonsWrapper"}>
+  <div class={$print ? "none" : "buttonsWrapper2"}>
     <Button id={"download2"} text={"Download data"} />
     <Button id={"appendix"} text={"Download Appendix"} />
   </div>
@@ -654,7 +649,6 @@
 
   h3 {
     font-size: 36px;
-    max-width: 650px;
     font-weight: 600;
     margin: 24px 0px 48px 0px;
   }
@@ -662,6 +656,18 @@
   h4 {
     font-size: 30px;
     font-weight: 400;
+  }
+
+  .statsWrapper h4,
+  #mapTitle {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 48px auto 24px;
+  }
+
+  #treatmentLength {
+    font-weight: 300;
+    margin-bottom: 0px;
   }
 
   p {
@@ -686,6 +692,11 @@
     padding: 0px 30px;
   }
 
+  .buttonsWrapper2 {
+    text-align: left;
+    padding: 0px;
+  }
+
   .tabWrapper {
     margin-bottom: 30px;
   }
@@ -708,18 +719,18 @@
   .creditSection p {
     font-size: 20px;
     line-height: 28px;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .otherSection li {
     font-size: 18px;
     line-height: 26px;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .otherSection h3 {
     font-size: 36px;
-    font-weight: 400;
+    font-weight: 700;
   }
 
   .creditSection {
@@ -737,9 +748,19 @@
     margin-top: 40px;
   }
 
+  .creditItem h4 {
+    font-size: 20px;
+  }
+
   @media (max-width: 768px) {
     h3 {
       font-size: 30px;
+    }
+    .otherSection p,
+    .aboutSection p,
+    .creditSection p {
+      font-size: 18px;
+      line-height: 26px;
     }
   }
 
@@ -755,6 +776,11 @@
 
     #optionsWrapper {
       max-width: 100%;
+    }
+
+    .statsWrapper h4,
+    #mapTitle {
+      font-size: 20px;
     }
 
     .otherSection,

@@ -33,13 +33,13 @@
 
   // const colorScale = d3.scaleSequential(d3.interpolatePuBuGn).domain([0, 5]);
   const colors = [
-    "#f6eff7",
-    "#d0d1e6",
-    "#a6bddb",
-    "#67a9cf",
-    "#1c9099",
-    "#016c59",
-  ];
+    "#cfe8f3",
+    "#73bfe2",
+    "#1696d2",
+    "#12719e",
+    "#0a4c6a",
+    "#062635",
+  ]; //   "#a2d4ec", "#46abdb",
   const colorScale = d3
     .scaleLinear()
     .domain([0, 20, 40, 60, 80, 100])
@@ -53,6 +53,7 @@
 
   let hoveredData;
   let hoveredPointer;
+  let hoveredID;
 
   $: $mapWidth = width;
   $: $mapHeight = height - legendHeight - legendPadding;
@@ -94,13 +95,29 @@
               ? "2.5px"
               : "1px"}
             opacity={feature.stateID === $stateID ? 1 : 0}
-            on:mouseout={() => {
-              hoveredData = null;
+            on:mouseout={(e) => {
+              // hoveredData = null;
+              // console.log(e.toElement.id);
+              // console.log($selectedCounty);
+              if (e.toElement.id === "") {
+                if (hoveredID != $selectedCounty) {
+                  hoveredData = null;
+                }
+              } else {
+                console.log("not equal");
+              }
+              // if (e.toElement.id === $selectedCounty) {
+              //   console.log("equal");
+              // } else {
+              //   console.log("not equal");
+              //   hoveredData = null;
+              // }
             }}
-            on:mousemove={(e) => {
+            on:mouseover={(e) => {
               // prevent hover on print layout
               if (!$print) {
                 hoveredData = feature;
+                hoveredID = feature.properties.name;
                 hoveredPointer = d3.pointer(e);
               }
             }}
@@ -119,6 +136,8 @@
                 (d) => d.county === $selectedCounty
               );
               $countiesData = moveToFront(feature, $countiesData);
+              // let centroid = d3.geoPath().centroid(feature);
+              // hoveredPointer = centroid;
             }}
           />
         {/each}

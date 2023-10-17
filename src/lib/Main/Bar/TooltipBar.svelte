@@ -11,7 +11,7 @@
 <div
   class="tooltip"
   style="position: absolute; top: {hoveredPointer[1] +
-    130}px; left: {hoveredPointer[0] - 60}px"
+    150}px; left: {hoveredPointer[0] - 30}px"
   bind:clientWidth={tooltipWidth}
 >
   <h2>
