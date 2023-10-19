@@ -6,6 +6,7 @@
   import OptionsPanel from "./Toggles/OptionsPanel.svelte";
   import Map from "./Map/Map.svelte";
   import {
+    countySelected,
     selectedState,
     selectedCounty,
     stateMetricData,
@@ -18,7 +19,10 @@
   export let data;
   let width;
 
-  $: isStateView = $stateView == "stateview";
+  $: isStateView =
+    $stateView === "stateview" ||
+    ($stateView === "countyview" && $countySelected == false);
+
   $: year = $selectedYear;
 
   const metricName = {

@@ -1,6 +1,7 @@
 <script>
   import {
     selectedCounty,
+    countySelected,
     countyList,
     stateView,
     countiesData,
@@ -12,25 +13,29 @@
 
   const updateView = () => {
     $stateView = id;
-    // the first county on the list
-    if ($stateView === "countyview" && $selectedCounty === "") {
-      $selectedCounty = $countyList[0];
 
-      //to move the county to front on the map when switching tabs
-      let feature = $countiesData.filter((d) => {
-        if ($selectedCounty) {
-          return d.properties.name === $selectedCounty;
-        } else {
-          return "";
-        }
-      });
-      $countiesData = moveToFront(feature[0], $countiesData);
-    }
+    // before was the first county on the list...
+    // if ($stateView === "countyview" && $selectedCounty === "") {
+    //   $selectedCounty = $countyList[0];
+
+    //   //to move the county to front on the map when switching tabs
+    //   let feature = $countiesData.filter((d) => {
+    //     if ($selectedCounty) {
+    //       return d.properties.name === $selectedCounty;
+    //     } else {
+    //       return "";
+    //     }
+    //   });
+    //   $countiesData = moveToFront(feature[0], $countiesData);
+    // }
 
     if ($stateView === "stateview") {
       // RESET county selection on state view so no county is selected on the map
       $selectedCounty = "";
     }
+
+    $countySelected = false;
+    console.log($countySelected);
   };
 </script>
 

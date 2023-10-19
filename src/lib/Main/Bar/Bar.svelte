@@ -2,6 +2,7 @@
   import * as d3 from "d3";
   import TooltipBar from "./TooltipBar.svelte";
   import {
+    countySelected,
     stateClicked,
     stateView,
     statePercent,
@@ -22,6 +23,13 @@
   let width = 200;
   let barHeight = 100;
   let hoveredPointer;
+
+  let isBarHover;
+
+  $: isStateView =
+    $stateView === "stateview" ||
+    ($stateView === "countyview" && $countySelected == false);
+  // the second part is to ensure that no county is selected when the tab is switched to countyview at first
 
   const margin = { top: 20, left: 5, bottom: 40, right: 5 };
   // made this scale a reactive statement as well so that the xScale range updates when the width changes
@@ -46,7 +54,10 @@
     easing: cubicOut,
   });
 
-  $: if ($stateView === "stateview") {
+  $: if (
+    $stateView === "stateview" ||
+    ($stateView === "countyview" && $countySelected == false)
+  ) {
     barInnerWidth.set(xScale($statePercent) - margin.right);
   } else {
     barInnerWidth.set(xScale($countyPercent) - margin.right);
@@ -54,7 +65,7 @@
 </script>
 
 {#if hoveredPointer}
-  <TooltipBar {OUD} {bup} {methadone} {hoveredPointer} />
+  <TooltipBar {OUD} {bup} {methadone} {hoveredPointer} {isBarHover} />
 {/if}
 
 <!-- need this if statement otherwise I get an error on negative value in rect -->
@@ -76,6 +87,7 @@
           if (!$print) {
             hoveredPointer = d3.pointer(e);
           }
+          isBarHover = true;
         }}
       />
       <rect
@@ -89,7 +101,7 @@
         fill="none"
       />
       <text x={$barInnerWidth / 2 - 10} y={barHeight / 2 + 2} fill="black">
-        {$stateView === "stateview" ? $statePercent : $countyPercent}%
+        {isStateView ? $statePercent : $countyPercent}%
       </text>
 
       <line
@@ -101,7 +113,7 @@
         stroke="white"
         stroke-width="2.5"
         fill="none"
-        display={$print || $stateView === "stateview" ? "none" : "inherit"}
+        display={$print || isStateView ? "none" : "inherit"}
       />
       <circle
         id="circle"
@@ -109,7 +121,16 @@
         cy={margin.top - 10}
         r="5"
         fill="white"
-        display={$print || $stateView === "stateview" ? "none" : "inherit"}
+        display={$print || isStateView ? "none" : "inherit"}
+        on:mouseout={() => {
+          hoveredPointer = null;
+        }}
+        on:mousemove={(e) => {
+          if (!$print) {
+            hoveredPointer = d3.pointer(e);
+            isBarHover = false;
+          }
+        }}
       />
     </svg>
   </div>

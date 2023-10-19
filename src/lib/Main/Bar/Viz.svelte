@@ -2,6 +2,7 @@
   import Bar from "./Bar.svelte";
 
   import {
+    countySelected,
     selectedState,
     selectedCounty,
     selectedYear,
@@ -19,7 +20,9 @@
   let width;
   let active = false;
 
-  $: isStateView = $stateView == "stateview";
+  $: isStateView =
+    $stateView === "stateview" ||
+    ($stateView === "countyview" && $countySelected == false);
   $: year = $selectedYear;
   $: treatment = $selectedTreatment;
   $: provider = $selectedProvider;
@@ -79,7 +82,7 @@
 
   const getMetricOutput = (noYear, metric, metricData, year) => {
     const metricFinal = noYear ? metric : `${metric}_${year}m`;
-    $: console.log(metricFinal);
+    // $: console.log(metricFinal);
     // : `${metric}_${$submitted ? year : 12}m`;
     return metricData[metricFinal];
   };
@@ -143,7 +146,7 @@ for ${year} months.`;
 <div class="main-viz" class:print={$print}>
   <div class="viz-wrapper" bind:clientWidth={width}>
     <h3>What would it take to narrow the treatment gap?</h3>
-    {#if $stateView === "stateview"}
+    {#if isStateView}
       {#if $submitted}
         <h4>
           {outputText}

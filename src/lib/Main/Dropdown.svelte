@@ -1,5 +1,6 @@
 <script>
   import {
+    countySelected,
     countyList,
     selectedYear,
     selectedCounty,
@@ -14,14 +15,13 @@
   import { moveToFront } from "../utils";
 
   let active = false;
-  let countySelected = false;
 
   const toggleDropdown = () => {
     active = !active;
   };
 
   const closeDropdown = (county) => {
-    countySelected = true;
+    $countySelected = true;
     $selectedCounty = county;
     active = false;
     $selectedCountyData = $countiesData.filter(
@@ -55,7 +55,14 @@
 <div class={$stateView === "stateview" ? "none" : "show"}>
   <div class={active ? "select-menu active" : "select-menu"}>
     <div class="select-menu-button" on:click={toggleDropdown}>
-      <span class="select-menu-text">{$selectedCounty}</span>
+      <span class="select-menu-text"
+        >{$selectedCounty === "" ? "Select county" : $selectedCounty}</span
+      >
+      <img
+        id="carrot"
+        class={active ? "flip" : ""}
+        src="/public/icon-dropdown.svg"
+      />
     </div>
     <ul class="options">
       <!-- need this if statement otherwise page won't load -->
@@ -135,6 +142,16 @@
     animation-fill-mode: both;
     -webkit-animation-duration: 0.4s;
     -webkit-animation-fill-mode: both;
+  }
+
+  #carrot {
+    margin-top: 5px;
+    float: right;
+  }
+
+  .flip {
+    transform: rotate(180deg);
+    transition: 0.3s transform ease;
   }
 
   .none {
