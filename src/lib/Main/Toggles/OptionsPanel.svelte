@@ -121,11 +121,6 @@
     margin: 0px;
   }
 
-  label {
-    font-size: 0.85rem;
-    color: #353535;
-  }
-
   #question,
   #by {
     font-weight: 700;

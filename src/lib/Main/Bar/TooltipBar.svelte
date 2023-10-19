@@ -18,13 +18,13 @@
   bind:clientWidth={tooltipWidth}
 >
   {#if isBarHover}
-    <h2>
+    <p>
       {OUD}% receiving treatment ({bup}% buprenorphine, {methadone}% methadone)
-    </h2>
+    </p>
   {:else}
-    <h2>
+    <p>
       State average: {$statePercent}%
-    </h2>
+    </p>
   {/if}
 </div>
 
@@ -58,21 +58,10 @@
     margin-left: -10px;
   }
 
-  h1,
-  h2 {
+  p {
     margin: 0;
     padding: 0;
     font-weight: 300;
-  }
-
-  h1 {
-    font-size: 1rem;
-    font-weight: 400;
-    margin-bottom: 6px;
-    width: 100%;
-  }
-
-  h2 {
-    font-size: 0.7rem;
+    font-size: 14px;
   }
 </style>

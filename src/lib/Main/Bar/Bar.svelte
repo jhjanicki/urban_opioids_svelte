@@ -100,7 +100,11 @@
         stroke-width="1.5"
         fill="none"
       />
-      <text x={$barInnerWidth / 2 - 10} y={barHeight / 2 + 2} fill="black">
+      <text
+        x={$barInnerWidth / 2 - 10}
+        y={$print ? barHeight / 2 - 7 : barHeight / 2 + 2}
+        fill="black"
+      >
         {isStateView ? $statePercent : $countyPercent}%
       </text>
 

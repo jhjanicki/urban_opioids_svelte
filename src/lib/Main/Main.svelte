@@ -679,7 +679,7 @@
   }
 
   .number {
-    font-size: 0.9rem;
+    font-size: 18px;
     font-weight: 700;
   }
 
@@ -743,7 +743,7 @@
 
   .aboutSection h2,
   .creditSection h2 {
-    font-size: 1.4rem;
+    font-size: 28px;
     font-weight: 300;
     text-transform: uppercase;
   }
@@ -859,7 +859,7 @@
   }
 
   .print h4 {
-    font-size: 1rem;
+    font-size: 20px;
   }
 
   .print a {

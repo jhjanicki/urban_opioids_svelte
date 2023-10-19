@@ -23,6 +23,7 @@
   $: isStateView =
     $stateView === "stateview" ||
     ($stateView === "countyview" && $countySelected == false);
+  // keep track of if stateview, or if countyview but no county selected yet
   $: year = $selectedYear;
   $: treatment = $selectedTreatment;
   $: provider = $selectedProvider;
@@ -295,19 +296,19 @@ for ${year} months.`;
   }
 
   .print h3 {
-    font-size: 1.3rem;
+    font-size: 26px;
     font-weight: 600;
     margin-top: 0px;
   }
   .print h4 {
-    font-size: 1rem;
+    font-size: 20px;
     color: #353535;
     margin: 30px 0px 0px 0px;
   }
 
   .print p {
-    font-size: 0.8rem;
-    line-height: 1.4rem;
+    font-size: 16px;
+    line-height: 28px;
     margin: 0px;
   }
 

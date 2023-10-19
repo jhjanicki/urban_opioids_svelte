@@ -163,10 +163,10 @@
     font-weight: 600;
   }
   .print .intro-right h4 {
-    font-size: 1.2rem;
+    font-size: 24px;
   }
   .print .intro-right p {
-    font-size: 0.9rem;
+    font-size: 18px;
   }
 
   .intro-main.print {

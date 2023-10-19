@@ -6,7 +6,11 @@
 <div class="social">
   <ul>
     {#each data as d}
-      <SocialButton link={d.link} path={d.path} />
+      <SocialButton
+        link={d.link}
+        path={d.path}
+        path2={d.path2 ? d.path2 : ""}
+      />
     {/each}
   </ul>
 </div>
