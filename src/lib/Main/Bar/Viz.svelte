@@ -31,6 +31,7 @@
   const metricName = {
     OUD_tx: "OUD_tx",
     capacity_current: "capacity_current",
+    gap_current: "gap_current",
     bup_patients: "bup_patients",
     methadone: "methadone",
     bup_tx: "bup_tx",
@@ -40,6 +41,13 @@
   $: capacity = getMetricOutput(
     false,
     metricName.capacity_current,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: gap = getMetricOutput(
+    false,
+    metricName.gap_current,
     isStateView ? $stateMetricData : $countyMetricData[0],
     year
   );
@@ -100,7 +108,7 @@
     provider
   );
 
-  // the OUD_num below is where the Y residents was before
+  // the xxx below is where the Y residents was before
   const getText = (metricData, year, treatment, provider) => {
     let metricFinal = `${provider}_${treatment}_${year}m`;
     let final = metricData[metricFinal];
@@ -108,9 +116,7 @@
       if (treatment === "fill_gap") {
         return `${
           isStateView ? $selectedState : $selectedCounty + " county"
-        } would need ${final} new buprenorphine prescribers to close the treatment gap of ${
-          isStateView ? $stateMetricData.OUD_num : $countyMetricData[0].OUD_num
-        } residents with opioid use disorder, assuming all prescribers offer
+        } would need ${final} new buprenorphine prescribers to close the treatment gap of ${gap} residents with opioid use disorder, assuming all prescribers offer
 treatment for ${year} months.`;
       } else {
         return `${
@@ -121,9 +127,7 @@ treatment for ${year} months.`;
     } else {
       if (treatment === "fill_gap") {
         return `Active buprenorphine prescribers would have to treat ${final} times as many patients to close the treatment
-gap of ${
-          isStateView ? $stateMetricData.OUD_num : $countyMetricData[0].OUD_num
-        } residents with opioid use disorder in ${
+gap of ${gap} residents with opioid use disorder in ${
           isStateView ? $selectedState : $selectedCounty
         }, assuming all prescribers offer treatment
 for ${year} months.`;

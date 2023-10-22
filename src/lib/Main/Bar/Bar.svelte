@@ -44,10 +44,7 @@
 
   //I had to add the above code for the bar to update when the year is toggled
 
-  $: xScale = d3
-    .scaleLinear()
-    .domain([0, 100])
-    .range([0, width - margin.left - margin.right]);
+  $: xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
 
   let barInnerWidth = tweened(0, {
     duration: 400,

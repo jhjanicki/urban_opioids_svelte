@@ -5,6 +5,7 @@
     projection,
     stateData,
     stateView,
+    countySelected,
     selectedYear,
     selectedCounty,
     selectedCountyData,
@@ -122,6 +123,7 @@
               }
             }}
             on:click={(e) => {
+              $countySelected = true;
               $selectedCounty = feature.properties.name;
               $selectedCountyData = $countiesData.filter(
                 (d) => d.properties.name === $selectedCounty
