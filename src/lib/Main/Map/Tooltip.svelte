@@ -1,5 +1,5 @@
 <script>
-  import { selectedYear, print } from "../../../store/store";
+  import { selectedYear, stateView, print } from "../../../store/store";
   export let hoveredData;
   export let hoveredPointer;
 
@@ -8,9 +8,9 @@
 
 <!-- seem to need a different adjustment number for each state, for the 80 and 60 currently below -->
 <div
-  class="tooltip"
+  class={$stateView === "stateview" ? "tooltip none" : "tooltip"}
   style="position: absolute; top: {hoveredPointer[1] - 80}px; left: {$print
-    ? hoveredPointer[0] - 80
+    ? hoveredPointer[0] - 95
     : hoveredPointer[0] - 60}px"
   bind:clientWidth={tooltipWidth}
 >
@@ -68,5 +68,9 @@
 
   h2 {
     font-size: 14px;
+  }
+
+  .none {
+    display: none;
   }
 </style>
