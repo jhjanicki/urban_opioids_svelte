@@ -229,7 +229,7 @@
       <Button id={"print"} text={"Print page"} on:click={togglePrintView} />
     </div>
   </div>
-  <div class="wrapper">
+  <div class="wrapper" id="tabWrapper">
     <div class="tabWrapper">
       <Tab id="stateview" text="State view" />
       <Tab id="countyview" text="County view" />
@@ -757,6 +757,10 @@
   }
 
   @media (max-width: 768px) {
+    #tabWrapper {
+      grid-template-columns: 1fr;
+    }
+
     h3 {
       font-size: 30px;
     }

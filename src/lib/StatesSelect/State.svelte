@@ -25,7 +25,6 @@
   export let stateCode;
   export let svgPath;
   export let id;
-  export let imgWidth;
 
   let filteredCountyData;
   let filteredStateData;
@@ -118,7 +117,7 @@
 <svelte:window bind:innerWidth bind:innerHeight />
 
 <div
-  class="img-wrapper"
+  class="img-wrapper column"
   on:click={updateState(state)}
   on:mouseover={handleMouseOver}
   on:mouseout={handleMouseOut}
@@ -130,10 +129,8 @@
 >
   <svg
     id={state}
-    x="0px"
-    y="0px"
     viewBox="0 0 90 90"
-    width={innerWidth <= 576 ? 0 : imgWidth ? imgWidth : 200}
+    width={200}
     fill={innerWidth <= 576
       ? "#000000"
       : state === $selectedState
@@ -142,34 +139,33 @@
     on:mouseover={handleMouseOver}
     on:mouseout={handleMouseOut}
   >
-    {#if state !== "Michigan"}
-      <path d={svgPath} />
-    {:else}
-      {#each svgPath as path}
-        <path d={path} />
-      {/each}
-    {/if}
+    <g transform="translate(-15,0)">
+      {#if state !== "Michigan"}
+        <path d={svgPath} />
+      {:else}
+        {#each svgPath as path}
+          <path d={path} />
+        {/each}
+      {/if}
+    </g>
+    <text x="60px" y="77px" font-size="16px" font-weight="300">{stateCode}</text
+    >
   </svg>
-  <p class="stateText">{stateCode}</p>
+  <!-- <span class="stateText">{stateCode}</span> -->
 </div>
 
 <style>
   /* to center the svg */
-  svg {
-    flex: 1;
-    padding: 0px 20px;
-    height: 100px;
+  .column {
+    flex: 1; /* Make each column have equal width */
+    border-left: 1px solid white;
   }
 
-  svg:not(#Wisconsin) {
-    border-right: 0.5px solid #696969;
-    margin-left: -0.5px;
-  }
-
-  .stateText {
-    text-align: center;
-    color: #d9d9d9;
-    font-weight: 400;
+  .column svg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 176px;
   }
 
   .img-wrapper {
@@ -188,19 +184,13 @@
     position: absolute;
     left: 50%;
     margin-left: -20px;
-    top: calc(100% + 6px);
+    top: 100%;
   }
 
   @media (max-width: 768px) {
-    svg {
-      height: 50px;
-    }
     .stateText {
       font-size: 18px;
       margin-top: 0px;
-    }
-    .img-wrapper:hover:after {
-      top: calc(100% + 4px);
     }
   }
 
@@ -210,10 +200,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 10px;
-    }
-
-    svg:not(#wisconsin) {
-      border: none;
     }
 
     svg {

@@ -186,8 +186,15 @@
   }
 
   @media (max-width: 576px) {
+    .select-menu {
+      max-width: none;
+    }
     .select-menu-button {
       margin: 18px 30px;
+    }
+
+    .options {
+      margin-left: 30px;
     }
   }
 </style>
