@@ -2,6 +2,7 @@
   import Bar from "./Bar.svelte";
 
   import {
+    countySelected,
     selectedState,
     selectedCounty,
     selectedYear,
@@ -19,7 +20,10 @@
   let width;
   let active = false;
 
-  $: isStateView = $stateView == "stateview";
+  $: isStateView =
+    $stateView === "stateview" ||
+    ($stateView === "countyview" && $countySelected == false);
+  // keep track of if stateview, or if countyview but no county selected yet
   $: year = $selectedYear;
   $: treatment = $selectedTreatment;
   $: provider = $selectedProvider;
@@ -79,6 +83,7 @@
 
   const getMetricOutput = (noYear, metric, metricData, year) => {
     const metricFinal = noYear ? metric : `${metric}_${year}m`;
+    // $: console.log(metricFinal);
     // : `${metric}_${$submitted ? year : 12}m`;
     return metricData[metricFinal];
   };
@@ -95,25 +100,30 @@
     provider
   );
 
+  // the OUD_num below is where the Y residents was before
   const getText = (metricData, year, treatment, provider) => {
     let metricFinal = `${provider}_${treatment}_${year}m`;
     let final = metricData[metricFinal];
     if (provider === "newprov") {
       if (treatment === "fill_gap") {
         return `${
-          isStateView ? $selectedState : $selectedCounty
-        } would need ${final} new buprenorphine prescribers to close the treatment gap of Y residents with opioid use disorder, assuming all prescribers offer
+          isStateView ? $selectedState : $selectedCounty + " county"
+        } would need ${final} new buprenorphine prescribers to close the treatment gap of ${
+          isStateView ? $stateMetricData.OUD_num : $countyMetricData[0].OUD_num
+        } residents with opioid use disorder, assuming all prescribers offer
 treatment for ${year} months.`;
       } else {
         return `${
-          isStateView ? $selectedState : $selectedCounty
+          isStateView ? $selectedState : $selectedCounty + " county"
         } would need ${final} new buprenorphine prescribers to double the current treatment capacity, assuming all prescribers offer
 treatment for ${year} months.`;
       }
     } else {
       if (treatment === "fill_gap") {
         return `Active buprenorphine prescribers would have to treat ${final} times as many patients to close the treatment
-gap of Y residents with opioid use disorder in ${
+gap of ${
+          isStateView ? $stateMetricData.OUD_num : $countyMetricData[0].OUD_num
+        } residents with opioid use disorder in ${
           isStateView ? $selectedState : $selectedCounty
         }, assuming all prescribers offer treatment
 for ${year} months.`;
@@ -137,7 +147,7 @@ for ${year} months.`;
 <div class="main-viz" class:print={$print}>
   <div class="viz-wrapper" bind:clientWidth={width}>
     <h3>What would it take to narrow the treatment gap?</h3>
-    {#if $stateView === "stateview"}
+    {#if isStateView}
       {#if $submitted}
         <h4>
           {outputText}
@@ -198,87 +208,35 @@ for ${year} months.`;
 </div>
 
 <style>
-  .main-viz.print {
-    background-color: #fff;
-  }
-  .print h3,
-  .print h4,
-  .print p {
-    color: #353535;
-  }
-
-  .print h3 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-top: 0px;
-  }
-  .print h4 {
-    font-size: 1rem;
-    color: #353535;
-    margin: 30px 0px 0px 0px;
-  }
-
-  .print p {
-    font-size: 0.8rem;
-    line-height: 1.4rem;
-    margin: 0px;
-  }
-
-  .print .viz-wrapper {
-    padding: 0px;
-  }
-
-  .print #numTreatment {
-    display: inherit;
-    margin-bottom: 10px;
-    font-weight: 600;
-  }
-
-  .print #capacity {
-    margin-bottom: 0px;
-  }
-
-  .print #info {
-    display: none;
-  }
-
-  .print #bar-percent {
-    color: #353535;
-  }
-
-  .print .tooltiptext.visible {
-    display: none;
-    visibility: hidden;
-  }
-
   .main-viz {
-    background-color: #353535;
-    color: #353535;
+    background-color: #000000;
+    color: #000000;
     height: auto;
   }
 
   h3 {
-    margin: 0.9rem 0px;
-    font-size: 1.5rem;
-    line-height: 2rem;
+    margin: 18px 0px;
+    font-size: 30px;
+    line-height: 40px;
     font-weight: 600;
     color: white;
   }
 
   h4 {
-    margin: 1.4rem 0px;
-    font-size: 1.3rem;
+    margin: 28px 0px;
+    font-size: 26px;
     font-weight: 400;
     color: white;
   }
 
   p {
     color: white;
-    margin: 10px 0px;
+    margin: 8px 0px;
+    font-size: 16px;
   }
 
   .viz-wrapper {
-    padding: 30px;
+    padding: 48px;
   }
 
   #bar-percent {
@@ -324,6 +282,66 @@ for ${year} months.`;
   }
 
   #capacity {
-    margin-bottom: 40px;
+    margin-top: -20px;
+    margin-bottom: 8px;
+  }
+
+  .main-viz.print {
+    background-color: #fff;
+  }
+  .print h3,
+  .print h4,
+  .print p {
+    color: #353535;
+  }
+
+  .print h3 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: 0px;
+  }
+  .print h4 {
+    font-size: 20px;
+    color: #353535;
+    margin: 30px 0px 0px 0px;
+  }
+
+  .print p {
+    font-size: 16px;
+    line-height: 28px;
+    margin: 0px;
+  }
+
+  .print .viz-wrapper {
+    padding: 0px;
+  }
+
+  .print #numTreatment {
+    display: inherit;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .print #capacity {
+    margin-bottom: 0px;
+  }
+
+  .print #info {
+    display: none;
+  }
+
+  .print #bar-percent {
+    color: #353535;
+  }
+
+  .print .tooltiptext.visible {
+    display: none;
+    visibility: hidden;
+  }
+
+  @media (max-width: 576px) {
+    .viz-wrapper {
+      padding: 30px;
+    }
   }
 </style>

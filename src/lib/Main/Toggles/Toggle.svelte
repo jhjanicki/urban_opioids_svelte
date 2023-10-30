@@ -34,19 +34,18 @@
   }
 
   .toggle label:first-of-type {
-    padding-right: 5em;
+    padding-right: 100px;
   }
 
   .toggle label:last-child {
-    margin-left: -5em;
-    padding-left: 5em;
+    margin-left: -100px;
+    padding-left: 100px;
   }
 
   /* making the switch UI.  */
   .toggle label:first-of-type:before,
   .toggle label:first-of-type:after {
     content: "";
-    height: 1.25em;
     overflow: hidden;
     pointer-events: none;
     position: absolute;
@@ -59,25 +58,25 @@
     border-radius: 20px;
     z-index: 2;
     position: absolute;
-    width: 2em;
-    height: 1.2em;
+    width: 32px;
+    height: 28px;
     background: #000;
-    top: 0.2em;
-    right: 0.55em;
+    top: 3px;
+    right: 9px;
     /* position of yes at start */
     transition: transform 0.3s;
     color: #fff;
-    font-size: 16px;
+    font-size: 22px;
     padding: 3px 9px;
   }
 
   .toggle label:first-of-type:after {
     background: #d2d2d2;
-    border-radius: 1em;
-    margin: 0 1em;
+    border-radius: 20px;
+    margin: 0 20px;
     transition: background 0.2s ease-in-out;
-    width: 4.5em;
-    height: 1.6em;
+    width: 90px;
+    height: 40px;
     margin-left: 4px;
   }
 
@@ -87,10 +86,14 @@
 
   .toggle input:first-of-type:checked ~ label:first-of-type:before {
     content: "NO";
-    transform: translateX(-2.1em);
+    transform: translateX(-34px);
   }
 
   .toggle input:last-of-type:checked ~ label:last-of-type {
     z-index: 1;
+  }
+
+  .toggle label:hover {
+    cursor: pointer;
   }
 </style>

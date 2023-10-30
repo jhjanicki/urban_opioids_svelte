@@ -1,8 +1,10 @@
 <script>
+  import { statePercent } from "../../../store/store";
   export let hoveredPointer;
   export let OUD;
   export let bup;
   export let methadone;
+  export let isBarHover;
 
   let tooltipWidth;
 </script>
@@ -10,19 +12,26 @@
 <!-- seem to need a different adjustment number for each state, for the 80 and 60 currently below -->
 <div
   class="tooltip"
-  style="position: absolute; top: {hoveredPointer[1] +
-    80}px; left: {hoveredPointer[0] - 60}px"
+  style="position: absolute; top: {isBarHover
+    ? hoveredPointer[1] + 160
+    : hoveredPointer[1] + 195}px; left: {hoveredPointer[0] - 20}px"
   bind:clientWidth={tooltipWidth}
 >
-  <h2>
-    {OUD}% receiving treatment ({bup}% buprenorphine, {methadone}% methadone)
-  </h2>
+  {#if isBarHover}
+    <p>
+      {OUD}% receiving treatment ({bup}% buprenorphine, {methadone}% methadone)
+    </p>
+  {:else}
+    <p>
+      State average: {$statePercent}%
+    </p>
+  {/if}
 </div>
 
 <style>
   .tooltip {
     width: 110px;
-    min-height: 50px;
+    min-height: 30px;
     background: white;
     color: black;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -49,21 +58,10 @@
     margin-left: -10px;
   }
 
-  h1,
-  h2 {
+  p {
     margin: 0;
     padding: 0;
     font-weight: 300;
-  }
-
-  h1 {
-    font-size: 1rem;
-    font-weight: 400;
-    margin-bottom: 6px;
-    width: 100%;
-  }
-
-  h2 {
-    font-size: 0.7rem;
+    font-size: 14px;
   }
 </style>

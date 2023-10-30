@@ -67,6 +67,7 @@ export const selectedProvider = writable(""); // new vs increase capacity
 
 export const stateView = writable("stateview");
 export const stateID = writable();
+export const countySelected = writable(false); //when first switch to countyview tab the default is no county is selected so need to keep track
 
 export const path = writable(); // need to make reactive
 export const projection = writable(); //used in Map

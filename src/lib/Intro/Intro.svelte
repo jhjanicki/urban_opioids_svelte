@@ -34,53 +34,8 @@
 </section>
 
 <style>
-  .print .intro-left,
-  .print .socialWrapper {
-    display: none;
-  }
-  .print .intro-right {
-    background-color: #fff;
-    margin: 0px auto;
-    max-width: 1200px;
-  }
-
-  .print .intro-right h1,
-  .print .intro-right h4,
-  .print .intro-right p,
-  .print .date {
-    text-align: left;
-    margin: 0px;
-    padding: 0px 20px;
-    max-width: calc(100% - 40px);
-    color: #353535;
-    font-weight: 400;
-  }
-
-  .print .intro-right h1 {
-    font-size: 1.8rem;
-    padding-top: 50px;
-    padding-bottom: 20px;
-    font-weight: 600;
-  }
-  .print .intro-right h4 {
-    font-size: 1.2rem;
-  }
-  .print .intro-right p {
-    font-size: 0.9rem;
-  }
-
-  .print .date {
-    font-size: 0.8rem;
-    padding-top: 10px;
-    padding-bottom: 30px;
-  }
-
-  .intro-main.print {
-    display: block;
-    min-height: none;
-  }
-
   .intro-main {
+    color: #000000;
     display: grid;
     grid-template-columns: 1fr 2fr;
     min-height: 400px;
@@ -88,7 +43,7 @@
   }
 
   .intro-main p {
-    font-size: 1rem;
+    font-size: 20px;
     max-width: 760px;
     width: 100%;
     line-height: 1.6;
@@ -116,7 +71,8 @@
   }
 
   .intro-right h1 {
-    font-size: 2.2rem;
+    padding-top: 96px;
+    font-size: 48px;
     font-weight: 700;
     margin: 0 auto;
     text-align: center;
@@ -125,28 +81,38 @@
 
   .intro-main h4 {
     max-width: 500px;
-    font-size: 0.8rem;
+    font-size: 20px;
+    font-family: "Lato", sans-serif;
+    font-style: italic;
     width: 100%;
-    line-height: 1.4;
+    line-height: 24px;
     margin: 15px auto;
     text-align: center;
   }
 
   .date {
-    font-size: 0.7rem;
-    color: #696969;
+    font-size: 14px;
     text-align: center;
-    margin: 20px 0px;
+    margin: 32px auto;
   }
 
   @media (max-width: 768px) {
     .intro-right h1 {
-      font-size: 1.8rem;
-      line-height: 2rem;
+      padding-top: 80px;
+      font-size: 36px;
+      line-height: 40px;
+    }
+
+    .intro-main h4 {
+      font-size: 18px;
+    }
+
+    .date {
+      margin: 24px auto;
     }
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 768px) {
     .intro-main {
       grid-template-columns: 1fr;
     }
@@ -162,7 +128,49 @@
     }
 
     .intro-right h1 {
-      font-size: 1.5rem;
+      padding-top: 64px;
+      font-size: 36px;
     }
+    .intro-main h4 {
+      font-size: 18px;
+    }
+  }
+
+  .print .intro-left,
+  .print .socialWrapper {
+    display: none;
+  }
+  .print .intro-right {
+    background-color: #fff;
+    margin: 0px auto;
+    max-width: 1200px;
+  }
+
+  .print .intro-right h1,
+  .print .intro-right h4,
+  .print .intro-right p,
+  .print .date {
+    text-align: left;
+    margin: 32px 0px;
+    max-width: calc(100% - 40px);
+    font-weight: 400;
+  }
+
+  .print .intro-right h1 {
+    font-size: 36px;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-weight: 600;
+  }
+  .print .intro-right h4 {
+    font-size: 24px;
+  }
+  .print .intro-right p {
+    font-size: 18px;
+  }
+
+  .intro-main.print {
+    display: block;
+    min-height: none;
   }
 </style>
