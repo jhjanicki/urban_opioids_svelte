@@ -6,6 +6,7 @@
 </script>
 
 <section class="states-selection">
+  <p id="selectInstructionTop">Select a State</p>
   <div class="states-wrapper" bind:clientWidth={width}>
     <p class="column" id="selectInstruction">Select a state</p>
 
@@ -44,28 +45,32 @@
     align-items: center;
   }
 
+  #selectInstructionTop {
+    display: none;
+  }
+
   @media (max-width: 768px) {
     #selectInstruction {
       display: none;
     }
-
     p {
       padding-top: 32px;
       font-size: 20px;
     }
   }
   @media (max-width: 576px) {
-    .states-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 10px;
-      max-width: 100%;
-      margin: 0px;
-      padding: 0px;
-    }
-
     p {
       margin-top: 0px;
+      padding-top: 10px;
+    }
+    .states-selection {
+      background: none;
+    }
+    #selectInstructionTop {
+      display: block;
+      color: #000000;
+      text-transform: uppercase;
+      font-weight: 300;
     }
   }
 </style>

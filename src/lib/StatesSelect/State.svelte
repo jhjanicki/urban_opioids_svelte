@@ -118,24 +118,16 @@
 
 <div
   class="img-wrapper column"
+  id={state.replaceAll(" ", "") + "Wrapper"}
   on:click={updateState(state)}
   on:mouseover={handleMouseOver}
   on:mouseout={handleMouseOut}
-  style="background-color: {innerWidth > 576
-    ? '#000000'
-    : state === $selectedState
-    ? '#fdbf11'
-    : stateFill}"
 >
   <svg
-    id={state}
+    id={state.replaceAll(" ", "")}
     viewBox="0 0 90 90"
-    width={200}
-    fill={innerWidth <= 576
-      ? "#000000"
-      : state === $selectedState
-      ? "#fdbf11"
-      : stateFill}
+    width={240}
+    fill={state === $selectedState ? "#fdbf11" : "#d2d2d2"}
     on:mouseover={handleMouseOver}
     on:mouseout={handleMouseOut}
   >
@@ -154,6 +146,8 @@
   <!-- <span class="stateText">{stateCode}</span> -->
 </div>
 
+<p id="selectInstructionBottom">Select a State</p>
+
 <style>
   /* to center the svg */
   .column {
@@ -166,10 +160,7 @@
     margin-left: auto;
     margin-right: auto;
     height: 176px;
-  }
-
-  .img-wrapper {
-    position: relative;
+    background-color: #000000;
   }
 
   .img-wrapper:hover {
@@ -187,43 +178,57 @@
     top: 100%;
   }
 
+  #selectInstructionBottom {
+    display: none;
+  }
+
   @media (max-width: 768px) {
-    .stateText {
-      font-size: 18px;
-      margin-top: 0px;
+    #selectInstructionBottom {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 42%;
+      color: white;
+    }
+
+    .column {
+      border: none;
+    }
+
+    #NewJerseyWrapper {
+      position: relative;
+    }
+
+    #NewJerseyWrapper::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: translateY(50%); /* Adjust the position to center the border */
+      height: 60%;
+      width: 1px; /* Adjust the width of the border as needed */
+      background-color: white; /* Adjust the color of the border as needed */
     }
   }
 
   @media (max-width: 576px) {
-    .states-wrapper {
-      padding: 10px 20px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 10px;
-    }
-
-    svg {
-      padding: 0px;
-      height: calc(445px / 4 - 35px);
-      width: 100%;
-    }
-
-    .img-wrapper {
-      width: 100%;
-      margin: 0px;
-      padding: 0px;
-      background-color: #d2d2d2;
+    #selectInstructionBottom {
+      display: none;
     }
 
     .img-wrapper:hover:after {
       display: none;
     }
 
-    .stateText {
-      position: absolute;
-      bottom: 0px;
-      right: 20px;
-      color: #353535;
+    #NewJerseyWrapper::before {
+      content: none;
+      width: 0px;
+      background: none;
+    }
+    .column svg {
+      height: 110px;
+      width: 220px;
+      padding: 10px;
     }
   }
 </style>

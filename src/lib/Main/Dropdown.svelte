@@ -185,6 +185,12 @@
     }
   }
 
+  @media (max-width: 650px) {
+    .options {
+      width: 250px;
+    }
+  }
+
   @media (max-width: 576px) {
     .select-menu {
       max-width: none;
@@ -195,6 +201,7 @@
 
     .options {
       margin-left: 30px;
+      width: calc(100% - 62px);
     }
   }
 </style>
