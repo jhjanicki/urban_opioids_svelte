@@ -81,13 +81,11 @@
             class="counties"
             id={feature.properties.name.replaceAll(" ", "")}
             d={$path(feature)}
-            fill={feature.id.toString().slice(0, 2) === "34"
-              ? colorScale(
-                  $selectedYear == 12
-                    ? feature.properties.OUD_tx_12m
-                    : feature.properties.OUD_tx_6m
-                )
-              : "black"}
+            fill={colorScale(
+              $selectedYear == 12
+                ? feature.properties.OUD_tx_12m
+                : feature.properties.OUD_tx_6m
+            )}
             stroke-linecap="round"
             stroke={feature.properties.name === $selectedCounty
               ? "black"
@@ -95,7 +93,6 @@
             stroke-width={feature.properties.name === $selectedCounty
               ? "2.5px"
               : "1px"}
-            opacity={feature.stateID === $stateID ? 1 : 0}
             on:mouseout={(e) => {
               // hoveredData = null;
               // console.log(e.toElement.id);

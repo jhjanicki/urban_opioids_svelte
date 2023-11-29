@@ -16,7 +16,7 @@ const processCountyData = (state, county) => {
 }
 
 // filter for only the relevant states
-const ids = [21,26,34,35,37,42,55];
+const ids = [26,34];
 
 // // get all geojson data for counties
 let allCounties = topojson
@@ -34,27 +34,22 @@ data.forEach(state => {
   allCounties.forEach(county => processCountyData(state, county));
 });
 
+
 // Prepare state-level data
 // find all where countiesftp = ""
 const allMetrics = data.reduce((all, state) => all.concat(
   state.data.filter(row => row.countyfips === "")
 ), []);
 
+
 // get county data: get the obj in the array that corresponds to the state
 let allCountyMetrics = []
 
 data.forEach(state=>{
   state.data.forEach(row=>{
-    if(state.state === "New Jersey" && row.countyfips!==""){ //REMOVE once we have complete data: state.state === "New Jersey"
       allCountyMetrics.push(row);
-    }
   })
 })
-
-
-// const allCountyMetrics = data.reduce((all, state) => all.concat(
-//   state.data.filter(row => row.countyfips !== "")
-// ), []);
 
 export const stateClicked = writable(false); //false on load, true after clicked on a state
 export const submitted = writable(false); //when the toggle button values are submitted

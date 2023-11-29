@@ -47,6 +47,9 @@
     transittime_methadone: "transittime_methadone",
     drivetime_bup: "drivetime_bup",
     transittime_bup: "transittime_bup",
+    OTP_methadone: "OTP_methadone",
+    OTPcount_nbrs: "OTPcount_nbrs",
+    OTP_methadone_nbrs: "OTP_methadone_nbrs",
   };
 
   $: deathsop = getMetricOutput(
@@ -55,6 +58,14 @@
     isStateView ? $stateMetricData : $countyMetricData[0],
     year
   );
+
+  $: deathsopState = getMetricOutput(
+    true,
+    metricName.deaths_opioidod_rt_100k,
+    $stateMetricData,
+    year
+  ); // to store state level comparison for when a county is selected
+
   $: deathall = getMetricOutput(
     true,
     metricName.deaths_allod_rt_100k,
@@ -62,12 +73,25 @@
     year
   );
 
+  $: deathallState = getMetricOutput(
+    true,
+    metricName.deaths_allod_rt_100k,
+    $stateMetricData
+  ); // to store state level comparison for when a county is selected
+
   $: deathsopall = getMetricOutput(
     true,
     metricName.deaths_opioidod_rt_allod,
     isStateView ? $stateMetricData : $countyMetricData[0],
     year
   );
+
+  $: deathsopallState = getMetricOutput(
+    true,
+    metricName.deaths_opioidod_rt_allod,
+    $stateMetricData,
+    year
+  ); // to store state level comparison for when a county is selected
 
   $: eng = getMetricOutput(
     true,
@@ -96,6 +120,14 @@
     isStateView ? $stateMetricData : $countyMetricData[0],
     year
   );
+
+  $: gap_currState = getMetricOutput(
+    false,
+    metricName.gap_current,
+    $stateMetricData,
+    year
+  ); // to store state level comparison for when a county is selected
+
   $: cap_curr = getMetricOutput(
     false,
     metricName.capacity_current,
@@ -103,12 +135,26 @@
     year
   );
 
+  $: cap_currState = getMetricOutput(
+    false,
+    metricName.capacity_current,
+    $stateMetricData,
+    year
+  ); // to store state level comparison for when a county is selected
+
   $: methadone = getMetricOutput(
     false,
     metricName.methadone_rt,
     isStateView ? $stateMetricData : $countyMetricData[0],
     year
   );
+
+  $: methadoneState = getMetricOutput(
+    false,
+    metricName.methadone_rt,
+    $stateMetricData,
+    year
+  ); // to store state level comparison for when a county is selected
 
   $: bupP = getMetricOutput(
     false,
@@ -190,6 +236,27 @@
   $: transitB = getMetricOutput(
     true,
     metricName.transittime_bup,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: OTP_methadone = getMetricOutput(
+    false,
+    metricName.OTP_methadone,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: OTPcount_nbrs = getMetricOutput(
+    true,
+    metricName.OTPcount_nbrs,
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year
+  );
+
+  $: OTP_methadone_nbrs = getMetricOutput(
+    true,
+    metricName.OTP_methadone_nbrs,
     isStateView ? $stateMetricData : $countyMetricData[0],
     year
   );
@@ -278,18 +345,25 @@
             <p>
               <span class="number">
                 {deathall}
-              </span>people die of overdoses each year (per 100,000 residents)
+              </span>{isStateView
+                ? "residents die of overdoses each year (per 100,000 residents)"
+                : `residents die of overdoses per year per 100,000 residents (state average: ${deathallState})`}
             </p>
             <p>
               <span class="number">
                 {deathsop}
-              </span> people die of opioid-related overdoses each year (per 100,000
-              residents)
+              </span>
+              {isStateView
+                ? "residents die of opioid-related overdoses each year (per 100,000 residents)"
+                : `overdose deaths per year per 100,000 residents are opioid related (state average: ${deathsopState})`}
             </p>
             <p>
               <span class="number">
                 {deathsopall}
-              </span> percent of overdose deaths are opioid related
+              </span>
+              {isStateView
+                ? "percent of overdose deaths are opioid related"
+                : `percent of all overdose deaths in the county are opioid related (state average: ${deathsopallState})`}
             </p>
           </div>
           <h4>Language characteristics</h4>
@@ -323,32 +397,63 @@
             <p>
               <span class="number">
                 {gap_curr}
-              </span> people lack access to treatment
+              </span>
+              {isStateView
+                ? "residents lack access to treatment"
+                : `residents lack access to treatment (state total: ${gap_currState})`}
             </p>
             <p>
               <span class="number">
                 {cap_curr}
-              </span> people have access to treatment
+              </span>{isStateView
+                ? "residents have access to treatment"
+                : `residents have access to treatment (state total: ${cap_currState})`}
+            </p>
+            <p>
+              <span class="number">
+                {methadone}
+              </span>
+              {isStateView
+                ? "residents receive methadone or other medication treatment at an in-state opioid treatment program (per 100,000 residents)."
+                : `residents receive methadone or other medication treatment at an opioid treatment
+program per 100,000 residents (state average: ${methadoneState})`}
+            </p>
+            <p>
+              <span class="number">
+                {bupP}
+              </span> residents receive buprenorphine (per 100,000 residents)
             </p>
             <p>
               <span class="number">
                 {isStateView
                   ? $stateMetricData.OTPcount
                   : $countyMetricData[0].OTPcount}</span
-              > opioid treatment programs operate
+              >
+              opioid treatment programs operate {isStateView
+                ? ""
+                : "in the county"}
             </p>
-            <p>
-              <span class="number">
-                {methadone}
-              </span> patients receive methadone at an opioid treatment program (per
-              100,000 residents)
-            </p>
-            <p>
-              <span class="number">
-                {bupP}
-              </span> patients receive buprenorphine at an opioid treatment program
-              (per 100,000 residents)
-            </p>
+            {#if !isStateView}
+              <p>
+                <span class="number">
+                  {OTP_methadone}
+                </span> residents receive methadone or other medication treatment
+                at an opioid treatment program in the county
+              </p>
+
+              <p>
+                <span class="number">
+                  {OTPcount_nbrs}
+                </span> opioid treatment programs are available in neighboring counties
+                in the state
+              </p>
+              <p>
+                <span class="number">
+                  {OTP_methadone_nbrs}
+                </span> people receive methadone or other medication treatment at
+                opioid treatment programs in neighboring counties in the state
+              </p>
+            {/if}
           </div>
           <h4>Prescribers and potential patient caseloads</h4>
           <div class="textWrapper">
@@ -361,25 +466,26 @@
             <p>
               <span class="number">
                 {waiver}
-              </span> percent of prescribers have a buprenorphine waiver
+              </span> percent of prescribers had a buprenorphine waiver in November
+              2022
             </p>
             <p>
               <span class="number">
                 {activeprx30}
               </span> active buprenorphine prescribers had a 30-patient limit in
-              January 2023
+              November 2022
             </p>
             <p>
               <span class="number">
                 {activeprx100}
               </span> active buprenorphine prescribers had a 100-patient limit in
-              January 2023
+              November 2022
             </p>
             <p>
               <span class="number">
                 {activeprx275}
               </span> active buprenorphine prescribers had a 275-patient limit in
-              January 2023
+              November 2022
             </p>
           </div>
 

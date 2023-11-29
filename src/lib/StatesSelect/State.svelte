@@ -2,6 +2,7 @@
   import * as d3 from "d3";
   import {
     selectedState,
+    countySelected,
     stateID,
     allCountiesData,
     allStatesData,
@@ -55,56 +56,53 @@
   };
 
   const updateState = (state) => {
-    if (state === "New Jersey" || state === "Mighigan") {
-      $selectedCounty === ""; //reset county selection when clicking on another state, not working though
-      $stateClicked = true; //once selected the main part of the viz will display
-      $selectedState = state;
-      $stateID = id; // this shouldn't be ID here
+    $countySelected = false;
+    $selectedCounty = ""; //reset county selection when clicking on another state, not working though
+    $stateClicked = true; //once selected the main part of the viz will display
+    $selectedState = state;
+    $stateID = id; // this shouldn't be ID here
 
-      filteredCountyData = $allCountiesData;
-      filteredStateData = $allStatesData.features.filter(
-        (d) => d.properties.name === $selectedState
-      );
+    filteredCountyData = $allCountiesData;
+    filteredStateData = $allStatesData.features.filter(
+      (d) => d.properties.name === $selectedState
+    );
 
-      $stateData = filteredStateData; // in order to zoom to bounding box
-      $countiesData = filteredCountyData.filter((d) => d.stateID === $stateID);
+    $stateData = filteredStateData; // in order to zoom to bounding box
+    $countiesData = filteredCountyData.filter((d) => d.stateID === $stateID);
 
-      const OTPcounts = $countiesData.map((d) => d.properties.OTPcount);
-      const mean = getMean(OTPcounts);
-      const sd = getStandardDeviation(OTPcounts);
+    const OTPcounts = $countiesData.map((d) => d.properties.OTPcount);
+    const mean = getMean(OTPcounts);
+    const sd = getStandardDeviation(OTPcounts);
 
-      $legendDomain = [
-        d3.max([mean - 2 * sd, 0]),
-        Math.ceil(mean - sd),
-        Math.ceil(mean),
-        Math.ceil(mean + sd),
-        Math.ceil(mean + 2 * sd),
-      ];
+    $legendDomain = [
+      d3.max([mean - 2 * sd, 0]),
+      Math.ceil(mean - sd),
+      Math.ceil(mean),
+      Math.ceil(mean + sd),
+      Math.ceil(mean + 2 * sd),
+    ];
 
-      $projection = d3
-        .geoIdentity()
-        .fitSize([$mapWidth, $mapHeight], $stateData[0]);
+    $projection = d3
+      .geoIdentity()
+      .fitSize([$mapWidth, $mapHeight], $stateData[0]);
 
-      $path = d3.geoPath().projection($projection);
+    $path = d3.geoPath().projection($projection);
 
-      let filteredStateMetricData = $allMetricData.filter(
-        (d) => d.state === $selectedState
-      )[0];
+    let filteredStateMetricData = $allMetricData.filter(
+      (d) => d.state === $selectedState
+    )[0];
 
-      $stateMetricData = filteredStateMetricData;
-      // ADD IN OTHER TOGGLE OPTIONS
-      $statePercent =
-        $selectedYear === "year"
-          ? filteredStateMetricData.OUD_tx_12m
-          : filteredStateMetricData.OUD_tx_6m;
+    $stateMetricData = filteredStateMetricData;
+    // ADD IN OTHER TOGGLE OPTIONS
+    $statePercent =
+      $selectedYear === "year"
+        ? filteredStateMetricData.OUD_tx_12m
+        : filteredStateMetricData.OUD_tx_6m;
 
-      //so the dropdown list is alphabetical
-      $countyList = $countiesData
-        .map((county) => county.properties.name)
-        .sort();
+    //so the dropdown list is alphabetical
+    $countyList = $countiesData.map((county) => county.properties.name).sort();
 
-      setTimeout(scrollToElement, 10); //need to delay since the element needs to be drawn first otherwise it would throw an error
-    }
+    setTimeout(scrollToElement, 10); //need to delay since the element needs to be drawn first otherwise it would throw an error
   };
 
   const handleMouseOver = () => (stateFill = "#fdbf11");
@@ -127,7 +125,7 @@
     id={state.replaceAll(" ", "")}
     viewBox="0 0 90 90"
     width={240}
-    fill={state === $selectedState ? "#fdbf11" : "#d2d2d2"}
+    fill={state === $selectedState ? "#fdbf11" : stateFill}
     on:mouseover={handleMouseOver}
     on:mouseout={handleMouseOut}
   >
@@ -165,17 +163,6 @@
 
   .img-wrapper:hover {
     cursor: pointer;
-  }
-
-  .img-wrapper:hover:after {
-    content: "";
-    display: block;
-    border: 20px solid #fff;
-    border-top-color: #000000;
-    position: absolute;
-    left: 50%;
-    margin-left: -20px;
-    top: 100%;
   }
 
   #selectInstructionBottom {
@@ -227,8 +214,7 @@
     }
     .column svg {
       height: 110px;
-      width: 220px;
-      padding: 10px;
+      width: calc(100% - 10px);
     }
   }
 </style>
