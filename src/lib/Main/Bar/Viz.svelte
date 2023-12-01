@@ -33,7 +33,7 @@
     capacity_current: "capacity_current",
     gap_current: "gap_current",
     bup_patients: "bup_patients",
-    methadone: "methadone",
+    methadone: "OTP_methadone",
     bup_tx: "bup_tx",
     methadone_tx: "methadone_tx",
   };
@@ -202,11 +202,12 @@ for ${year} months.`;
       <span class={active ? "tooltiptext visible" : "tooltiptext hidden"}
         >Buprenorphine (sold under several brand names including Suboxone and
         Subutex) and methadone are two of the main medication treatments
-        available for opioid use disorder.</span
+        available for opioid use disorder</span
       >
     </div>
     <p>
-      {methadone_num} residents are receiving methadone at an opioid treatment program
+      {methadone_num} residents are receiving methadone or other medication treatment
+      at an opioid treatment program
     </p>
   </div>
 </div>

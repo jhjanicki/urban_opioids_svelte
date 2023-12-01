@@ -74,7 +74,7 @@
   {/if}
 
   {#if $stateClicked}
-    <svg {width} height={height + 10} class:print={$print}>
+    <svg {width} height={height + legendHeight} class:print={$print}>
       <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
         {#each $countiesData as feature}
           <path
@@ -143,7 +143,7 @@
       </g>
       <g
         id="legend"
-        transform={`translate(${legendPadding},${height - legendHeight})`}
+        transform={`translate(${legendPadding},${height - 10})`}
         {width}
         height={legendHeight + 10}
       >
