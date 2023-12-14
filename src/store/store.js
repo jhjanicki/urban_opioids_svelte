@@ -86,7 +86,6 @@ export const mapWidth = writable();
 export const mapHeight = writable();
 export const legendDomain = writable([]); //to store the legend breaks
 
-
 // print store!
 // here we can track whether or not to show print-friendly versions of everything
 export const print = writable(false);
