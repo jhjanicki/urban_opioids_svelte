@@ -229,7 +229,7 @@ for ${year} months.`;
         {/if}
       </h4>
     {/if}
-    <Bar {OUD} {bup} {methadone} />
+    <Bar />
 
     <p id="capacity">
       {OUD_num} residents are receiving treatment for opioid use disorder
