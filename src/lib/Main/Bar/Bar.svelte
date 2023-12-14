@@ -8,8 +8,11 @@
     statePercent,
     countyPercent,
     selectedYear,
+    selectedTreatment,
+    selectedProvider,
     stateMetricData,
     countyMetricData,
+    submitted,
     print,
   } from "../../../store/store";
   import { tweened } from "svelte/motion";
@@ -31,6 +34,11 @@
     ($stateView === "countyview" && $countySelected == false);
   // the second part is to ensure that no county is selected when the tab is switched to countyview at first
 
+  $: year = $selectedYear;
+  $: treatment = $selectedTreatment; //double or close, 2xcap or fill_gap
+
+  // methtrt_fillgap	buptrt_fillgap	totaltrt_fillgap	methtrt_fillgap_pct	buptrt_fillgap_pct	totaltrt_fillgap_pct	methtrt_2xcap_12m	buptrt_2xcap_12m	totaltrt_2xcap_12m	methtrt_2xcap_pct_12m	buptrt_2xcap_pct_12m	totaltrt_2xcap_pct_12m	methtrt_2xcap_6m	buptrt_2xcap_6m	totaltrt_2xcap_6m	methtrt_2xcap_pct_6m	buptrt_2xcap_pct_6m	totaltrt_2xcap_pct_6m
+
   const margin = { top: 20, left: 5, bottom: 40, right: 5 };
   // made this scale a reactive statement as well so that the xScale range updates when the width changes
   $: $statePercent =
@@ -44,10 +52,7 @@
 
   //I had to add the above code for the bar to update when the year is toggled
 
-  $: xScale = d3
-    .scaleLinear()
-    .domain([0, 100])
-    .range([0, width - margin.left - margin.right]);
+  $: xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
 
   let barInnerWidth = tweened(0, {
     duration: 400,
@@ -62,10 +67,66 @@
   } else {
     barInnerWidth.set(xScale($countyPercent) - margin.right);
   }
+
+  $: OUD_pct = getPercent(
+    "OUD",
+    "totaltrt",
+    isStateView ? $stateMetricData : $countyMetricData[0]
+  );
+  $: bup_pct = getPercent(
+    "bup",
+    "buptrt",
+    isStateView ? $stateMetricData : $countyMetricData[0]
+  );
+
+  $: meth_pct = getPercent(
+    "methadone",
+    "methtrt",
+    isStateView ? $stateMetricData : $countyMetricData[0]
+  );
+
+  // THIS PART STILL UNSURE
+  $: lollipopText = getStateAvg();
+
+  $: getPercent = (metric1, metric2, metricData) => {
+    let metricFinal;
+    if (!$submitted) {
+      metricFinal = `${metric1}_tx_${year}m`;
+    } else {
+      if (treatment === "2xcap") {
+        metricFinal = `${metric2}_2xcap_pct_${year}m`;
+      } else {
+        metricFinal = `${metric2}_fillgap_pct`;
+      }
+    }
+    return metricData[metricFinal];
+  };
+
+  $: getStateAvg = () => {
+    let metricFinal;
+    if (!$submitted) {
+      metricFinal = `OUD_tx_${year}m`;
+      //"OUD_state"; //
+    } else {
+      if (treatment === "2xcap") {
+        metricFinal = `totaltrt_2xcap_pct_${year}m`;
+      } else {
+        metricFinal = `totaltrt_fillgap_pct`;
+      }
+    }
+    return $stateMetricData[metricFinal];
+  };
 </script>
 
 {#if hoveredPointer}
-  <TooltipBar {OUD} {bup} {methadone} {hoveredPointer} {isBarHover} />
+  <TooltipBar
+    {OUD_pct}
+    {bup_pct}
+    {meth_pct}
+    {lollipopText}
+    {hoveredPointer}
+    {isBarHover}
+  />
 {/if}
 
 <!-- need this if statement otherwise I get an error on negative value in rect -->

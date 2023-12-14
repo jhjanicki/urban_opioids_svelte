@@ -2,6 +2,7 @@
   import * as d3 from "d3";
   import {
     selectedState,
+    countySelected,
     stateID,
     allCountiesData,
     allStatesData,
@@ -25,7 +26,6 @@
   export let stateCode;
   export let svgPath;
   export let id;
-  export let imgWidth;
 
   let filteredCountyData;
   let filteredStateData;
@@ -56,56 +56,53 @@
   };
 
   const updateState = (state) => {
-    if (state === "New Jersey" || state === "Mighigan") {
-      $selectedCounty === ""; //reset county selection when clicking on another state, not working though
-      $stateClicked = true; //once selected the main part of the viz will display
-      $selectedState = state;
-      $stateID = id; // this shouldn't be ID here
+    $countySelected = false;
+    $selectedCounty = ""; //reset county selection when clicking on another state, not working though
+    $stateClicked = true; //once selected the main part of the viz will display
+    $selectedState = state;
+    $stateID = id; // this shouldn't be ID here
 
-      filteredCountyData = $allCountiesData;
-      filteredStateData = $allStatesData.features.filter(
-        (d) => d.properties.name === $selectedState
-      );
+    filteredCountyData = $allCountiesData;
+    filteredStateData = $allStatesData.features.filter(
+      (d) => d.properties.name === $selectedState
+    );
 
-      $stateData = filteredStateData; // in order to zoom to bounding box
-      $countiesData = filteredCountyData.filter((d) => d.stateID === $stateID);
+    $stateData = filteredStateData; // in order to zoom to bounding box
+    $countiesData = filteredCountyData.filter((d) => d.stateID === $stateID);
 
-      const OTPcounts = $countiesData.map((d) => d.properties.OTPcount);
-      const mean = getMean(OTPcounts);
-      const sd = getStandardDeviation(OTPcounts);
+    const OTPcounts = $countiesData.map((d) => d.properties.OTPcount);
+    const mean = getMean(OTPcounts);
+    const sd = getStandardDeviation(OTPcounts);
 
-      $legendDomain = [
-        d3.max([mean - 2 * sd, 0]),
-        Math.ceil(mean - sd),
-        Math.ceil(mean),
-        Math.ceil(mean + sd),
-        Math.ceil(mean + 2 * sd),
-      ];
+    $legendDomain = [
+      d3.max([mean - 2 * sd, 0]),
+      Math.ceil(mean - sd),
+      Math.ceil(mean),
+      Math.ceil(mean + sd),
+      Math.ceil(mean + 2 * sd),
+    ];
 
-      $projection = d3
-        .geoIdentity()
-        .fitSize([$mapWidth, $mapHeight], $stateData[0]);
+    $projection = d3
+      .geoIdentity()
+      .fitSize([$mapWidth, $mapHeight], $stateData[0]);
 
-      $path = d3.geoPath().projection($projection);
+    $path = d3.geoPath().projection($projection);
 
-      let filteredStateMetricData = $allMetricData.filter(
-        (d) => d.state === $selectedState
-      )[0];
+    let filteredStateMetricData = $allMetricData.filter(
+      (d) => d.state === $selectedState
+    )[0];
 
-      $stateMetricData = filteredStateMetricData;
-      // ADD IN OTHER TOGGLE OPTIONS
-      $statePercent =
-        $selectedYear === "year"
-          ? filteredStateMetricData.OUD_tx_12m
-          : filteredStateMetricData.OUD_tx_6m;
+    $stateMetricData = filteredStateMetricData;
+    // ADD IN OTHER TOGGLE OPTIONS
+    $statePercent =
+      $selectedYear === "year"
+        ? filteredStateMetricData.OUD_tx_12m
+        : filteredStateMetricData.OUD_tx_6m;
 
-      //so the dropdown list is alphabetical
-      $countyList = $countiesData
-        .map((county) => county.properties.name)
-        .sort();
+    //so the dropdown list is alphabetical
+    $countyList = $countiesData.map((county) => county.properties.name).sort();
 
-      setTimeout(scrollToElement, 10); //need to delay since the element needs to be drawn first otherwise it would throw an error
-    }
+    setTimeout(scrollToElement, 10); //need to delay since the element needs to be drawn first otherwise it would throw an error
   };
 
   const handleMouseOver = () => (stateFill = "#fdbf11");
@@ -118,126 +115,106 @@
 <svelte:window bind:innerWidth bind:innerHeight />
 
 <div
-  class="img-wrapper"
+  class="img-wrapper column"
+  id={state.replaceAll(" ", "") + "Wrapper"}
   on:click={updateState(state)}
   on:mouseover={handleMouseOver}
   on:mouseout={handleMouseOut}
-  style="background-color: {innerWidth > 576
-    ? '#000000'
-    : state === $selectedState
-    ? '#fdbf11'
-    : stateFill}"
 >
   <svg
-    id={state}
-    x="0px"
-    y="0px"
+    id={state.replaceAll(" ", "")}
     viewBox="0 0 90 90"
-    width={innerWidth <= 576 ? 0 : imgWidth ? imgWidth : 200}
-    fill={innerWidth <= 576
-      ? "#000000"
-      : state === $selectedState
-      ? "#fdbf11"
-      : stateFill}
+    width={240}
+    fill={state === $selectedState ? "#fdbf11" : stateFill}
     on:mouseover={handleMouseOver}
     on:mouseout={handleMouseOut}
   >
-    {#if state !== "Michigan"}
-      <path d={svgPath} />
-    {:else}
-      {#each svgPath as path}
-        <path d={path} />
-      {/each}
-    {/if}
+    <g transform="translate(-15,0)">
+      {#if state !== "Michigan"}
+        <path d={svgPath} />
+      {:else}
+        {#each svgPath as path}
+          <path d={path} />
+        {/each}
+      {/if}
+    </g>
+    <text x="60px" y="77px" font-size="16px" font-weight="300">{stateCode}</text
+    >
   </svg>
-  <p class="stateText">{stateCode}</p>
+  <!-- <span class="stateText">{stateCode}</span> -->
 </div>
+
+<p id="selectInstructionBottom">Select a State</p>
 
 <style>
   /* to center the svg */
-  svg {
-    flex: 1;
-    padding: 0px 20px;
-    height: 100px;
+  .column {
+    flex: 1; /* Make each column have equal width */
+    border-left: 1px solid white;
   }
 
-  svg:not(#Wisconsin) {
-    border-right: 0.5px solid #696969;
-    margin-left: -0.5px;
-  }
-
-  .stateText {
-    text-align: center;
-    color: #d9d9d9;
-    font-weight: 400;
-  }
-
-  .img-wrapper {
-    position: relative;
+  .column svg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 176px;
+    background-color: #000000;
   }
 
   .img-wrapper:hover {
     cursor: pointer;
   }
 
-  .img-wrapper:hover:after {
-    content: "";
-    display: block;
-    border: 20px solid #fff;
-    border-top-color: #000000;
-    position: absolute;
-    left: 50%;
-    margin-left: -20px;
-    top: calc(100% + 6px);
+  #selectInstructionBottom {
+    display: none;
   }
 
   @media (max-width: 768px) {
-    svg {
-      height: 50px;
+    #selectInstructionBottom {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 42%;
+      color: white;
     }
-    .stateText {
-      font-size: 18px;
-      margin-top: 0px;
+
+    .column {
+      border: none;
     }
-    .img-wrapper:hover:after {
-      top: calc(100% + 4px);
+
+    #NewJerseyWrapper {
+      position: relative;
+    }
+
+    #NewJerseyWrapper::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: translateY(50%); /* Adjust the position to center the border */
+      height: 60%;
+      width: 1px; /* Adjust the width of the border as needed */
+      background-color: white; /* Adjust the color of the border as needed */
     }
   }
 
   @media (max-width: 576px) {
-    .states-wrapper {
-      padding: 10px 20px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 10px;
-    }
-
-    svg:not(#wisconsin) {
-      border: none;
-    }
-
-    svg {
-      padding: 0px;
-      height: calc(445px / 4 - 35px);
-      width: 100%;
-    }
-
-    .img-wrapper {
-      width: 100%;
-      margin: 0px;
-      padding: 0px;
-      background-color: #d2d2d2;
+    #selectInstructionBottom {
+      display: none;
     }
 
     .img-wrapper:hover:after {
       display: none;
     }
 
-    .stateText {
-      position: absolute;
-      bottom: 0px;
-      right: 20px;
-      color: #353535;
+    #NewJerseyWrapper::before {
+      content: none;
+      width: 0px;
+      background: none;
+    }
+    .column svg {
+      height: 110px;
+      width: calc(100% - 10px);
     }
   }
 </style>
