@@ -9,7 +9,6 @@
     countyPercent,
     selectedYear,
     selectedTreatment,
-    selectedProvider,
     stateMetricData,
     countyMetricData,
     submitted,
@@ -17,10 +16,6 @@
   } from "../../../store/store";
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
-
-  export let OUD;
-  export let bup;
-  export let methadone;
 
   // gave width a default value and removed the bar width variable since it wasn't necessary
   let width = 200;
@@ -37,9 +32,7 @@
   $: year = $selectedYear;
   $: treatment = $selectedTreatment; //double or close, 2xcap or fill_gap
 
-  // methtrt_fillgap	buptrt_fillgap	totaltrt_fillgap	methtrt_fillgap_pct	buptrt_fillgap_pct	totaltrt_fillgap_pct	methtrt_2xcap_12m	buptrt_2xcap_12m	totaltrt_2xcap_12m	methtrt_2xcap_pct_12m	buptrt_2xcap_pct_12m	totaltrt_2xcap_pct_12m	methtrt_2xcap_6m	buptrt_2xcap_6m	totaltrt_2xcap_6m	methtrt_2xcap_pct_6m	buptrt_2xcap_pct_6m	totaltrt_2xcap_pct_6m
-
-  const margin = { top: 20, left: 5, bottom: 40, right: 5 };
+  const margin = { top: 20, left: 2, bottom: 40, right: 10 };
   // made this scale a reactive statement as well so that the xScale range updates when the width changes
   $: $statePercent =
     $selectedYear === 12
@@ -86,7 +79,7 @@
   );
 
   // THIS PART STILL UNSURE
-  $: lollipopText = getStateAvg();
+  $: lollipop = getStateAvg();
 
   $: getPercent = (metric1, metric2, metricData) => {
     let metricFinal;
@@ -123,7 +116,7 @@
     {OUD_pct}
     {bup_pct}
     {meth_pct}
-    {lollipopText}
+    {lollipop}
     {hoveredPointer}
     {isBarHover}
   />
@@ -171,8 +164,8 @@
 
       <line
         id="stateAvg"
-        x1={xScale($statePercent)}
-        x2={xScale($statePercent)}
+        x1={xScale(lollipop) - margin.right + 1}
+        x2={xScale(lollipop) - margin.right + 1}
         y1={margin.top + 50}
         y2={margin.top - 10}
         stroke="white"
@@ -182,7 +175,7 @@
       />
       <circle
         id="circle"
-        cx={xScale($statePercent)}
+        cx={xScale(lollipop) - margin.right}
         cy={margin.top - 10}
         r="5"
         fill="white"

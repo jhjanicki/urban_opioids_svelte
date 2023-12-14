@@ -3,7 +3,7 @@
   export let OUD_pct;
   export let bup_pct;
   export let meth_pct;
-  export let lollipopText;
+  export let lollipop;
   export let isBarHover;
   export let hoveredPointer;
 
@@ -24,7 +24,7 @@
     </p>
   {:else}
     <p>
-      State average: {lollipopText}%
+      State average: {lollipop}%
     </p>
   {/if}
 </div>
