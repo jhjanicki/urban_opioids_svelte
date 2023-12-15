@@ -26,7 +26,7 @@
 
   $: isStateView =
     $stateView === "stateview" ||
-    ($stateView === "countyview" && $countySelected == false);
+    ($stateView === "countyview" && !$countySelected);
   // the second part is to ensure that no county is selected when the tab is switched to countyview at first
 
   $: year = $selectedYear;
@@ -54,7 +54,7 @@
 
   $: if (
     $stateView === "stateview" ||
-    ($stateView === "countyview" && $countySelected == false)
+    ($stateView === "countyview" && !$countySelected)
   ) {
     barInnerWidth.set(xScale($statePercent) - margin.right);
   } else {
@@ -99,7 +99,6 @@
     let metricFinal;
     if (!$submitted) {
       metricFinal = `OUD_tx_${year}m`;
-      //"OUD_state"; //
     } else {
       if (treatment === "2xcap") {
         metricFinal = `totaltrt_2xcap_pct_${year}m`;
