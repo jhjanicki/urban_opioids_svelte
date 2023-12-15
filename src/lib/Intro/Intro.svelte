@@ -36,8 +36,7 @@
 <style>
   .intro-main {
     color: #000000;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+    display: flex;
     min-height: 400px;
     margin-top: 50px;
   }
@@ -57,6 +56,7 @@
     padding: 10px;
     align-items: center;
     display: flex;
+    flex: 1;
   }
 
   .intro-left img {
@@ -68,6 +68,7 @@
     background-color: #d2d2d2;
     margin: 10px 0px 5px 5px;
     padding: 10px;
+    flex: 2;
   }
 
   .intro-right h1 {
@@ -114,6 +115,7 @@
 
   @media (max-width: 768px) {
     .intro-main {
+      display: grid;
       grid-template-columns: 1fr;
     }
     .intro-left,

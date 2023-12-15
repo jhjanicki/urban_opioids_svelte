@@ -8,16 +8,14 @@
     statePercent,
     countyPercent,
     selectedYear,
+    selectedTreatment,
     stateMetricData,
     countyMetricData,
+    submitted,
     print,
   } from "../../../store/store";
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
-
-  export let OUD;
-  export let bup;
-  export let methadone;
 
   // gave width a default value and removed the bar width variable since it wasn't necessary
   let width = 200;
@@ -28,10 +26,13 @@
 
   $: isStateView =
     $stateView === "stateview" ||
-    ($stateView === "countyview" && $countySelected == false);
+    ($stateView === "countyview" && !$countySelected);
   // the second part is to ensure that no county is selected when the tab is switched to countyview at first
 
-  const margin = { top: 20, left: 5, bottom: 40, right: 5 };
+  $: year = $selectedYear;
+  $: treatment = $selectedTreatment; //double or close, 2xcap or fill_gap
+
+  const margin = { top: 20, left: 2, bottom: 40, right: 10 };
   // made this scale a reactive statement as well so that the xScale range updates when the width changes
   $: $statePercent =
     $selectedYear === 12
@@ -44,10 +45,7 @@
 
   //I had to add the above code for the bar to update when the year is toggled
 
-  $: xScale = d3
-    .scaleLinear()
-    .domain([0, 100])
-    .range([0, width - margin.left - margin.right]);
+  $: xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
 
   let barInnerWidth = tweened(0, {
     duration: 400,
@@ -56,16 +54,71 @@
 
   $: if (
     $stateView === "stateview" ||
-    ($stateView === "countyview" && $countySelected == false)
+    ($stateView === "countyview" && !$countySelected)
   ) {
     barInnerWidth.set(xScale($statePercent) - margin.right);
   } else {
     barInnerWidth.set(xScale($countyPercent) - margin.right);
   }
+
+  $: OUD_pct = getPercent(
+    "OUD",
+    "totaltrt",
+    isStateView ? $stateMetricData : $countyMetricData[0]
+  );
+  $: bup_pct = getPercent(
+    "bup",
+    "buptrt",
+    isStateView ? $stateMetricData : $countyMetricData[0]
+  );
+
+  $: meth_pct = getPercent(
+    "methadone",
+    "methtrt",
+    isStateView ? $stateMetricData : $countyMetricData[0]
+  );
+
+  // THIS PART STILL UNSURE
+  $: lollipop = getStateAvg();
+
+  $: getPercent = (metric1, metric2, metricData) => {
+    let metricFinal;
+    if (!$submitted) {
+      metricFinal = `${metric1}_tx_${year}m`;
+    } else {
+      if (treatment === "2xcap") {
+        metricFinal = `${metric2}_2xcap_pct_${year}m`;
+      } else {
+        metricFinal = `${metric2}_fillgap_pct`;
+      }
+    }
+    return metricData[metricFinal];
+  };
+
+  $: getStateAvg = () => {
+    let metricFinal;
+    if (!$submitted) {
+      metricFinal = `OUD_tx_${year}m`;
+    } else {
+      if (treatment === "2xcap") {
+        metricFinal = `totaltrt_2xcap_pct_${year}m`;
+      } else {
+        metricFinal = `totaltrt_fillgap_pct`;
+      }
+    }
+    return $stateMetricData[metricFinal];
+  };
 </script>
 
 {#if hoveredPointer}
-  <TooltipBar {OUD} {bup} {methadone} {hoveredPointer} {isBarHover} />
+  <TooltipBar
+    {OUD_pct}
+    {bup_pct}
+    {meth_pct}
+    {lollipop}
+    {hoveredPointer}
+    {isBarHover}
+  />
 {/if}
 
 <!-- need this if statement otherwise I get an error on negative value in rect -->
@@ -110,8 +163,8 @@
 
       <line
         id="stateAvg"
-        x1={xScale($statePercent)}
-        x2={xScale($statePercent)}
+        x1={xScale(lollipop) - margin.right + 1}
+        x2={xScale(lollipop) - margin.right + 1}
         y1={margin.top + 50}
         y2={margin.top - 10}
         stroke="white"
@@ -121,7 +174,7 @@
       />
       <circle
         id="circle"
-        cx={xScale($statePercent)}
+        cx={xScale(lollipop) - margin.right}
         cy={margin.top - 10}
         r="5"
         fill="white"

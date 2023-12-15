@@ -5,6 +5,7 @@
     projection,
     stateData,
     stateView,
+    countySelected,
     selectedYear,
     selectedCounty,
     selectedCountyData,
@@ -73,20 +74,18 @@
   {/if}
 
   {#if $stateClicked}
-    <svg {width} height={height + 10} class:print={$print}>
+    <svg {width} height={height + legendHeight} class:print={$print}>
       <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
         {#each $countiesData as feature}
           <path
             class="counties"
             id={feature.properties.name.replaceAll(" ", "")}
             d={$path(feature)}
-            fill={feature.id.toString().slice(0, 2) === "34"
-              ? colorScale(
-                  $selectedYear == 12
-                    ? feature.properties.OUD_tx_12m
-                    : feature.properties.OUD_tx_6m
-                )
-              : "black"}
+            fill={colorScale(
+              $selectedYear == 12
+                ? feature.properties.OUD_tx_12m
+                : feature.properties.OUD_tx_6m
+            )}
             stroke-linecap="round"
             stroke={feature.properties.name === $selectedCounty
               ? "black"
@@ -94,7 +93,6 @@
             stroke-width={feature.properties.name === $selectedCounty
               ? "2.5px"
               : "1px"}
-            opacity={feature.stateID === $stateID ? 1 : 0}
             on:mouseout={(e) => {
               // hoveredData = null;
               // console.log(e.toElement.id);
@@ -122,6 +120,7 @@
               }
             }}
             on:click={(e) => {
+              $countySelected = true;
               $selectedCounty = feature.properties.name;
               $selectedCountyData = $countiesData.filter(
                 (d) => d.properties.name === $selectedCounty
@@ -144,7 +143,7 @@
       </g>
       <g
         id="legend"
-        transform={`translate(${legendPadding},${height - legendHeight})`}
+        transform={`translate(${legendPadding},${height - 10})`}
         {width}
         height={legendHeight + 10}
       >
