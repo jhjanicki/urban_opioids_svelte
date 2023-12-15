@@ -1,13 +1,13 @@
 import { writable } from 'svelte/store';
 import * as topojson from "topojson-client";
-import usData from "../assets/data/usData.json";
+import usData from "../assets/data/counties_topo.json";
 import data from "../assets/data/metricData.json";
 
 
 const processCountyData = (state, county) => {
   county.id = +county.id;
   state.data.forEach(function (countyData) {
-    if (county.stateID === state.id && county.id === countyData.countyfips) {
+    if (+county.properties.stateID === state.id && county.id === countyData.countyfips) {
       county.properties.OTPcount = countyData.OTPcount;
       county.properties.OUD_tx_12m = countyData.OUD_tx_12m;
       county.properties.OUD_tx_6m = countyData.OUD_tx_6m;
@@ -20,19 +20,21 @@ const ids = [26,34];
 
 // // get all geojson data for counties
 let allCounties = topojson
-.feature(usData, usData.objects.counties).features.filter(d => ids.includes(+d.id.substr(0, 2)))
-  .map(d => ({
-    ...d,
-    stateID:+d.id.substr(0, 2)
-  }));
+.feature(usData, usData.objects.counties).features.filter(d => ids.includes(+d.properties.stateID));
 
 // get all geojson data for states
-let allStates = topojson.feature(usData, usData.objects.states)
+let allStates = ids.map(
+  id => ({
+    ...topojson.merge(usData, usData.objects.counties.geometries.filter(d => +d.properties.stateID == +id)), 
+    properties: { name: allCounties.find(c => +c.properties.stateID == id).properties.stateName}
+  }))
+// let allStates = topojson.feature(usData, usData.objects.states)
 
 // for the map, bind metric data to counties geojson data, for map only, the rest of county metric data don't need to be bound to spatial data
 data.forEach(state => {
   allCounties.forEach(county => processCountyData(state, county));
 });
+
 
 
 // Prepare state-level data

@@ -61,6 +61,7 @@
 
   $: $projection = d3
     .geoIdentity()
+    .reflectY(true)
     .fitSize([$mapWidth, $mapHeight], $stateData[0]);
 
   $: $path = d3.geoPath().projection($projection); //to make projection & path responsive add $:
@@ -75,7 +76,7 @@
 
   {#if $stateClicked}
     <svg {width} height={height + legendHeight} class:print={$print}>
-      <g id="counties" transform={`rotate(${rotateScale($stateID)})`}>
+      <g id="counties">
         {#each $countiesData as feature}
           <path
             class="counties"
