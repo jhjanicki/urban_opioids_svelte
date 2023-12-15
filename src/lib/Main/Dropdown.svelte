@@ -61,7 +61,7 @@
       <img
         id="carrot"
         class={active ? "flip" : ""}
-        src="/public/icon-dropdown.svg"
+        src="icon-dropdown.svg"
       />
     </div>
     <ul class="options">
