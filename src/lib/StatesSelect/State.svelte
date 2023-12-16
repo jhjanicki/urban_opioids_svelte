@@ -68,8 +68,9 @@
     );
 
     $stateData = filteredStateData; // in order to zoom to bounding box
-    $countiesData = filteredCountyData.filter((d) => +d.properties.stateID === $stateID);
-
+    $countiesData = filteredCountyData.filter(
+      (d) => +d.properties.stateID === $stateID
+    );
 
     const OTPcounts = $countiesData.map((d) => d.properties.OTPcount);
     const mean = getMean(OTPcounts);
@@ -95,7 +96,6 @@
     )[0];
 
     $stateMetricData = filteredStateMetricData;
-    // ADD IN OTHER TOGGLE OPTIONS
     $statePercent =
       $selectedYear === "year"
         ? filteredStateMetricData.OUD_tx_12m
@@ -143,7 +143,6 @@
     <text x="60px" y="77px" font-size="16px" font-weight="300">{stateCode}</text
     >
   </svg>
-  <!-- <span class="stateText">{stateCode}</span> -->
 </div>
 
 <p id="selectInstructionBottom">Select a State</p>
@@ -154,7 +153,6 @@
     flex: 1; /* Make each column have equal width */
     border-left: 1px solid white;
   }
-
   .column svg {
     display: block;
     margin-left: auto;
@@ -162,15 +160,12 @@
     height: 176px;
     background-color: #000000;
   }
-
   .img-wrapper:hover {
     cursor: pointer;
   }
-
   #selectInstructionBottom {
     display: none;
   }
-
   @media (max-width: 768px) {
     #selectInstructionBottom {
       display: block;
@@ -179,15 +174,12 @@
       left: 42%;
       color: white;
     }
-
     .column {
       border: none;
     }
-
     #NewJerseyWrapper {
       position: relative;
     }
-
     #NewJerseyWrapper::before {
       content: "";
       position: absolute;
@@ -199,16 +191,13 @@
       background-color: white; /* Adjust the color of the border as needed */
     }
   }
-
   @media (max-width: 576px) {
     #selectInstructionBottom {
       display: none;
     }
-
     .img-wrapper:hover:after {
       display: none;
     }
-
     #NewJerseyWrapper::before {
       content: none;
       width: 0px;

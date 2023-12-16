@@ -10,7 +10,6 @@
   let tooltipWidth;
 </script>
 
-<!-- seem to need a different adjustment number for each state, for the 80 and 60 currently below -->
 <div
   class="tooltip"
   style="position: absolute; bottom: {-hoveredPointer[1] +

@@ -7,7 +7,7 @@ import data from "../assets/data/metricData.json";
 const processCountyData = (state, county) => {
   county.id = +county.id;
   state.data.forEach(function (countyData) {
-    if (+county.properties.stateID === state.id && county.id === countyData.countyfips) {
+    if (+county.properties.stateID === state.id && county.id === countyData.fips) {
       county.properties.OTPcount = countyData.OTPcount;
       county.properties.OUD_tx_12m = countyData.OUD_tx_12m;
       county.properties.OUD_tx_6m = countyData.OUD_tx_6m;
@@ -25,10 +25,9 @@ let allCounties = topojson
 // get all geojson data for states
 let allStates = ids.map(
   id => ({
-    ...topojson.merge(usData, usData.objects.counties.geometries.filter(d => +d.properties.stateID == +id)), 
+    ...topojson.merge(usData, usData.objects.counties.geometries.filter(d => +d.properties.stateID == +id)),
     properties: { name: allCounties.find(c => +c.properties.stateID == id).properties.stateName}
   }))
-// let allStates = topojson.feature(usData, usData.objects.states)
 
 // for the map, bind metric data to counties geojson data, for map only, the rest of county metric data don't need to be bound to spatial data
 data.forEach(state => {
@@ -40,7 +39,7 @@ data.forEach(state => {
 // Prepare state-level data
 // find all where countiesftp = ""
 const allMetrics = data.reduce((all, state) => all.concat(
-  state.data.filter(row => row.countyfips === "")
+  state.data.filter(row => row.fips === "")
 ), []);
 
 

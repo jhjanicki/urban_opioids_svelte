@@ -21,7 +21,7 @@
 
   $: isStateView =
     $stateView === "stateview" ||
-    ($stateView === "countyview" && $countySelected == false);
+    ($stateView === "countyview" && !$countySelected);
 
   $: year = $selectedYear;
 

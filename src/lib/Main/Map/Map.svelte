@@ -20,7 +20,6 @@
     mapHeight,
     print,
   } from "../../../store/store";
-  // importing moveToFront from the utils module
   import { moveToFront } from "../../utils";
 
   let width = 100;
@@ -32,7 +31,6 @@
 
   $stateID = 34;
 
-  // const colorScale = d3.scaleSequential(d3.interpolatePuBuGn).domain([0, 5]);
   const colors = [
     "#cfe8f3",
     "#73bfe2",
@@ -95,22 +93,11 @@
               ? "2.5px"
               : "1px"}
             on:mouseout={(e) => {
-              // hoveredData = null;
-              // console.log(e.toElement.id);
-              // console.log($selectedCounty);
               if (e.toElement.id === "") {
                 if (hoveredID != $selectedCounty) {
                   hoveredData = null;
                 }
-              } else {
-                console.log("not equal");
               }
-              // if (e.toElement.id === $selectedCounty) {
-              //   console.log("equal");
-              // } else {
-              //   console.log("not equal");
-              //   hoveredData = null;
-              // }
             }}
             on:mouseover={(e) => {
               // prevent hover on print layout
@@ -129,15 +116,13 @@
               $countyPercent =
                 $selectedYear == 12
                   ? $selectedCountyData[0].properties.OUD_tx_12m
-                  : $selectedCountyData[0].properties.OUD_tx_6m; //for now 12, but will need to update based on the toggles
+                  : $selectedCountyData[0].properties.OUD_tx_6m;
               $stateView = "countyview";
 
               $countyMetricData = $allCountyMetricData.filter(
                 (d) => d.county === $selectedCounty
               );
               $countiesData = moveToFront(feature, $countiesData);
-              // let centroid = d3.geoPath().centroid(feature);
-              // hoveredPointer = centroid;
             }}
           />
         {/each}
@@ -185,9 +170,5 @@
 
   .counties:hover {
     cursor: pointer;
-  }
-
-  .none {
-    display: none;
   }
 </style>

@@ -19,7 +19,6 @@
     font: 16px Lato;
     color: #333;
     font-weight: 400;
-    /* margin-right: 100px; */
     position: fixed;
     top: 0;
     left: 0;
@@ -28,25 +27,10 @@
     background: #fff;
     border-bottom: 1px solid #d2d2d2;
     z-index: 100;
-    /*-webkit-transition: top 0.25s linear;*/
-    /*-moz-transition: top 0.25s linear;*/
-    /*-o-transition: top 0.25s linear;*/
-    /*transition: top 0.25s linear;*/
-  }
-
-  .is-visible {
-    top: 0px !important;
   }
 
   #header-pinned .header-container {
     width: 100%;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  #header-pinned .content {
-    height: 49px;
-    max-width: 1200px;
     margin: 0 auto;
     position: relative;
   }

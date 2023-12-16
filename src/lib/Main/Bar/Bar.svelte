@@ -43,8 +43,6 @@
       ? $countyMetricData[0].OUD_tx_12m
       : $countyMetricData[0].OUD_tx_6m;
 
-  //I had to add the above code for the bar to update when the year is toggled
-
   $: xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
 
   let barInnerWidth = tweened(0, {
@@ -121,7 +119,6 @@
   />
 {/if}
 
-<!-- need this if statement otherwise I get an error on negative value in rect -->
 {#if $stateClicked}
   <div class="bar-wrapper" bind:clientWidth={width}>
     <svg {width} height={$print ? 60 : barHeight}>

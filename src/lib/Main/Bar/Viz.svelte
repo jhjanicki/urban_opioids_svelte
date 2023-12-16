@@ -73,20 +73,6 @@
     year
   );
 
-  // $: bup_num = getMetricOutput(
-  //   false,
-  //   metricName.bup_patients,
-  //   isStateView ? $stateMetricData : $countyMetricData[0],
-  //   year
-  // );
-
-  // $: methadone_num = getMetricOutput(
-  //   false,
-  //   metricName.methadone,
-  //   isStateView ? $stateMetricData : $countyMetricData[0],
-  //   year
-  // );
-
   $: above = $countyPercent > $statePercent;
 
   const getMetricOutput = (noYear, metric, metricData, year) => {
@@ -328,10 +314,6 @@ for ${year} months.`;
     display: inline-block;
   }
 
-  #numTreatment {
-    display: none;
-  }
-
   #capacity {
     margin-top: -20px;
     margin-bottom: 8px;
@@ -365,12 +347,6 @@ for ${year} months.`;
 
   .print .viz-wrapper {
     padding: 0px;
-  }
-
-  .print #numTreatment {
-    display: inherit;
-    margin-bottom: 10px;
-    font-weight: 600;
   }
 
   .print #capacity {

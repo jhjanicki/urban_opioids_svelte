@@ -44,8 +44,6 @@
       $countiesData = moveToFront(feature[0], $countiesData);
     }
 
-    //for now 12, but will need to update based on the toggles
-
     $countyMetricData = $allCountyMetricData.filter(
       (d) => d.county === $selectedCounty
     );
@@ -58,14 +56,9 @@
       <span class="select-menu-text"
         >{$selectedCounty === "" ? "Select county" : $selectedCounty}</span
       >
-      <img
-        id="carrot"
-        class={active ? "flip" : ""}
-        src="icon-dropdown.svg"
-      />
+      <img id="carrot" class={active ? "flip" : ""} src="icon-dropdown.svg" />
     </div>
     <ul class="options">
-      <!-- need this if statement otherwise page won't load -->
       {#if $countyList}
         {#each $countyList as d}
           <li class="option" on:click={closeDropdown(d)}>

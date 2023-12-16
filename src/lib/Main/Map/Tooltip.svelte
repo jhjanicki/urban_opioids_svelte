@@ -6,7 +6,6 @@
   let tooltipWidth;
 </script>
 
-<!-- seem to need a different adjustment number for each state, for the 80 and 60 currently below -->
 <div
   class={$stateView === "stateview" ? "tooltip none" : "tooltip"}
   style="position: absolute; top: {hoveredPointer[1] - 80}px; left: {$print
