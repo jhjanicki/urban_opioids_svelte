@@ -63,12 +63,13 @@
     $stateID = id; // this shouldn't be ID here
 
     filteredCountyData = $allCountiesData;
-    filteredStateData = $allStatesData.features.filter(
+    filteredStateData = $allStatesData.filter(
       (d) => d.properties.name === $selectedState
     );
 
     $stateData = filteredStateData; // in order to zoom to bounding box
-    $countiesData = filteredCountyData.filter((d) => d.stateID === $stateID);
+    $countiesData = filteredCountyData.filter((d) => +d.properties.stateID === $stateID);
+
 
     const OTPcounts = $countiesData.map((d) => d.properties.OTPcount);
     const mean = getMean(OTPcounts);
@@ -84,6 +85,7 @@
 
     $projection = d3
       .geoIdentity()
+      .reflectY(true)
       .fitSize([$mapWidth, $mapHeight], $stateData[0]);
 
     $path = d3.geoPath().projection($projection);

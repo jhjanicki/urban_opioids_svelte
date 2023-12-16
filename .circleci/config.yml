@@ -1,0 +1,119 @@
+version: 2.1
+parameters:
+  project_slug_production:
+    type: string
+    default: $CIRCLE_PROJECT_REPONAME
+executors:
+  my-executor:
+    docker:
+      - image: cimg/node:19.3.0
+    resource_class: medium
+    working_directory: ~/repo
+orbs:
+  node: circleci/node@5.1.0
+jobs:
+  test:
+    executor: my-executor
+    steps:
+      - checkout
+      - node/install-packages
+      - run: npm run test
+  build:
+    executor: my-executor
+    parameters:
+      project_slug:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: build project
+          command: npx vite build --base=/features/<< parameters.project_slug >>/
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - dist
+  deploy:
+    machine: true
+    resource_class: medium
+    working_directory: ~/repo
+    parameters:
+      ssh_host:
+        type: env_var_name
+        default: SSH_STAGE_HOST
+      project_slug:
+        type: string
+        default: $CIRCLE_PROJECT_REPONAME
+      deploy_files:
+        type: string
+        default: dist/
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Deploy Code Over SSH to server
+          command: |
+            rsync -avz --exclude '.git' --exclude '.circleci' -e "ssh -vvv -p 20022" ~/repo/<< parameters.deploy_files >> $SSH_USER@$<< parameters.ssh_host >>:/var/www/apps.urban.org/features/<< parameters.project_slug >>/
+workflows:
+  install-test-build-deploy:
+    unless:
+      equal: [ main, << pipeline.git.branch >>]
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: dev
+      - build:
+          name: build-dev
+          project_slug: dev/$CIRCLE_PROJECT_REPONAME
+          requires:
+            - test
+          filters:
+            branches:
+              only: dev
+      - deploy:
+          name: deploy-staging
+          requires:
+            - build
+          context:
+            - apps
+          ssh_host: SSH_STAGE_HOST
+          filters:
+            branches:
+              only: staging
+      - deploy:
+          name: deploy-dev
+          requires:
+            - build-dev
+          context:
+            - apps
+          ssh_host: SSH_STAGE_HOST
+          project_slug: dev/$CIRCLE_PROJECT_REPONAME
+          filters:
+            branches:
+              only: dev
+
+  install-test-build-deploy-prod:
+    when:
+      equal: [ SET-ME-TO-MAIN-TO-DEPLOY, << pipeline.git.branch >>]
+    jobs:
+      - test
+      - build:
+          project_slug: << pipeline.parameters.project_slug_production >>
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
+      - deploy:
+          name: deploy-prod
+          requires:
+            - build
+          context:
+            - apps
+          ssh_host: SSH_STAGE_PROD
+          project_slug: << pipeline.parameters.project_slug_production >>
