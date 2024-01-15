@@ -13,22 +13,33 @@
       People in Need?
     </h1>
     <h4>
-      Methadone and buprenorphine are effective medications to treat opioid use
-      disorder, but not enough people can access them.
+      Explore how to get buprenorphine and methadone to more Michigan and New
+      Jersey residents with opioid use disorder.
     </h4>
-    <div class="date">September 21, 2023</div>
+    <div class="date">February x, 2024</div>
     <div class="socialWrapper">
       <Social />
     </div>
     <p>
-      Opioid use disorder affects millions of Americans, and opioid overdose
-      deaths reached a historic high in 2023. Even though medication treatments
-      can reduce opioid overdose deaths, the need for these treatments often
-      outpaces their availability. But it is possible to get treatment to more
-      people who need it. This tool explores state- and county-level gaps in
-      access to buprenorphine and methadone—two of the main medication
-      treatments available for opioid use disorder—in four states, plus
-      strategies for closing these gaps.
+      <a
+        href="https://www.cdc.gov/opioids/healthcare-professionals/prescribing/opioid-use-disorder.html"
+        target="_blank">Opioid use disorder</a
+      >
+      affects millions of Americans, and
+      <a
+        href="https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm"
+        target="_blank">opioid overdose deaths reached a historic high</a
+      >
+      in 2023. Although medication treatment for opioid use disorder
+      <a
+        href="https://nida.nih.gov/publications/research-reports/medications-to-treat-opioid-addiction/efficacy-medications-opioid-use-disorder"
+        target="_blank">can reduce opioid overdose deaths</a
+      >, the need for these treatments often outpaces their availability. But it
+      is possible to get treatment to more people who need it. This tool
+      explores state- and county-level gaps in access to buprenorphine and
+      methadone—two of the main medication treatments available for opioid use
+      disorder—in Michigan and New Jersey. It also provides strategies for
+      closing these gaps.
     </p>
   </div>
 </section>

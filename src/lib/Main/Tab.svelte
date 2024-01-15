@@ -13,7 +13,6 @@
     }
 
     $countySelected = false;
-    console.log($countySelected);
   };
 </script>
 
@@ -32,7 +31,7 @@
     color: #696969;
     background-color: #fff;
     cursor: pointer;
-    height: 36px;
+    height: 40px;
     border: none;
     padding: 0;
     text-transform: uppercase;

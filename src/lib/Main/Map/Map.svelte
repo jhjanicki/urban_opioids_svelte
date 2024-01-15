@@ -162,6 +162,7 @@
 <style>
   .print .counties:hover {
     cursor: inherit;
+    pointer-events: none;
   }
   .map-wrapper {
     width: 100%;

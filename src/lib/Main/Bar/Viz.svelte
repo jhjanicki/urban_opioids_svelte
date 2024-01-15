@@ -38,13 +38,6 @@
     methadone_tx: "methadone_tx",
   };
 
-  $: capacity = getMetricOutput(
-    false,
-    metricName.capacity_current,
-    isStateView ? $stateMetricData : $countyMetricData[0],
-    year
-  );
-
   $: gap = getMetricOutput(
     false,
     metricName.gap_current,
@@ -55,20 +48,6 @@
   $: OUD = getMetricOutput(
     false,
     metricName.OUD_tx,
-    isStateView ? $stateMetricData : $countyMetricData[0],
-    year
-  );
-
-  $: bup = getMetricOutput(
-    false,
-    metricName.bup_tx,
-    isStateView ? $stateMetricData : $countyMetricData[0],
-    year
-  );
-
-  $: methadone = getMetricOutput(
-    false,
-    metricName.methadone_tx,
     isStateView ? $stateMetricData : $countyMetricData[0],
     year
   );
@@ -91,7 +70,6 @@
     let metricFinal = `${provider}_${treatment}_${year}m`;
     let final = metricData[metricFinal];
     let inc = `newprov_incr_${treatment}_${year}m`; //instead of ${provider} just put newprov
-    console.log(inc);
     let finalInc = metricData[inc];
 
     if (provider === "newprov") {
@@ -104,10 +82,19 @@
 treatment for ${year} months.`;
       } else {
         //2xcap
-        return `${
-          isStateView ? $selectedState : $selectedCounty + " county"
-        } would need ${final} new buprenorphine prescribers to double the current treatment capacity, assuming all prescribers offer
-treatment for ${year} months.`;
+        if (gap === 0) {
+          return `${
+            isStateView ? $selectedState : $selectedCounty + " county"
+          } would need ${final} new buprenorphine prescribers to double the current number of people receiving
+treatment, assuming all prescribers offer treatment for ${year} months.  This would close ${$selectedState}'s
+treatment gap of ${gap} residents with opioid use disorder.`;
+        } else {
+          return `${
+            isStateView ? $selectedState : $selectedCounty + " county"
+          } would need ${final} new buprenorphine prescribers to double the current number of people receiving
+treatment, assuming all prescribers offer treatment for ${year} months.  This would not close ${$selectedState}'s
+treatment gap of ${gap} residents with opioid use disorder.`;
+        }
       }
     } else {
       // Increasing capacity of current providers (active buprenorphine prescribers)
@@ -115,14 +102,14 @@ treatment for ${year} months.`;
         //fill gap
         //if gap can be closed
         if (gap === 0) {
-          return `Active buprenorphine prescribers would have to treat ${final} times as many patients to close the treatment
+          return `Active prescribers would have to treat ${final} times as many patients to close the treatment
 gap of ${gap} residents with opioid use disorder in ${
             isStateView ? $selectedState : $selectedCounty
           }, assuming all prescribers offer treatment
 for ${year} months.`;
         } else {
           //if gap still exists
-          return `Increasing active buprenorphine prescribers's capacity isn't enough to close the treatment gap in ${$selectedState}. Active buprenorphine prescribers would have to treat ${final} times as many patients and ${finalInc} additional new prescribers would have to treat about ${
+          return `Increasing active prescribers's capacity isn't enough to close the treatment gap in ${$selectedState}. Active prescribers would have to treat ${final} times as many patients and ${finalInc} additional new prescribers would each have to treat about ${
             $selectedState === "Michigan" ? 3 : 5
           } patients (the state average prescribers with a 30-patient limit treated in 2022) to close the treatment gap of ${gap} residents with opioid use disorder in ${
             isStateView ? $selectedState : $selectedCounty
@@ -132,22 +119,22 @@ for ${year} months.`;
         //double treatment
         //if gap can be closed
         if (gap === 0) {
-          return `Active buprenorphine prescribers would have to treat ${final} times as many patients to double the current treatment capacity in ${
+          return `Active prescribers would have to treat ${final} times as many patients to double the current number of people receiving treatment in ${
             isStateView ? $selectedState : $selectedCounty
-          }, assuming all prescribers offer treatment for ${year} months.  This would close ${$selectedState}'s treatment gap of ${gap} residents`;
+          }, assuming all prescribers offer treatment for ${year} months.  This would close ${$selectedState}'s treatment gap of ${gap} residents with oopioid use disorder`;
         } else {
           //if gap still exists
-          return `Active buprenorphine prescribers would have to treat ${final} times as many patients and ${finalInc} additional new prescribers would have to treat about ${
+          return `Active prescribers would have to treat ${final} times as many patients and ${finalInc} additional new prescribers would each have to treat about ${
             $selectedState === "Michigan" ? 3 : 5
-          } patients (the average that prescribers with a 30-patient limit treated in 2022) state average for those that were 30-waivered prescribers to double the current treatment capacity in ${
+          } patients (the state average that prescribers with a 30-patient limit treated in 2022) to double the current number of people receiving treatment in ${
             isStateView ? $selectedState : $selectedCounty
-          }, assuming all prescribers offer treatment for ${year} months. This would not close ${$selectedState}'s treatment gap of ${gap} residents.`;
+          }, assuming all prescribers offer treatment for ${year} months. This would not close ${$selectedState}'s treatment gap of ${gap} residents with opioid use disorder.`;
         }
       }
     }
   };
 
-  $: OUD_num = getNumber(
+  $: total_num = getNumber(
     "capacity_current",
     "totaltrt",
     isStateView ? $stateMetricData : $countyMetricData[0]
@@ -218,7 +205,7 @@ for ${year} months.`;
     <Bar />
 
     <p id="capacity">
-      {OUD_num} residents are receiving treatment for opioid use disorder
+      {total_num} residents are receiving treatment for opioid use disorder
     </p>
     <div>
       <p class="inline">
@@ -232,14 +219,15 @@ for ${year} months.`;
         on:mouseleave={() => (active = false)}
       />
       <span class={active ? "tooltiptext visible" : "tooltiptext hidden"}
-        >Buprenorphine (sold under several brand names including Suboxone and
-        Subutex) and methadone are two of the main medication treatments
-        available for opioid use disorder</span
+        >Buprenorphine (sold under brand names including Suboxone and Subutex)
+        and methadone are two of the main medication treatments available for
+        opioid use disorder. A small share of patients in opioid treatment
+        programs receive a medication treatment other than methadone, such as
+        buprenorphine</span
       >
     </div>
     <p>
-      {meth_num} residents are receiving methadone or other medication treatment
-      at an opioid treatment program
+      {meth_num} residents are receiving methadone at an opioid treatment program
     </p>
   </div>
 </div>
@@ -315,7 +303,7 @@ for ${year} months.`;
   }
 
   #capacity {
-    margin-top: -20px;
+    margin-top: -10px;
     margin-bottom: 8px;
   }
 

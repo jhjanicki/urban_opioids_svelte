@@ -17,7 +17,7 @@
 <style>
   #header-pinned {
     font: 16px Lato;
-    color: #333;
+    color: #000;
     font-weight: 400;
     position: fixed;
     top: 0;

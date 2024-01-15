@@ -297,6 +297,14 @@
     year
   );
 
+  $: getHour = (num) => {
+    return num >= 60
+      ? `[${Math.floor(num / 60)} hour${
+          Math.floor(num / 60) > 1 ? "s" : ""
+        } and ${num % 60} minute${Math.floor(num % 60) > 1 ? "s" : ""}]`
+      : "";
+  };
+
   $: driveMState = getMetricOutput(
     true,
     metricName.drivetime_methadone,
@@ -443,7 +451,7 @@
               </span>
               residents (
               {OUD}
-              percent) have opioid use disorder
+              percent) are estimated to have opioid use disorder
             </p>
           </div>
           <h4>Overdose deaths</h4>
@@ -468,7 +476,7 @@
                 {deathsopall}
               </span>
               {isStateView
-                ? "percent of overdose deaths are opioid related"
+                ? "percent of overdose deaths in the state are opioid related"
                 : `percent of all overdose deaths in the county are opioid related (state average: ${deathsopallState})`}
             </p>
           </div>
@@ -478,9 +486,9 @@
               <span class="number">
                 {eng}
               </span>
-              {isStateView
-                ? "percent of residents speaks limited English"
-                : `percent of residents speaks limited English (state average: ${engState})`}
+              {@html isStateView
+                ? "percent of residents speaks <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a>"
+                : `percent of residents speaks  <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a> (state average: ${engState})`}
             </p>
             <p>
               <span class="number">
@@ -513,15 +521,23 @@
                 {gap_curr}
               </span>
               {isStateView
-                ? "residents lack access to treatment"
+                ? "residents lack access to medication treatment"
                 : `residents lack access to treatment (state total: ${gap_currState})`}
             </p>
             <p>
               <span class="number">
                 {cap_curr}
               </span>{isStateView
-                ? "residents have access to treatment"
+                ? "residents have access to medication treatment"
                 : `residents have access to treatment (state total: ${cap_currState})`}
+            </p>
+            <p>
+              <span class="number">
+                {OTPcount}
+              </span>
+              {isStateView
+                ? "opioid treatment programs operate in the state"
+                : `opioid treatment programs operate in the county (state total: ${OTPcountState})`}
             </p>
             <p>
               <span class="number">
@@ -540,14 +556,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
                 ? "residents receive buprenorphine (per 100,000 residents)"
                 : `residents receive buprenorphine per 100,000 residents (state average: ${bupPState})`}
             </p>
-            <p>
-              <span class="number">
-                {OTPcount}
-              </span>
-              {isStateView
-                ? "opioid treatment programs operate"
-                : `opioid treatment programs operate in the county (state total: ${OTPcountState})`}
-            </p>
+
             {#if !isStateView}
               <p>
                 <span class="number">
@@ -617,36 +626,67 @@ program per 100,000 residents (state average: ${methadoneState})`}
           <h4>Transportation characteristics</h4>
           <div class="textWrapper">
             <p>
-              <span class="number">
-                {driveM}
-              </span>
-              {isStateView
-                ? "minutes is the average driving time to the nearest opioid treatment program for methadone treatment"
-                : `minutes is the average driving time to the nearest opioid treatment program for methadone treatment (state average: ${driveMState})`}
+              {#if driveM}
+                <span class="number">
+                  {driveM}
+                </span>
+                {isStateView
+                  ? `minute${driveM % 60 > 1 ? "s" : ""} ${getHour(
+                      driveM
+                    )} is the average driving time to the nearest opioid treatment program for methadone treatment or other medication treatment`
+                  : `minute${driveM % 60 > 1 ? "s" : ""} ${getHour(
+                      driveM
+                    )} is the average driving time to the nearest opioid treatment program for methadone treatment (state average: ${driveMState})`}
+              {/if}
             </p>
             <p>
-              <span class="number">
-                {transitM}
-              </span>
-              {isStateView
-                ? "minutes is the average travel time via public transit to nearest opioid treatment program for methadone treatment"
-                : `minutes is the average travel time via public transit to nearest opioid treatment program for methadone treatment (state average: ${transitMState})`}
+              {#if transitM}
+                <span class="number">
+                  {transitM}
+                </span>
+                {isStateView
+                  ? `minute${transitM % 60 > 1 ? "s" : ""} ${getHour(
+                      transitM
+                    )} is the average travel time via public transit to nearest opioid treatment program for methadone treatment or other medication treatment`
+                  : `minute${transitM % 60 > 1 ? "s" : ""} ${getHour(
+                      transitM
+                    )} is the average travel time via public transit to nearest opioid treatment program for methadone treatment (state average: ${transitMState})`}
+              {/if}
             </p>
             <p>
-              <span class="number">
-                {driveB}
-              </span>
-              {isStateView
-                ? "minutes is the average driving time to the nearest buprenorphine treatment"
-                : `minutes is the average driving time to the nearest buprenorphine treatment (state average: ${driveBState})`}
+              {#if driveB}
+                <span class="number">
+                  {driveB}
+                </span>
+                {isStateView
+                  ? `minute${driveB % 60 > 1 ? "s" : ""} ${getHour(
+                      driveB
+                    )} is the average driving time to the nearest buprenorphine treatment`
+                  : `minute${driveB % 60 > 1 ? "s" : ""} ${getHour(
+                      driveB
+                    )} is the average driving time to the nearest buprenorphine treatment (state average: ${driveBState})`}
+              {/if}
             </p>
             <p>
-              <span class="number">
-                {transitB}
-              </span>
-              {isStateView
-                ? "minutes is the average travel time via public transit to the nearest buprenorphine treatment"
-                : `minutes is the average travel time via public transit to the nearest buprenorphine treatment (state average: ${transitBState})`}
+              {#if transitB}
+                <span class="number">
+                  {transitB}
+                </span>
+                {isStateView
+                  ? `minute${transitB % 60 > 1 ? "s" : ""} ${getHour(
+                      transitB
+                    )} is the average travel time via public transit to the nearest buprenorphine treatment`
+                  : `minute${transitB % 60 > 1 ? "s" : ""} ${getHour(
+                      transitB
+                    )} is the average travel time via public transit to the nearest buprenorphine treatment (state average: ${transitBState})`}
+              {/if}
+            </p>
+            <p>
+              {#if transitM === "" && transitB === ""}
+                {@html "Average travel times via public transit to the nearest buprenorphine treatment and opioid treatment program are not available. See our <a href='#'>technical appendix</a> for more information."}
+              {:else if transitM === ""}
+                {@html "We exclude the average public-transit travel time for methadone because a person cannot reasonably access an opioid treatment program via public transit from this county. See our <a href='#'>technical appendix</a> for more information."}
+              {/if}
             </p>
           </div>
         {/if}
@@ -670,7 +710,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
   </p>
   <ul>
     <li>
-      Engage health plans in prescriber outreach. In some states,
+      <b>Engage health plans in prescriber outreach.</b> In some states,
       <a
         href="https://substanceabusepolicy.biomedcentral.com/articles/10.1186/s13011-022-00478-y"
         target="_blank">Medicaid reimbursement</a
@@ -681,18 +721,21 @@ program per 100,000 residents (state average: ${methadoneState})`}
       to prescribe medications for treating opioid use disorder.
     </li>
     <li>
-      Make medication for opioid use disorder available in more places where
-      people receive health care. Making treatment
+      <b
+        >Make medication for opioid use disorder available in more places where
+        people receive health care.</b
+      >
+      Making treatment
       <a
         href="https://www.dea.gov/press-releases/2022/03/23/deas-commitment-expanding-access-medication-assisted-treatment"
         target="_blank">more broadly available</a
       >—in places such as health centers, jails, emergency rooms, hospitals,
-      primary care offices, and addiction treatment programs—meets people where
-      they are and can increase engagement in treatment.
+      primary care offices, and all addiction treatment programs—meets people
+      where they are and can increase engagement in treatment.
     </li>
     <li>
-      Expand telehealth options. Opioid use disorder–related telehealth services
-      have been shown to
+      <b>Expand telehealth options.</b> Opioid use disorder–related telehealth
+      services have been shown to
       <a
         href="https://www.cdc.gov/media/releases/2022/p0831-ccovid-19-opioids.html"
         target="_blank"
@@ -703,10 +746,13 @@ program per 100,000 residents (state average: ${methadoneState})`}
       allowing people to receive care where they’re most comfortable.
     </li>
     <li>
-      Coordinate with community partners, such as <a
-        href="https://www.behavioralhealthworkforce.org/project/understanding-the-roles-of-peer-providers-addiction-counselors-and-community-health-workers-in-behavioral-health/"
-        target="_blank">community health workers and peer recovery workers</a
-      >. Because
+      <b
+        >Coordinate with community partners, such as <a
+          href="https://www.behavioralhealthworkforce.org/project/understanding-the-roles-of-peer-providers-addiction-counselors-and-community-health-workers-in-behavioral-health/"
+          target="_blank">community health workers and peer recovery workers</a
+        >.</b
+      >
+      Because
       <a
         href="https://store.samhsa.gov/product/community-engagement-essential-component-substance-use-prevention-system/pep22-06-01-005"
         target="_blank">community partners</a
@@ -716,30 +762,28 @@ program per 100,000 residents (state average: ${methadoneState})`}
       options and access treatment.
     </li>
     <li>
-      Remove regulatory barriers to prescribing medications to treat opioid use
-      disorder. Restrictions on who can prescribe
-      <a
-        href="https://www.pewtrusts.org/en/research-and-analysis/issue-briefs/2021/05/policies-should-promote-access-to-buprenorphine-for-opioid-use-disorder"
-        target="_blank">buprenorphine</a
+      <b
+        >Remove regulatory barriers to prescribing medications to treat opioid
+        use disorder.</b
       >
-      and
+      Restrictions on prescribing
       <a
         href="https://www.healthaffairs.org/content/forefront/expedited-regulatory-strategy-expanding-access-methadone-treatment-opioid-use-disorder"
         target="_blank">methadone</a
       >
       treatment for opioid use disorder and when and where patients can initiate
-      treatment can deter people from getting needed care. Reforms to reimbursement
-      policies, treatment guidelines, and
+      medication treatment can deter people from getting needed care. Reforms to
+      reimbursement policies, treatment guidelines, and
       <a
         href="https://www.healthaffairs.org/content/forefront/save-lives-opioid-overdose-deaths-bring-methadone-into-mainstream-medicine"
         target="_blank"
       >
-        regulations</a
+        other regulations</a
       > could help prescribers better serve people with opioid use disorder.
     </li>
     <li>
-      Ensure pharmacies stock medication to treat opioid use disorder. Barriers
-      like stigma, prescribing restrictions, and limits on the amount of
+      <b>Ensure pharmacies stock medication to treat opioid use disorder.</b>
+      Barriers like stigma, prescribing restrictions, and limits on the amount of
       medication pharmacists can order can
       <a
         href="https://www.npr.org/sections/health-shots/2019/08/13/741113454/its-the-go-to-drug-for-opioid-addiction-so-why-won-t-more-pharmacists-stock-it"
@@ -755,8 +799,8 @@ program per 100,000 residents (state average: ${methadoneState})`}
   <h2>About</h2>
   <p>
     For this project, Urban Institute researchers collaborated with colleagues
-    at Johns Hopkins University to conduct treatment capacity assessments for
-    four states in the Bloomberg Philanthropies <a
+    at Johns Hopkins University to conduct treatment-capacity assessments for
+    two states in the Bloomberg Philanthropies <a
       href="https://www.bloomberg.org/public-health/combating-the-overdose-epidemic/"
       target="_blank">Overdoes Prevention Initiative</a
     >.
@@ -769,14 +813,21 @@ program per 100,000 residents (state average: ${methadoneState})`}
     limits associated with the <a
       href="https://www.acponline.org/advocacy/acp-advocate/archive/february-10-2023/elimination-of-x-waiver-removes-major-barrier-to-opioid-use-disorder-treatment"
       target="_blank">buprenorphine X-waiver</a
-    > as of January 2023. The Substance Abuse and Mental Health Services Administration
+    > as of November 2022. The Substance Abuse and Mental Health Services Administration
     and the Drug Enforcement Administration eliminated the waiver and associated
     patient limits in January 2023.
   </p>
+  <p>
+    Where we discuss prescriber capacity, we assume opioid treatment programs
+    operate at 80 percent capacity, and we increase their capacity to 100
+    percent in all simulated results. For buprenorphine prescribers, we cap the
+    amount by which they can increase capacity at double their current patient
+    load.
+  </p>
   <p>For more about the data and methodology, see our technical appendix.</p>
   <div class={$print ? "none" : "buttonsWrapper2"}>
-    <Button id={"download2"} text={"Download data"} />
-    <Button id={"appendix"} text={"Download Appendix"} />
+    <Button id={"download2"} text={"View data"} />
+    <Button id={"appendix"} text={"View Technical Appendix"} />
   </div>
 </section>
 
@@ -788,7 +839,11 @@ program per 100,000 residents (state average: ${methadoneState})`}
     mission. The views expressed are those of the authors and should not be
     attributed to the Urban Institute, its trustees, or its funders. Funders do
     not determine our research findings or the insights and recommendations of
-    our experts. More information on our funding principles is available here.
+    our experts. More information on our funding principles is available <a
+      href="https://www.urban.org/about/our-funding"
+      target="_blank">here</a
+    >. Read our terms of service
+    <a href="https://www.urban.org/terms-service" target="_blank">here</a>.
   </p>
   <div class="creditItem">
     <h4 class="inline">RESEARCH</h4>

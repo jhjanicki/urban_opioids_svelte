@@ -1,4 +1,5 @@
 <script>
+  import Icon from "../Icon.svelte";
   export let options;
   export let selected = "";
 
@@ -9,9 +10,12 @@
 </script>
 
 <div aria-labelledby={`label-${id}`} id={`group-${id}`} class="radio">
-  {#each options as { value, label }}
+  {#each options as { value, label, tooltip }}
     <input type="radio" id={slugify(label)} bind:group={selected} {value} />
     <label for={slugify(label)}> {label} </label>
+    {#if tooltip != ""}
+      <Icon text={tooltip}></Icon>
+    {/if}
     <br />
   {/each}
 </div>

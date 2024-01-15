@@ -1,6 +1,7 @@
 <script>
   import Radio from "./Radio.svelte";
   import Toggle from "./Toggle.svelte";
+  import Icon from "../Icon.svelte";
   import {
     submitted,
     selectedTreatment,
@@ -11,22 +12,27 @@
   const optionsTreatment = [
     {
       value: "2xcap",
-      label: "Double the current treatment",
+      label: "Double the number of people receiving treatment",
+      tooltip: "",
     },
     {
       value: "fill_gap",
       label: "Close the treatment gap",
+      tooltip: "",
     },
   ];
 
   const optionsProvider = [
     {
       value: "newprov",
-      label: "Adding new providers",
+      label: "Adding new buprenorphine prescribers",
+      tooltip:
+        "Because most patients receiving medication treatment for opioid use disorder receive buprenorphine and relatively few receive methadone or other medication treatments at an opioid treatment program, we only simulate adding new buprenorphine providers.",
     },
     {
       value: "curprx",
       label: "Increasing capacity of current providers",
+      tooltip: "",
     },
   ];
 
@@ -68,7 +74,7 @@
 
 <div class="toggle-selection">
   <div class="toggle-wrapper">
-    <p id="question">See what it would take to...</p>
+    <p id="question">See what it would take to</p>
     <Radio options={optionsTreatment} bind:selected={treatment} />
   </div>
   <div class="toggle-wrapper">
@@ -80,18 +86,11 @@
     <p id="reduce" class="inline">
       Reduce treatment length from 12 months to 6 months
     </p>
-    <img
-      class="inline"
-      id="info"
-      src="information-gray.svg"
-      on:mouseover={() => (tooltipActive = true)}
-      on:mouseleave={() => (tooltipActive = false)}
-    />
-    <span class={tooltipActive ? "tooltiptext visible" : "tooltiptext hidden"}
-      >Reducing treatment length could help more people access treatment, but it
-      may also mean treatment is less effective. Selecting this option affects
-      several statistics below.</span
-    >
+    <Icon
+      text="Reducing treatment length could help more people access treatment, but it
+    may also mean treatment is less effective. Selecting this option affects
+    several statistics below."
+    ></Icon>
   </div>
   <Toggle options={optionsYear} bind:selected={year} />
   <button
