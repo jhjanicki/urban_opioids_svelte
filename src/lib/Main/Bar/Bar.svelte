@@ -94,16 +94,16 @@
   };
 
   $: getStateAvg = () => {
-    let metricFinal;
-    if (!$submitted) {
-      metricFinal = `OUD_tx_${year}m`;
-    } else {
-      if (treatment === "2xcap") {
-        metricFinal = `totaltrt_2xcap_pct_${year}m`;
-      } else {
-        metricFinal = `totaltrt_fillgap_pct`;
-      }
-    }
+    let metricFinal = `OUD_tx_${year}m`;
+    // if (!$submitted) {
+    //   metricFinal = `OUD_tx_${year}m`;
+    // } else {
+    //   if (treatment === "2xcap") {
+    //     metricFinal = `totaltrt_2xcap_pct_${year}m`;
+    //   } else {
+    //     metricFinal = `totaltrt_fillgap_pct`;
+    //   }
+    // }
     return $stateMetricData[metricFinal];
   };
 </script>

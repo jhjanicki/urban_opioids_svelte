@@ -44,12 +44,6 @@
     .domain([0, 20, 40, 60, 80, 100])
     .range(colors);
 
-  //rotate state due to projection distortions
-  const rotateScale = d3
-    .scaleOrdinal()
-    .domain([42, 35, 21, 26, 37, 55, 34])
-    .range([11, -5, 5, 5, 10, 3, 0]); //"PE", "NM", "KY", "MI", "NC", "WI", "NJ"
-
   let hoveredData;
   let hoveredPointer;
   let hoveredID;

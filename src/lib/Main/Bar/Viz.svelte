@@ -52,88 +52,6 @@
     year
   );
 
-  $: above = $countyPercent > $statePercent;
-
-  const getMetricOutput = (noYear, metric, metricData, year) => {
-    const metricFinal = noYear ? metric : `${metric}_${year}m`;
-    return metricData[metricFinal];
-  };
-
-  $: outputText = getText(
-    isStateView ? $stateMetricData : $countyMetricData[0],
-    year,
-    treatment,
-    provider
-  );
-
-  const getText = (metricData, year, treatment, provider) => {
-    let metricFinal = `${provider}_${treatment}_${year}m`;
-    let final = metricData[metricFinal];
-    let inc = `newprov_incr_${treatment}_${year}m`; //instead of ${provider} just put newprov
-    let finalInc = metricData[inc];
-
-    if (provider === "newprov") {
-      // new providers (new buprenorphine prescribers)
-      if (treatment === "fill_gap") {
-        //
-        return `${
-          isStateView ? $selectedState : $selectedCounty + " county"
-        } would need ${final} new buprenorphine prescribers to close the treatment gap of ${gap} residents with opioid use disorder, assuming all prescribers offer
-treatment for ${year} months.`;
-      } else {
-        //2xcap
-        if (gap === 0) {
-          return `${
-            isStateView ? $selectedState : $selectedCounty + " county"
-          } would need ${final} new buprenorphine prescribers to double the current number of people receiving
-treatment, assuming all prescribers offer treatment for ${year} months.  This would close ${$selectedState}'s
-treatment gap of ${gap} residents with opioid use disorder.`;
-        } else {
-          return `${
-            isStateView ? $selectedState : $selectedCounty + " county"
-          } would need ${final} new buprenorphine prescribers to double the current number of people receiving
-treatment, assuming all prescribers offer treatment for ${year} months.  This would not close ${$selectedState}'s
-treatment gap of ${gap} residents with opioid use disorder.`;
-        }
-      }
-    } else {
-      // Increasing capacity of current providers (active buprenorphine prescribers)
-      if (treatment === "fill_gap") {
-        //fill gap
-        //if gap can be closed
-        if (gap === 0) {
-          return `Active prescribers would have to treat ${final} times as many patients to close the treatment
-gap of ${gap} residents with opioid use disorder in ${
-            isStateView ? $selectedState : $selectedCounty
-          }, assuming all prescribers offer treatment
-for ${year} months.`;
-        } else {
-          //if gap still exists
-          return `Increasing active prescribers's capacity isn't enough to close the treatment gap in ${$selectedState}. Active prescribers would have to treat ${final} times as many patients and ${finalInc} additional new prescribers would each have to treat about ${
-            $selectedState === "Michigan" ? 3 : 5
-          } patients (the state average prescribers with a 30-patient limit treated in 2022) to close the treatment gap of ${gap} residents with opioid use disorder in ${
-            isStateView ? $selectedState : $selectedCounty
-          }, assuming all prescribers offer treatment for ${year} months.`;
-        }
-      } else {
-        //double treatment
-        //if gap can be closed
-        if (gap === 0) {
-          return `Active prescribers would have to treat ${final} times as many patients to double the current number of people receiving treatment in ${
-            isStateView ? $selectedState : $selectedCounty
-          }, assuming all prescribers offer treatment for ${year} months.  This would close ${$selectedState}'s treatment gap of ${gap} residents with oopioid use disorder`;
-        } else {
-          //if gap still exists
-          return `Active prescribers would have to treat ${final} times as many patients and ${finalInc} additional new prescribers would each have to treat about ${
-            $selectedState === "Michigan" ? 3 : 5
-          } patients (the state average that prescribers with a 30-patient limit treated in 2022) to double the current number of people receiving treatment in ${
-            isStateView ? $selectedState : $selectedCounty
-          }, assuming all prescribers offer treatment for ${year} months. This would not close ${$selectedState}'s treatment gap of ${gap} residents with opioid use disorder.`;
-        }
-      }
-    }
-  };
-
   $: total_num = getNumber(
     "capacity_current",
     "totaltrt",
@@ -166,6 +84,96 @@ for ${year} months.`;
     return metricData[metricFinal];
   };
 
+  $: above = $countyPercent > $statePercent;
+
+  const getMetricOutput = (noYear, metric, metricData, year) => {
+    const metricFinal = noYear ? metric : `${metric}_${year}m`;
+    return metricData[metricFinal];
+  };
+
+  $: outputText = getText(
+    isStateView ? $stateMetricData : $countyMetricData[0],
+    year,
+    treatment,
+    provider
+  );
+
+  const getText = (metricData, year, treatment, provider) => {
+    let metricFinal = `${provider}_${treatment}_${year}m`;
+    let finalNum = metricData[metricFinal];
+    let metricIncNewProv = `newprov_incr_${treatment}_${year}m`;
+    let newProvInc = metricData[metricIncNewProv];
+    let metricCloseGap2xCap = `totaltrt_2xcap_pct_${year}m`;
+    let closeGap2xCap = metricData[metricCloseGap2xCap];
+
+    if (gap === 0) {
+      return `${$selectedCounty}, ${$selectedState} has no treatment gap.`;
+    } else {
+      if (provider === "newprov") {
+        // new providers (new buprenorphine prescribers)
+        if (treatment === "fill_gap") {
+          //
+          return `${
+            isStateView ? $selectedState : $selectedCounty + " county"
+          } would need ${finalNum} new buprenorphine prescribers to close the treatment gap of ${gap} residents with opioid use disorder, assuming all prescribers offer
+treatment for ${year} months.`;
+        } else {
+          //2xcap
+          if (closeGap2xCap === 100) {
+            // gap closes
+            return `${
+              isStateView ? $selectedState : $selectedCounty + " county"
+            } would need ${finalNum} new buprenorphine prescribers to double the current number of people receiving
+treatment, assuming all prescribers offer treatment for ${year} months.  This would close ${$selectedState}'s
+treatment gap of ${gap} residents with opioid use disorder.`;
+          } else {
+            // gap exists
+            return `${
+              isStateView ? $selectedState : $selectedCounty + " county"
+            } would need ${finalNum} new buprenorphine prescribers to double the current number of people receiving
+treatment, assuming all prescribers offer treatment for ${year} months.  This would not close ${$selectedState}'s
+treatment gap of ${gap} residents with opioid use disorder.`;
+          }
+        }
+      } else {
+        // Increasing capacity of current providers (active buprenorphine prescribers)
+        if (treatment === "fill_gap") {
+          //fill gap
+          //if gap can be closed
+          if (closeGap2xCap === 100) {
+            return `Active prescribers would have to treat ${finalNum} times as many patients to close the treatment
+gap of ${gap} residents with opioid use disorder in ${
+              isStateView ? $selectedState : $selectedCounty
+            }, assuming all prescribers offer treatment
+for ${year} months.`;
+          } else {
+            //if gap still exists
+            return `Increasing active prescribers's capacity isn't enough to close the treatment gap in ${$selectedState}. Active prescribers would have to treat ${finalNum} times as many patients and ${newProvInc} additional new prescribers would each have to treat about ${
+              $selectedState === "Michigan" ? 3 : 5
+            } patients (the state average prescribers with a 30-patient limit treated in 2022) to close the treatment gap of ${gap} residents with opioid use disorder in ${
+              isStateView ? $selectedState : $selectedCounty
+            }, assuming all prescribers offer treatment for ${year} months.`;
+          }
+        } else {
+          //double treatment
+          //if gap can be closed
+          if (closeGap2xCap === 100) {
+            return `Active prescribers would have to treat ${finalNum} times as many patients to double the current number of people receiving treatment in ${
+              isStateView ? $selectedState : $selectedCounty
+            }, assuming all prescribers offer treatment for ${year} months.  This would close ${$selectedState}'s treatment gap of ${gap} residents with oopioid use disorder`;
+          } else {
+            //if gap still exists
+            return `Active prescribers would have to treat ${finalNum} times as many patients and ${newProvInc} additional new prescribers would each have to treat about ${
+              $selectedState === "Michigan" ? 3 : 5
+            } patients (the state average that prescribers with a 30-patient limit treated in 2022) to double the current number of people receiving treatment in ${
+              isStateView ? $selectedState : $selectedCounty
+            }, assuming all prescribers offer treatment for ${year} months. This would not close ${$selectedState}'s treatment gap of ${gap} residents with opioid use disorder.`;
+          }
+        }
+      }
+    }
+  };
+
   //
 </script>
 
@@ -195,10 +203,14 @@ for ${year} months.`;
     {:else}
       <h4>
         {#if $stateMetricData && $countyMetricData}
-          {$selectedCounty} is treating {OUD}% of residents with opioid use
-          disorder. That is
-          <!-- {$countyPercent} -->
-          {above ? "above" : "below"} the state average of {$statePercent}%.
+          {#if gap === 0}
+            {$selectedCounty}, {$selectedState} has no treatment gap.
+          {:else}
+            {$selectedCounty} is treating {OUD}% of residents with opioid use
+            disorder. That is
+            <!-- {$countyPercent} -->
+            {above ? "above" : "below"} the state average of {$statePercent}%.
+          {/if}
         {/if}
       </h4>
     {/if}
@@ -352,6 +364,12 @@ for ${year} months.`;
   .print .tooltiptext.visible {
     display: none;
     visibility: hidden;
+  }
+
+  @media (max-width: 700px) {
+    .viz-wrapper {
+      padding: 20px;
+    }
   }
 
   @media (max-width: 576px) {
