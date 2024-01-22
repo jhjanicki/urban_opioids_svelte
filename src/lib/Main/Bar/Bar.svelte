@@ -61,35 +61,36 @@
 
   $: OUD_pct = getPercent(
     "OUD",
-    "totaltrt",
+    "tx",
     isStateView ? $stateMetricData : $countyMetricData[0]
-  );
+  ); //totaltrt
+
   $: bup_pct = getPercent(
     "bup",
-    "buptrt",
+    "tx",
     isStateView ? $stateMetricData : $countyMetricData[0]
-  );
+  ); //buptrt
 
   $: meth_pct = getPercent(
     "methadone",
-    "methtrt",
+    "tx",
     isStateView ? $stateMetricData : $countyMetricData[0]
-  );
+  ); //methtrt
 
   // THIS PART STILL UNSURE
   $: lollipop = getStateAvg();
 
   $: getPercent = (metric1, metric2, metricData) => {
-    let metricFinal;
-    if (!$submitted) {
-      metricFinal = `${metric1}_tx_${year}m`;
-    } else {
-      if (treatment === "2xcap") {
-        metricFinal = `${metric2}_2xcap_pct_${year}m`;
-      } else {
-        metricFinal = `${metric2}_fillgap_pct`;
-      }
-    }
+    let metricFinal = `${metric1}_${metric2}_${year}m`;
+    // if (!$submitted) {
+    //   metricFinal = `${metric1}_tx_${year}m`;
+    // } else {
+    //   if (treatment === "2xcap") {
+    //     metricFinal = `${metric2}_2xcap_pct_${year}m`;
+    //   } else {
+    //     metricFinal = `${metric2}_fillgap_pct`;
+    //   }
+    // }
     return metricData[metricFinal];
   };
 
