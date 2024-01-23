@@ -91,7 +91,6 @@
     color: #696969;
     cursor: pointer;
     padding: 8px;
-    background: url("./img/arrow-blue.png") 96%/15% no-repeat #ffffff;
     background-size: auto;
   }
 

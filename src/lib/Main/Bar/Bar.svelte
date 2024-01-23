@@ -50,13 +50,17 @@
     easing: cubicOut,
   });
 
-  $: if (
-    $stateView === "stateview" ||
-    ($stateView === "countyview" && !$countySelected)
-  ) {
-    barInnerWidth.set(xScale($statePercent) - margin.right);
-  } else {
-    barInnerWidth.set(xScale($countyPercent) - margin.right);
+  // $: if (
+  //   $stateView === "stateview" ||
+  //   ($stateView === "countyview" && !$countySelected)
+  // ) {
+  //   barInnerWidth.set(xScale($statePercent) - margin.right);
+  // } else {
+  //   barInnerWidth.set(xScale($countyPercent) - margin.right);
+  // }
+
+  $: {
+    barInnerWidth.set(xScale(OUD_pct) - margin.right);
   }
 
   $: OUD_pct = getPercent(
@@ -64,6 +68,7 @@
     "totaltrt",
     isStateView ? $stateMetricData : $countyMetricData[0]
   );
+
   $: bup_pct = getPercent(
     "bup",
     "buptrt",
@@ -155,7 +160,8 @@
         y={$print ? barHeight / 2 - 7 : barHeight / 2 + 2}
         fill="black"
       >
-        {isStateView ? $statePercent : $countyPercent}%
+        <!-- {isStateView ? $statePercent : $countyPercent}% -->
+        {OUD_pct}%
       </text>
 
       <line

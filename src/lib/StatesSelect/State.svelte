@@ -97,7 +97,7 @@
 
     $stateMetricData = filteredStateMetricData;
     $statePercent =
-      $selectedYear === "year"
+      $selectedYear === 12
         ? filteredStateMetricData.OUD_tx_12m
         : filteredStateMetricData.OUD_tx_6m;
 

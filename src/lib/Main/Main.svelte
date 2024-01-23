@@ -1091,19 +1091,13 @@ program per 100,000 residents (state average: ${methadoneState})`}
     }
 
     #mainTitle,
-    .tabWrapper,
-    .dropdownWrapper {
+    .tabWrapper {
       padding-left: 30px;
     }
 
     .print #mainTitle,
-    .print .tabWrapper,
-    .print .dropdownWrapper {
+    .print .tabWrapper {
       padding-left: 0px;
-    }
-
-    .dropdownWrapper {
-      margin-top: -20px;
     }
 
     .buttonsWrapper {
