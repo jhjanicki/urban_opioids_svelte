@@ -50,61 +50,65 @@
     easing: cubicOut,
   });
 
-  $: if (
-    $stateView === "stateview" ||
-    ($stateView === "countyview" && !$countySelected)
-  ) {
-    barInnerWidth.set(xScale($statePercent) - margin.right);
-  } else {
-    barInnerWidth.set(xScale($countyPercent) - margin.right);
+  // $: if (
+  //   $stateView === "stateview" ||
+  //   ($stateView === "countyview" && !$countySelected)
+  // ) {
+  //   barInnerWidth.set(xScale($statePercent) - margin.right);
+  // } else {
+  //   barInnerWidth.set(xScale($countyPercent) - margin.right);
+  // }
+
+  $: {
+    barInnerWidth.set(xScale(OUD_pct) - margin.right);
   }
 
   $: OUD_pct = getPercent(
     "OUD",
-    "tx",
+    "totaltrt",
     isStateView ? $stateMetricData : $countyMetricData[0]
-  ); //totaltrt
+  );
 
   $: bup_pct = getPercent(
     "bup",
-    "tx",
+    "buptrt",
     isStateView ? $stateMetricData : $countyMetricData[0]
-  ); //buptrt
+  );
 
   $: meth_pct = getPercent(
     "methadone",
-    "tx",
+    "methtrt",
     isStateView ? $stateMetricData : $countyMetricData[0]
-  ); //methtrt
+  );
 
   // THIS PART STILL UNSURE
   $: lollipop = getStateAvg();
 
   $: getPercent = (metric1, metric2, metricData) => {
-    let metricFinal = `${metric1}_${metric2}_${year}m`;
-    // if (!$submitted) {
-    //   metricFinal = `${metric1}_tx_${year}m`;
-    // } else {
-    //   if (treatment === "2xcap") {
-    //     metricFinal = `${metric2}_2xcap_pct_${year}m`;
-    //   } else {
-    //     metricFinal = `${metric2}_fillgap_pct`;
-    //   }
-    // }
+    let metricFinal;
+    if (!$submitted) {
+      metricFinal = `${metric1}_tx_${year}m`;
+    } else {
+      if (treatment === "2xcap") {
+        metricFinal = `${metric2}_2xcap_pct_${year}m`;
+      } else {
+        metricFinal = `${metric2}_fillgap_pct`;
+      }
+    }
     return metricData[metricFinal];
   };
 
   $: getStateAvg = () => {
-    let metricFinal = `OUD_tx_${year}m`;
-    // if (!$submitted) {
-    //   metricFinal = `OUD_tx_${year}m`;
-    // } else {
-    //   if (treatment === "2xcap") {
-    //     metricFinal = `totaltrt_2xcap_pct_${year}m`;
-    //   } else {
-    //     metricFinal = `totaltrt_fillgap_pct`;
-    //   }
-    // }
+    let metricFinal;
+    if (!$submitted) {
+      metricFinal = `OUD_tx_${year}m`;
+    } else {
+      if (treatment === "2xcap") {
+        metricFinal = `totaltrt_2xcap_pct_${year}m`;
+      } else {
+        metricFinal = `totaltrt_fillgap_pct`;
+      }
+    }
     return $stateMetricData[metricFinal];
   };
 </script>
@@ -156,7 +160,8 @@
         y={$print ? barHeight / 2 - 7 : barHeight / 2 + 2}
         fill="black"
       >
-        {isStateView ? $statePercent : $countyPercent}%
+        <!-- {isStateView ? $statePercent : $countyPercent}% -->
+        {OUD_pct}%
       </text>
 
       <line
