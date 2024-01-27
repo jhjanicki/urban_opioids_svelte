@@ -15,6 +15,7 @@
     stateView,
     print,
   } from "../../store/store";
+  import { numberWithCommas } from "../utils";
 
   export let data;
   let width;
@@ -446,7 +447,7 @@
           <div class="textWrapper">
             <p>
               <span class="number">
-                {OUDnum}
+                {numberWithCommas(OUDnum)}
               </span>
               residents ({OUD}
               percent) are estimated to have opioid use disorder
@@ -516,7 +517,7 @@
           <div class="textWrapper">
             <p>
               <span class="number">
-                {gap_curr}
+                {numberWithCommas(gap_curr)}
               </span>
               {isStateView
                 ? "residents lack access to medication treatment"
@@ -524,7 +525,7 @@
             </p>
             <p>
               <span class="number">
-                {cap_curr}
+                {numberWithCommas(cap_curr)}
               </span>{isStateView
                 ? "residents have access to medication treatment"
                 : `residents have access to treatment (state total: ${cap_currState})`}
@@ -539,26 +540,30 @@
             </p>
             <p>
               <span class="number">
-                {methadone}
+                {numberWithCommas(methadone)}
               </span>
               {isStateView
                 ? "residents receive methadone or other medication treatment at an in-state opioid treatment program (per 100,000 residents)"
                 : `residents receive methadone or other medication treatment at an opioid treatment
-program per 100,000 residents (state average: ${methadoneState})`}
+program per 100,000 residents (state average: ${numberWithCommas(
+                    methadoneState
+                  )})`}
             </p>
             <p>
               <span class="number">
-                {bupP}
+                {numberWithCommas(bupP)}
               </span>
               {isStateView
                 ? "residents receive buprenorphine (per 100,000 residents)"
-                : `residents receive buprenorphine per 100,000 residents (state average: ${bupPState})`}
+                : `residents receive buprenorphine per 100,000 residents (state average: ${numberWithCommas(
+                    bupPState
+                  )})`}
             </p>
 
             {#if !isStateView}
               <p>
                 <span class="number">
-                  {OTP_methadone}
+                  {numberWithCommas(OTP_methadone)}
                 </span> residents receive methadone or other medication treatment
                 at an opioid treatment program in the county
               </p>
@@ -571,7 +576,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
               </p>
               <p>
                 <span class="number">
-                  {OTP_methadone_nbrs}
+                  {numberWithCommas(OTP_methadone_nbrs)}
                 </span> people receive methadone or other medication treatment at
                 opioid treatment programs in neighboring counties in the state
               </p>
@@ -581,11 +586,13 @@ program per 100,000 residents (state average: ${methadoneState})`}
           <div class="textWrapper">
             <p>
               <span class="number">
-                {prescriber}
+                {numberWithCommas(prescriber)}
               </span>
               {isStateView
                 ? "prescribers practice in the state. Prescribers are all people licensed to write prescriptions"
-                : `prescribers practice in the county (state total: ${prescriberState}). Prescribers are all people licensed to write prescriptions`}
+                : `prescribers practice in the county (state total: ${numberWithCommas(
+                    prescriberState
+                  )}). Prescribers are all people licensed to write prescriptions`}
             </p>
             <p>
               <span class="number">
@@ -597,27 +604,33 @@ program per 100,000 residents (state average: ${methadoneState})`}
             </p>
             <p>
               <span class="number">
-                {activeprx30}
+                {numberWithCommas(activeprx30)}
               </span>
               {isStateView
                 ? "active buprenorphine prescribers had a 30-patient limit in November 2022"
-                : `active buprenorphine prescribers had a 30-patient limit in November 2022 (state total: ${activeprx30State})`}
+                : `active buprenorphine prescribers had a 30-patient limit in November 2022 (state total: ${numberWithCommas(
+                    activeprx30State
+                  )})`}
             </p>
             <p>
               <span class="number">
-                {activeprx100}
+                {numberWithCommas(activeprx100)}
               </span>
               {isStateView
                 ? "active buprenorphine prescribers had a 100-patient limit in November 2022"
-                : `active buprenorphine prescribers had a 100-patient limit in November 2022 (state total: ${activeprx100State})`}
+                : `active buprenorphine prescribers had a 100-patient limit in November 2022 (state total: ${numberWithCommas(
+                    activeprx100State
+                  )})`}
             </p>
             <p>
               <span class="number">
-                {activeprx275}
+                {numberWithCommas(activeprx275)}
               </span>
               {isStateView
                 ? "active buprenorphine prescribers had a 275-patient limit in November 2022"
-                : `active buprenorphine prescribers had a 275-patient limit in November 2022 (state total: ${activeprx275State})`}
+                : `active buprenorphine prescribers had a 275-patient limit in November 2022 (state total: ${numberWithCommas(
+                    activeprx275State
+                  )})`}
             </p>
           </div>
 
@@ -966,11 +979,10 @@ program per 100,000 residents (state average: ${methadoneState})`}
   }
 
   p {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .number {
-    font-size: 18px;
     font-weight: 700;
   }
 
@@ -1015,6 +1027,11 @@ program per 100,000 residents (state average: ${methadoneState})`}
     font-size: 20px;
     line-height: 28px;
     font-weight: 400;
+  }
+
+  .aboutSection p,
+  .creditSection p {
+    color: #353535;
   }
 
   .otherSection li {

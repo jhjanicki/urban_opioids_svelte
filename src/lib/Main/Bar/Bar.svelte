@@ -126,7 +126,12 @@
 
 {#if $stateClicked}
   <div class="bar-wrapper" bind:clientWidth={width}>
-    <svg {width} height={$print ? 60 : barHeight}>
+    <svg
+      {width}
+      height={$print ? 60 : barHeight}
+      role="img"
+      aria-label="Bar chart"
+    >
       <rect
         id="barInner"
         x={margin.left}

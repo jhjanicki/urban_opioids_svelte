@@ -119,6 +119,7 @@
 <div
   class="img-wrapper column"
   id={state.replaceAll(" ", "") + "Wrapper"}
+  role="button"
   on:click={updateState(state)}
   on:mouseover={handleMouseOver}
   on:mouseout={handleMouseOut}

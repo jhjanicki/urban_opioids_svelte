@@ -24,6 +24,7 @@
     color: #353535;
     background-color: #fff;
     border: solid 1.5px #353535;
+    font-family: "Lato";
   }
 
   .button:hover {

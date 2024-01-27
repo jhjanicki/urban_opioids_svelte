@@ -16,6 +16,7 @@
     countyPercent,
     print,
   } from "../../../store/store";
+  import { numberWithCommas } from "../../utils";
 
   let width;
   let active = false;
@@ -115,7 +116,11 @@
         //
         return `${
           isStateView ? $selectedState : $selectedCounty
-        } would need ${finalNum} new buprenorphine prescribers to close the treatment gap of ${gap} residents with opioid use disorder, assuming all prescribers offer
+        } would need ${numberWithCommas(
+          finalNum
+        )} new buprenorphine prescribers to close the treatment gap of ${numberWithCommas(
+          gap
+        )} residents with opioid use disorder, assuming all prescribers offer
 treatment for ${year} months.`;
       } else {
         //2xcap
@@ -123,20 +128,24 @@ treatment for ${year} months.`;
           // gap closes
           return `${
             isStateView ? $selectedState : $selectedCounty
-          } would need ${finalNum} new buprenorphine prescribers to double the current number of people receiving
+          } would need ${numberWithCommas(
+            finalNum
+          )} new buprenorphine prescribers to double the current number of people receiving
 treatment, assuming all prescribers offer treatment for ${year} months.  This would close ${
             isStateView ? $selectedState : $selectedCounty
           }'s
-treatment gap of ${gap} residents with opioid use disorder.`;
+treatment gap of ${numberWithCommas(gap)} residents with opioid use disorder.`;
         } else {
           // gap exists
           return `${
             isStateView ? $selectedState : $selectedCounty
-          } would need ${finalNum} new buprenorphine prescribers to double the current number of people receiving
+          } would need ${numberWithCommas(
+            finalNum
+          )} new buprenorphine prescribers to double the current number of people receiving
 treatment, assuming all prescribers offer treatment for ${year} months.  This would not close ${
             isStateView ? $selectedState : $selectedCounty
           }'s
-treatment gap of ${gap} residents with opioid use disorder.`;
+treatment gap of ${numberWithCommas(gap)} residents with opioid use disorder.`;
         }
       }
     } else {
@@ -145,8 +154,10 @@ treatment gap of ${gap} residents with opioid use disorder.`;
         //fill gap
         //if gap can be closed
         if (closeGap2xCap === 100) {
-          return `Active prescribers would have to treat ${finalNum} times as many patients to close the treatment
-gap of ${gap} residents with opioid use disorder in ${
+          return `Active prescribers would have to treat ${numberWithCommas(
+            finalNum
+          )} times as many patients to close the treatment
+gap of ${numberWithCommas(gap)} residents with opioid use disorder in ${
             isStateView ? $selectedState : $selectedCounty
           }, assuming all prescribers offer treatment
 for ${year} months.`;
@@ -155,15 +166,25 @@ for ${year} months.`;
           if (newProvInc === 0) {
             return `Increasing active prescribers' capacity isn't enough to close the treatment gap in ${
               isStateView ? $selectedState : $selectedCounty
-            }. Active prescribers would have to treat ${finalNum} times as many patients to close the treatment gap of ${gap} residents with opioid use disorder in ${
+            }. Active prescribers would have to treat ${numberWithCommas(
+              finalNum
+            )} times as many patients to close the treatment gap of ${numberWithCommas(
+              gap
+            )} residents with opioid use disorder in ${
               isStateView ? $selectedState : $selectedCounty
             }, assuming all prescribers offer treatment for ${year} months.`;
           } else {
             return `Increasing active prescribers' capacity isn't enough to close the treatment gap in ${
               isStateView ? $selectedState : $selectedCounty
-            }. Active prescribers would have to treat ${finalNum} times as many patients and ${newProvInc} additional new prescribers would each have to treat about ${
+            }. Active prescribers would have to treat ${numberWithCommas(
+              finalNum
+            )} times as many patients and ${numberWithCommas(
+              newProvInc
+            )} additional new prescribers would each have to treat about ${
               $selectedState === "Michigan" ? 3 : 5
-            } patients (the state average prescribers with a 30-patient limit treated in 2022) to close the treatment gap of ${gap} residents with opioid use disorder in ${
+            } patients (the state average prescribers with a 30-patient limit treated in 2022) to close the treatment gap of ${numberWithCommas(
+              gap
+            )} residents with opioid use disorder in ${
               isStateView ? $selectedState : $selectedCounty
             }, assuming all prescribers offer treatment for ${year} months.`;
           }
@@ -176,7 +197,9 @@ for ${year} months.`;
             isStateView ? $selectedState : $selectedCounty
           }, assuming all prescribers offer treatment for ${year} months.  This would close ${
             isStateView ? $selectedState : $selectedCounty
-          }'s treatment gap of ${gap} residents with opioid use disorder`;
+          }'s treatment gap of ${numberWithCommas(
+            gap
+          )} residents with opioid use disorder`;
         } else {
           //if gap still exists
           return `Active prescribers would have to treat ${finalNum} times as many patients and ${newProvInc} additional new prescribers would each have to treat about ${
@@ -185,7 +208,9 @@ for ${year} months.`;
             isStateView ? $selectedState : $selectedCounty
           }, assuming all prescribers offer treatment for ${year} months. This would not close ${
             isStateView ? $selectedState : $selectedCounty
-          }'s treatment gap of ${gap} residents with opioid use disorder.`;
+          }'s treatment gap of ${numberWithCommas(
+            gap
+          )} residents with opioid use disorder.`;
         }
       }
     }
@@ -208,8 +233,7 @@ for ${year} months.`;
           {#if $stateMetricData}
             {$selectedState}
             <span id="bar-state" /> is treating
-            <span id="bar-percent">{OUD}% of residents</span>
-            <!-- {$statePercent} -->
+            <span class="bar-percent">{OUD}% of residents</span>
             with opioid use disorder
           {/if}
         </h4>
@@ -224,9 +248,9 @@ for ${year} months.`;
           {#if gap === 0}
             {$selectedCounty}, {$selectedState} has no treatment gap.
           {:else}
-            {$selectedCounty} is treating {OUD}% of residents with opioid use
-            disorder. That is
-            <!-- {$countyPercent} -->
+            {$selectedCounty} is treating
+            <span class="bar-percent">{OUD}% of residents</span>
+            with opioid use disorder. That is
             {above ? "above" : "below"} the state average of {$statePercent}%.
           {/if}
         {/if}
@@ -235,11 +259,12 @@ for ${year} months.`;
     <Bar />
 
     <p id="capacity">
-      {total_num} residents are receiving treatment for opioid use disorder
+      {numberWithCommas(total_num)} residents are receiving treatment for opioid
+      use disorder
     </p>
     <div>
       <p class="inline">
-        {bup_num} residents are receiving buprenorphine
+        {numberWithCommas(bup_num)} residents are receiving buprenorphine
       </p>
       <img
         class="inline"
@@ -257,7 +282,8 @@ for ${year} months.`;
       >
     </div>
     <p>
-      {meth_num} residents are receiving methadone at an opioid treatment program
+      {numberWithCommas(meth_num)} residents are receiving methadone at an opioid
+      treatment program
     </p>
   </div>
 </div>
@@ -271,16 +297,17 @@ for ${year} months.`;
 
   h3 {
     margin: 18px 0px;
-    font-size: 30px;
-    line-height: 40px;
+    font-size: 36px;
+    line-height: 46px;
     font-weight: 600;
     color: white;
   }
 
   h4 {
     margin: 28px 0px;
-    font-size: 26px;
-    font-weight: 400;
+    font-size: 30px;
+    line-height: 46px;
+    font-weight: 300;
     color: white;
   }
 
@@ -294,8 +321,9 @@ for ${year} months.`;
     padding: 48px;
   }
 
-  #bar-percent {
+  .bar-percent {
     color: #fdbf11;
+    font-weight: 400;
   }
 
   .inline {
@@ -375,7 +403,7 @@ for ${year} months.`;
     display: none;
   }
 
-  .print #bar-percent {
+  .print .bar-percent {
     color: #353535;
   }
 

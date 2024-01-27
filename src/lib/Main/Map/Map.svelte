@@ -67,7 +67,13 @@
   {/if}
 
   {#if $stateClicked}
-    <svg {width} height={height + legendHeight} class:print={$print}>
+    <svg
+      {width}
+      height={height + legendHeight}
+      class:print={$print}
+      role="img"
+      aria-label="Map of state"
+    >
       <g id="counties">
         {#each $countiesData as feature}
           <path
@@ -80,10 +86,14 @@
                 : feature.properties.OUD_tx_6m
             )}
             stroke-linecap="round"
-            stroke={feature.properties.name === $selectedCounty
+            stroke={(hoveredData != null &&
+              feature.properties.name === hoveredID) ||
+            feature.properties.name === $selectedCounty
               ? "black"
               : "white"}
-            stroke-width={feature.properties.name === $selectedCounty
+            stroke-width={(hoveredData != null &&
+              feature.properties.name === hoveredID) ||
+            feature.properties.name === $selectedCounty
               ? "2.5px"
               : "1px"}
             on:mouseout={(e) => {
@@ -99,6 +109,7 @@
                 hoveredData = feature;
                 hoveredID = feature.properties.name;
                 hoveredPointer = d3.pointer(e);
+                $countiesData = moveToFront(feature, $countiesData);
               }
             }}
             on:click={(e) => {

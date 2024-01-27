@@ -97,7 +97,7 @@
     on:click={() => submitParameters()}>SEE RESULTS</button
   >
   <span
-    class={isActive ? "clear show" : "clear none"}
+    class={$submitted ? "clear show" : "clear none"}
     on:click={() => clearSelection()}
   >
     clear selections
