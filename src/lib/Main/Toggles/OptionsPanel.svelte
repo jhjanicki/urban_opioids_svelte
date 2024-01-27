@@ -31,7 +31,7 @@
     },
     {
       value: "curprx",
-      label: "Increasing capacity of current providers",
+      label: "Increasing active buprenorphine prescribers’ capacity",
       tooltip: "",
     },
   ];

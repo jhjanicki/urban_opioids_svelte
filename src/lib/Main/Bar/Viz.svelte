@@ -253,7 +253,7 @@ for ${year} months.`;
         and methadone are two of the main medication treatments available for
         opioid use disorder. A small share of patients in opioid treatment
         programs receive a medication treatment other than methadone, such as
-        buprenorphine</span
+        buprenorphine.</span
       >
     </div>
     <p>

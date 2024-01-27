@@ -448,8 +448,7 @@
               <span class="number">
                 {OUDnum}
               </span>
-              residents (
-              {OUD}
+              residents ({OUD}
               percent) are estimated to have opioid use disorder
             </p>
           </div>
@@ -486,16 +485,16 @@
                 {eng}
               </span>
               {@html isStateView
-                ? "percent of residents speaks <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a>"
-                : `percent of residents speaks  <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a> (state average: ${engState})`}
+                ? "percent of residents speak <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a>"
+                : `percent of residents speak  <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a> (state average: ${engState})`}
             </p>
             <p>
               <span class="number">
                 {esp}
               </span>
               {isStateView
-                ? "percent of residents speaks Spanish"
-                : `percent of residents speaks Spanish (state average: ${espState})`}
+                ? "percent of residents speak Spanish"
+                : `percent of residents speak Spanish (state average: ${espState})`}
             </p>
             <p>
               <span class="number">
@@ -734,7 +733,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
     </li>
     <li>
       <b>Expand telehealth options.</b> Opioid use disorder–related telehealth
-      services have been shown to
+      services have been shown to improve
       <a
         href="https://www.cdc.gov/media/releases/2022/p0831-ccovid-19-opioids.html"
         target="_blank"
@@ -801,7 +800,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
     at Johns Hopkins University to conduct treatment-capacity assessments for
     two states in the Bloomberg Philanthropies <a
       href="https://www.bloomberg.org/public-health/combating-the-overdose-epidemic/"
-      target="_blank">Overdoes Prevention Initiative</a
+      target="_blank">Overdose Prevention Initiative</a
     >.
   </p>
   <p>
