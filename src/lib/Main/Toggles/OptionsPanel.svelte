@@ -66,7 +66,7 @@
     provider = "";
     $selectedTreatment = "";
     $selectedProvider = "";
-    $selectedYear = 12;
+    $selectedYear = 12; //HERE
     $submitted = false;
   };
 </script>
