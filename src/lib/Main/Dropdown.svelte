@@ -72,7 +72,7 @@
 
 <style>
   .select-menu {
-    max-width: 330px;
+    max-width: 328px;
     margin: 20px 0px;
   }
 
@@ -96,7 +96,7 @@
 
   .options {
     position: absolute;
-    width: 328px;
+    width: 326px;
     overflow-y: auto;
     max-height: 295px;
     padding: 10px;

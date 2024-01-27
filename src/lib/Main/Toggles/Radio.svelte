@@ -35,6 +35,7 @@
   }
 
   label {
-    font-size: 16px;
+    font-size: 20px;
+    margin-left: 6px;
   }
 </style>

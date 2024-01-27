@@ -168,10 +168,13 @@
   }
   @media (max-width: 768px) {
     #selectInstructionBottom {
+      font-size: 24px;
+      text-transform: uppercase;
+      font-weight: 300;
       display: block;
       position: absolute;
       top: 0;
-      left: 42%;
+      left: 36%;
       color: white;
     }
     .column {
@@ -185,8 +188,8 @@
       position: absolute;
       left: 0;
       top: 0;
-      transform: translateY(50%); /* Adjust the position to center the border */
-      height: 60%;
+      transform: translateY(60%); /* Adjust the position to center the border */
+      height: 55%;
       width: 1px; /* Adjust the width of the border as needed */
       background-color: white; /* Adjust the color of the border as needed */
     }

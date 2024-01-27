@@ -411,7 +411,7 @@
     </div>
   </div>
   <div class="wrapper" id="tabWrapper">
-    <div class="tabWrapper">
+    <div class="tabs">
       <Tab id="stateview" text="State view" />
       <Tab id="countyview" text="County view" />
     </div>
@@ -917,10 +917,6 @@ program per 100,000 residents (state average: ${methadoneState})`}
     column-gap: 10px;
   }
 
-  #optionsWrapper {
-    max-width: 360px;
-  }
-
   .mainSelection.print .wrapper {
     display: block;
   }
@@ -937,7 +933,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
     column-gap: 20px;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 576px) {
     .mapView .wrapper {
       grid-template-columns: 1fr;
       column-gap: 0px;
@@ -952,13 +948,17 @@ program per 100,000 residents (state average: ${methadoneState})`}
 
   h4 {
     font-size: 30px;
-    font-weight: 400;
+    font-weight: 00;
+  }
+
+  #mainTitle {
+    margin: 48px 0px 32px 0px;
   }
 
   .statsWrapper h4,
   #mapTitle {
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 400;
     margin: 48px auto 24px;
   }
 
@@ -994,8 +994,8 @@ program per 100,000 residents (state average: ${methadoneState})`}
     padding: 0px;
   }
 
-  .tabWrapper {
-    margin-bottom: 30px;
+  #tabWrapper {
+    margin-bottom: 48px;
   }
 
   .textWrapper {
@@ -1050,7 +1050,11 @@ program per 100,000 residents (state average: ${methadoneState})`}
   }
 
   @media (max-width: 768px) {
+    #mainTitle {
+      margin: 32px 0px 32px 0px;
+    }
     #tabWrapper {
+      margin-bottom: 32px;
       grid-template-columns: 1fr;
     }
 
@@ -1091,12 +1095,12 @@ program per 100,000 residents (state average: ${methadoneState})`}
     }
 
     #mainTitle,
-    .tabWrapper {
+    #tabWrapper {
       padding-left: 30px;
     }
 
     .print #mainTitle,
-    .print .tabWrapper {
+    .print #tabWrapper {
       padding-left: 0px;
     }
 
@@ -1117,7 +1121,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
     text-transform: uppercase;
   }
 
-  .print .tabWrapper {
+  .print #tabWrapper {
     display: none;
   }
   .print #dropdownWrapper {

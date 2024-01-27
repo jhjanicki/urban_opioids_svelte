@@ -12,7 +12,7 @@
     padding: 8px 12px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.5;
     text-transform: uppercase;
     background-color: none;

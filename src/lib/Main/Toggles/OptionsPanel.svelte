@@ -47,7 +47,6 @@
     },
   ];
 
-  let tooltipActive = false;
   $: isActive = treatment != "" && provider != "";
   let treatment;
   let provider;
@@ -144,7 +143,7 @@
     margin: 48px 15px 14px auto;
     padding: 12px 16px;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 16px;
     line-height: 1.5;
     text-transform: uppercase;
@@ -157,6 +156,7 @@
     color: #9d9d9d;
     background-color: #d2d2d2;
     border: solid 1.5px #d2d2d2;
+    font-family: "Lato";
   }
 
   .active {
@@ -192,31 +192,6 @@
     vertical-align: middle;
     margin-right: 10px;
     margin-left: 0px;
-  }
-
-  #info:hover {
-    cursor: pointer;
-  }
-  .tooltiptext {
-    width: 230px;
-    margin-top: 8px;
-    margin-left: 5px;
-    background-color: #d2d2d2;
-    color: #353535;
-    text-align: left;
-    padding: 8px;
-    border-radius: 6px;
-    position: absolute;
-    font-size: 16px;
-    z-index: 100;
-  }
-
-  .tooltiptext.hidden {
-    display: none;
-  }
-
-  .tooltiptext.visible {
-    display: inline-block;
   }
 
   @media (max-width: 768px) {
