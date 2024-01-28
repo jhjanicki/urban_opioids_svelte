@@ -164,6 +164,23 @@
   .img-wrapper:hover {
     cursor: pointer;
   }
+
+  .img-wrapper:hover:after {
+    content: "";
+    display: block;
+    border: 20px solid #fff;
+    border-top-color: #000000;
+    position: absolute;
+    top: 100%;
+  }
+
+  #MichiganWrapper:hover:after {
+    left: 48%;
+  }
+  #NewJerseyWrapper:hover:after {
+    left: 82%;
+  }
+
   #selectInstructionBottom {
     display: none;
   }
@@ -193,6 +210,13 @@
       height: 55%;
       width: 1px; /* Adjust the width of the border as needed */
       background-color: white; /* Adjust the color of the border as needed */
+    }
+
+    #MichiganWrapper:hover:after {
+      left: 23%;
+    }
+    #NewJerseyWrapper:hover:after {
+      left: 46%;
     }
   }
   @media (max-width: 576px) {

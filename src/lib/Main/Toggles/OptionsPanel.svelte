@@ -191,7 +191,6 @@
   .inline {
     display: inline;
     vertical-align: middle;
-    margin-right: 10px;
     margin-left: 0px;
   }
 

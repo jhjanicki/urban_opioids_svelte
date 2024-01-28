@@ -8,7 +8,7 @@
 <style>
   .button {
     max-width: 300px;
-    margin: 20px 15px 20px auto;
+    margin: 0px 15px 0px auto;
     padding: 8px 12px;
     text-decoration: none;
     font-weight: bold;

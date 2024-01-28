@@ -27,6 +27,8 @@
   }
   .radioItem {
     margin: 10px 0px;
+    display: flex;
+    flex-direction: row;
   }
   input[type="radio"] {
     -ms-transform: scale(1.3); /* IE 9 */
@@ -39,7 +41,10 @@
   }
 
   label {
+    position: relative;
     font-size: 20px;
-    margin-left: 6px;
+    margin-left: 20px;
+    margin-right: 3px;
+    /* so it's the same as the other info button below */
   }
 </style>

@@ -996,12 +996,12 @@ program per 100,000 residents (state average: ${numberWithCommas(
 
   .buttonsWrapper {
     text-align: left;
-    padding: 0px 30px;
+    margin: 48px 0px 32px 0px;
   }
 
   .buttonsWrapper2 {
     text-align: left;
-    padding: 0px;
+    margin: 48px 0px 32px 0px;
   }
 
   #tabWrapper {

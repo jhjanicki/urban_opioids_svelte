@@ -19,7 +19,7 @@
     display: inline;
     vertical-align: middle;
     margin-right: 10px;
-    margin-left: 0px;
+    margin-left: 5px;
   }
 
   #info:hover {
