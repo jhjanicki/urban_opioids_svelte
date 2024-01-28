@@ -136,7 +136,7 @@
         id="barInner"
         x={margin.left}
         y="20"
-        width={$barInnerWidth}
+        width={$barInnerWidth ? $barInnerWidth : null}
         height={$print ? 30 : 50}
         stroke-width={$print ? 1.5 : 2.5}
         fill="#FDBF11"
@@ -161,18 +161,17 @@
         fill="none"
       />
       <text
-        x={$barInnerWidth / 2 - 10}
+        x={$barInnerWidth ? $barInnerWidth / 2 - 10 : null}
         y={$print ? barHeight / 2 - 7 : barHeight / 2 + 2}
         fill="black"
       >
-        <!-- {isStateView ? $statePercent : $countyPercent}% -->
         {OUD_pct}%
       </text>
 
       <line
         id="stateAvg"
-        x1={xScale(lollipop) - margin.right + 1}
-        x2={xScale(lollipop) - margin.right + 1}
+        x1={lollipop ? xScale(lollipop) - margin.right + 1 : null}
+        x2={lollipop ? xScale(lollipop) - margin.right + 1 : null}
         y1={margin.top + 50}
         y2={margin.top - 10}
         stroke="white"
@@ -182,7 +181,7 @@
       />
       <circle
         id="circle"
-        cx={xScale(lollipop) - margin.right}
+        cx={lollipop ? xScale(lollipop) - margin.right : null}
         cy={margin.top - 10}
         r="5"
         fill="white"
