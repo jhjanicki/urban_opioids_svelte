@@ -16,7 +16,7 @@
       Explore how to get buprenorphine and methadone to more Michigan and New
       Jersey residents with opioid use disorder.
     </h4>
-    <div class="date">February x, 2024</div>
+    <div class="date">February 22, 2024</div>
     <div class="socialWrapper">
       <Social />
     </div>
@@ -38,8 +38,9 @@
       is possible to get treatment to more people who need it. This tool
       explores state- and county-level gaps in access to buprenorphine and
       methadone—two of the main medication treatments available for opioid use
-      disorder—in Michigan and New Jersey. It also provides strategies for
-      closing these gaps.
+      disorder—in Michigan and New Jersey. It also provides information about
+      factors that shape access to treatment and strategies for closing
+      treatment gaps.
     </p>
   </div>
 </section>

@@ -119,6 +119,8 @@
 <div
   class="img-wrapper column"
   id={state.replaceAll(" ", "") + "Wrapper"}
+  role="button"
+  class:active={state === $selectedState}
   on:click={updateState(state)}
   on:mouseover={handleMouseOver}
   on:mouseout={handleMouseOut}
@@ -163,15 +165,35 @@
   .img-wrapper:hover {
     cursor: pointer;
   }
+
+  .img-wrapper:hover:after, .img-wrapper.active:after {
+    content: "";
+    display: block;
+    border: 20px solid #fff;
+    border-top-color: #000000;
+    position: absolute;
+    top: 100%;
+  }
+
+  #MichiganWrapper:hover:after, #MichiganWrapper.active:after {
+    left: 48%;
+  }
+  #NewJerseyWrapper:hover:after, #NewJerseyWrapper.active:after {
+    left: 82%;
+  }
+
   #selectInstructionBottom {
     display: none;
   }
   @media (max-width: 768px) {
     #selectInstructionBottom {
+      font-size: 24px;
+      text-transform: uppercase;
+      font-weight: 300;
       display: block;
       position: absolute;
       top: 0;
-      left: 42%;
+      left: 36%;
       color: white;
     }
     .column {
@@ -185,10 +207,17 @@
       position: absolute;
       left: 0;
       top: 0;
-      transform: translateY(50%); /* Adjust the position to center the border */
-      height: 60%;
+      transform: translateY(60%); /* Adjust the position to center the border */
+      height: 55%;
       width: 1px; /* Adjust the width of the border as needed */
       background-color: white; /* Adjust the color of the border as needed */
+    }
+
+    #MichiganWrapper:hover:after, #MichiganWrapper.active:after {
+      left: 23%;
+    }
+    #NewJerseyWrapper:hover:after, #NewJerseyWrapper.active:after {
+      left: 46%;
     }
   }
   @media (max-width: 576px) {

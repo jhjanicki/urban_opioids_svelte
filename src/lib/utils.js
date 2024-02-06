@@ -7,3 +7,8 @@ export const moveToFront = (feature, allCounties) => {
 	counties.push(feature);
 	return counties;
 };
+
+
+export const numberWithCommas = (number) =>{
+    return number?number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","):"";
+}

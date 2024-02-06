@@ -59,15 +59,15 @@
     z-index: 2;
     position: absolute;
     width: 32px;
-    height: 28px;
+    height: 20px;
     background: #000;
     top: 3px;
-    right: 9px;
+    right: 5px;
     /* position of yes at start */
     transition: transform 0.3s;
     color: #fff;
-    font-size: 22px;
-    padding: 3px 9px;
+    font-size: 16px;
+    padding: 7px 15px;
   }
 
   .toggle label:first-of-type:after {
@@ -75,7 +75,7 @@
     border-radius: 20px;
     margin: 0 20px;
     transition: background 0.2s ease-in-out;
-    width: 90px;
+    width: 95px;
     height: 40px;
     margin-left: 4px;
   }
@@ -86,7 +86,8 @@
 
   .toggle input:first-of-type:checked ~ label:first-of-type:before {
     content: "NO";
-    transform: translateX(-34px);
+    font-size: 16px;
+    transform: translateX(-25px);
   }
 
   .toggle input:last-of-type:checked ~ label:last-of-type {

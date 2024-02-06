@@ -9,25 +9,31 @@
     str.toLowerCase().replace(/ /g, "-").replace(/\./g, "");
 </script>
 
-<div aria-labelledby={`label-${id}`} id={`group-${id}`} class="radio">
+<div aria-labelledby={`label-${id}`} id={`group-${id}`} class="radioWrapper">
   {#each options as { value, label, tooltip }}
-    <input type="radio" id={slugify(label)} bind:group={selected} {value} />
-    <label for={slugify(label)}> {label} </label>
-    {#if tooltip != ""}
-      <Icon text={tooltip}></Icon>
-    {/if}
-    <br />
+    <div class="radioItem">
+      <input type="radio" id={slugify(label)} bind:group={selected} {value} />
+      <label for={slugify(label)}> {label} </label>
+      {#if tooltip != ""}
+        <Icon text={tooltip}></Icon>
+      {/if}
+    </div>
   {/each}
 </div>
 
 <style>
-  .radio {
+  .radioWrapper {
     accent-color: black;
   }
+  .radioItem {
+    margin: 10px 0px;
+    display: flex;
+    flex-direction: row;
+  }
   input[type="radio"] {
-    -ms-transform: scale(1.3); /* IE 9 */
-    -webkit-transform: scale(1.3); /* Chrome, Safari, Opera */
-    transform: scale(1.3);
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
   }
 
   input {
@@ -35,6 +41,10 @@
   }
 
   label {
-    font-size: 16px;
+    position: relative;
+    font-size: 20px;
+    margin-left: 20px;
+    margin-right: 3px;
+    /* so it's the same as the other info button below */
   }
 </style>

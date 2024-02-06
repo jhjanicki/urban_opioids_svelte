@@ -22,6 +22,11 @@
 </section>
 
 <style>
+  #selectInstruction {
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 300;
+  }
   .states-selection {
     background-color: #000000;
     height: 176px;
@@ -55,7 +60,7 @@
     }
     p {
       padding-top: 32px;
-      font-size: 20px;
+      font-size: 24px;
     }
   }
   @media (max-width: 576px) {

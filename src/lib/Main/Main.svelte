@@ -15,6 +15,7 @@
     stateView,
     print,
   } from "../../store/store";
+  import { numberWithCommas } from "../utils";
 
   export let data;
   let width;
@@ -57,244 +58,244 @@
     true,
     metricName.deaths_opioidod_rt_100k,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: deathsopState = getMetricOutput(
     true,
     metricName.deaths_opioidod_rt_100k,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: deathall = getMetricOutput(
     true,
     metricName.deaths_allod_rt_100k,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: deathallState = getMetricOutput(
     true,
     metricName.deaths_allod_rt_100k,
-    $stateMetricData
+    $stateMetricData,
   ); // to store state level comparison for when a county is selected
 
   $: deathsopall = getMetricOutput(
     true,
     metricName.deaths_opioidod_rt_allod,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: deathsopallState = getMetricOutput(
     true,
     metricName.deaths_opioidod_rt_allod,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: eng = getMetricOutput(
     true,
     metricName.ACS_PCT_LIMIT_ENGLISH,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: engState = getMetricOutput(
     true,
     metricName.ACS_PCT_LIMIT_ENGLISH,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: esp = getMetricOutput(
     true,
     metricName.ACS_PCT_SPANISH,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: espState = getMetricOutput(
     true,
     metricName.ACS_PCT_SPANISH,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: otherLang = getMetricOutput(
     true,
     metricName.ACS_PCT_OTH_LANG,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: otherLangState = getMetricOutput(
     true,
     metricName.ACS_PCT_OTH_LANG,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: gap_curr = getMetricOutput(
     false,
     metricName.gap_current,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: gap_currState = getMetricOutput(
     false,
     metricName.gap_current,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: cap_curr = getMetricOutput(
     false,
     metricName.capacity_current,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: cap_currState = getMetricOutput(
     false,
     metricName.capacity_current,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: methadone = getMetricOutput(
     false,
     metricName.methadone_rt,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: methadoneState = getMetricOutput(
     false,
     metricName.methadone_rt,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: bupP = getMetricOutput(
     false,
     metricName.bup_patients,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: bupPState = getMetricOutput(
     false,
     metricName.bup_patients,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: OTPcount = getMetricOutput(
     true,
     metricName.OTPcount,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: OTPcountState = getMetricOutput(
     true,
     metricName.OTPcount,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: prescriber = getMetricOutput(
     true,
     metricName.prescriber,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: prescriberState = getMetricOutput(
     true,
     metricName.prescriber,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: waiver = getMetricOutput(
     true,
     metricName.perc_waiver_DEA,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: waiverState = getMetricOutput(
     true,
     metricName.perc_waiver_DEA,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: activeprx30 = getMetricOutput(
     true,
     metricName.activeprx30,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: activeprx30State = getMetricOutput(
     true,
     metricName.activeprx30,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: activeprx100 = getMetricOutput(
     true,
     metricName.activeprx100,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: activeprx100State = getMetricOutput(
     true,
     metricName.activeprx100,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: activeprx275 = getMetricOutput(
     true,
     metricName.activeprx275,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: activeprx275State = getMetricOutput(
     true,
     metricName.activeprx275,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: OUDnum = getMetricOutput(
     true,
     metricName.OUD_num,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: OUD = getMetricOutput(
     true,
     metricName.OUD,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: driveM = getMetricOutput(
     true,
     metricName.drivetime_methadone,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: getHour = (num) => {
@@ -309,75 +310,74 @@
     true,
     metricName.drivetime_methadone,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: transitM = getMetricOutput(
     true,
     metricName.transittime_methadone,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: transitMState = getMetricOutput(
     true,
     metricName.transittime_methadone,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: driveB = getMetricOutput(
     true,
     metricName.drivetime_bup,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: driveBState = getMetricOutput(
     true,
     metricName.drivetime_bup,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: transitB = getMetricOutput(
     true,
     metricName.transittime_bup,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: transitBState = getMetricOutput(
     true,
     metricName.transittime_bup,
     $stateMetricData,
-    year
+    year,
   ); // to store state level comparison for when a county is selected
 
   $: OTP_methadone = getMetricOutput(
     false,
     metricName.OTP_methadone,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: OTPcount_nbrs = getMetricOutput(
     true,
     metricName.OTPcount_nbrs,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   $: OTP_methadone_nbrs = getMetricOutput(
     true,
     metricName.OTP_methadone_nbrs,
     isStateView ? $stateMetricData : $countyMetricData[0],
-    year
+    year,
   );
 
   const getMetricOutput = (noYear, metric, metricData, year) => {
     const metricFinal = noYear ? metric : `${metric}_${year}m`;
-    // : `${metric}_${$submitted ? year : 12}m`;
     return metricData[metricFinal];
   };
 
@@ -411,7 +411,7 @@
     </div>
   </div>
   <div class="wrapper" id="tabWrapper">
-    <div class="tabWrapper">
+    <div class="tabs">
       <Tab id="stateview" text="State view" />
       <Tab id="countyview" text="County view" />
     </div>
@@ -429,9 +429,15 @@
 
 <section class="mapView" class:print={$print}>
   <div class="wrapper">
+    <!-- TREATMENT LENGTH: {$selectedYear} MONTH -->
     <h4 id="treatmentLength">
-      TREATMENT LENGTH: {$selectedYear} MONTH
+      Factors That Shape Current Access to {$selectedYear} Month Medication Treatment
     </h4>
+    <p class="help-text">
+      These statistics describe <em>current</em> access to either 6- or 12-month
+      medication treatment in a state or county. Any options selected above to close
+      or narrow the treatment gap will not affect these&nbsp;numbers.
+    </p>
   </div>
   <div class="wrapper">
     <div class="left-wrapper" bind:clientWidth={width}>
@@ -447,10 +453,9 @@
           <div class="textWrapper">
             <p>
               <span class="number">
-                {OUDnum}
+                {numberWithCommas(OUDnum)}
               </span>
-              residents (
-              {OUD}
+              residents ({OUD}
               percent) are estimated to have opioid use disorder
             </p>
           </div>
@@ -487,16 +492,16 @@
                 {eng}
               </span>
               {@html isStateView
-                ? "percent of residents speaks <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a>"
-                : `percent of residents speaks  <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a> (state average: ${engState})`}
+                ? "percent of residents speak <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a>"
+                : `percent of residents speak  <a href='https://www.census.gov/topics/population/language-use/about/faqs.html' target='_blank'>limited English</a> (state average: ${engState})`}
             </p>
             <p>
               <span class="number">
                 {esp}
               </span>
               {isStateView
-                ? "percent of residents speaks Spanish"
-                : `percent of residents speaks Spanish (state average: ${espState})`}
+                ? "percent of residents speak Spanish"
+                : `percent of residents speak Spanish (state average: ${espState})`}
             </p>
             <p>
               <span class="number">
@@ -518,7 +523,7 @@
           <div class="textWrapper">
             <p>
               <span class="number">
-                {gap_curr}
+                {numberWithCommas(gap_curr)}
               </span>
               {isStateView
                 ? "residents lack access to medication treatment"
@@ -526,7 +531,7 @@
             </p>
             <p>
               <span class="number">
-                {cap_curr}
+                {numberWithCommas(cap_curr)}
               </span>{isStateView
                 ? "residents have access to medication treatment"
                 : `residents have access to treatment (state total: ${cap_currState})`}
@@ -541,26 +546,30 @@
             </p>
             <p>
               <span class="number">
-                {methadone}
+                {numberWithCommas(methadone)}
               </span>
               {isStateView
                 ? "residents receive methadone or other medication treatment at an in-state opioid treatment program (per 100,000 residents)"
                 : `residents receive methadone or other medication treatment at an opioid treatment
-program per 100,000 residents (state average: ${methadoneState})`}
+program per 100,000 residents (state average: ${numberWithCommas(
+                    methadoneState,
+                  )})`}
             </p>
             <p>
               <span class="number">
-                {bupP}
+                {numberWithCommas(bupP)}
               </span>
               {isStateView
                 ? "residents receive buprenorphine (per 100,000 residents)"
-                : `residents receive buprenorphine per 100,000 residents (state average: ${bupPState})`}
+                : `residents receive buprenorphine per 100,000 residents (state average: ${numberWithCommas(
+                    bupPState,
+                  )})`}
             </p>
 
             {#if !isStateView}
               <p>
                 <span class="number">
-                  {OTP_methadone}
+                  {numberWithCommas(OTP_methadone)}
                 </span> residents receive methadone or other medication treatment
                 at an opioid treatment program in the county
               </p>
@@ -573,7 +582,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
               </p>
               <p>
                 <span class="number">
-                  {OTP_methadone_nbrs}
+                  {numberWithCommas(OTP_methadone_nbrs)}
                 </span> people receive methadone or other medication treatment at
                 opioid treatment programs in neighboring counties in the state
               </p>
@@ -583,11 +592,13 @@ program per 100,000 residents (state average: ${methadoneState})`}
           <div class="textWrapper">
             <p>
               <span class="number">
-                {prescriber}
+                {numberWithCommas(prescriber)}
               </span>
               {isStateView
                 ? "prescribers practice in the state. Prescribers are all people licensed to write prescriptions"
-                : `prescribers practice in the county (state total: ${prescriberState}). Prescribers are all people licensed to write prescriptions`}
+                : `prescribers practice in the county (state total: ${numberWithCommas(
+                    prescriberState,
+                  )}). Prescribers are all people licensed to write prescriptions`}
             </p>
             <p>
               <span class="number">
@@ -599,27 +610,33 @@ program per 100,000 residents (state average: ${methadoneState})`}
             </p>
             <p>
               <span class="number">
-                {activeprx30}
+                {numberWithCommas(activeprx30)}
               </span>
               {isStateView
                 ? "active buprenorphine prescribers had a 30-patient limit in November 2022"
-                : `active buprenorphine prescribers had a 30-patient limit in November 2022 (state total: ${activeprx30State})`}
+                : `active buprenorphine prescribers had a 30-patient limit in November 2022 (state total: ${numberWithCommas(
+                    activeprx30State,
+                  )})`}
             </p>
             <p>
               <span class="number">
-                {activeprx100}
+                {numberWithCommas(activeprx100)}
               </span>
               {isStateView
                 ? "active buprenorphine prescribers had a 100-patient limit in November 2022"
-                : `active buprenorphine prescribers had a 100-patient limit in November 2022 (state total: ${activeprx100State})`}
+                : `active buprenorphine prescribers had a 100-patient limit in November 2022 (state total: ${numberWithCommas(
+                    activeprx100State,
+                  )})`}
             </p>
             <p>
               <span class="number">
-                {activeprx275}
+                {numberWithCommas(activeprx275)}
               </span>
               {isStateView
                 ? "active buprenorphine prescribers had a 275-patient limit in November 2022"
-                : `active buprenorphine prescribers had a 275-patient limit in November 2022 (state total: ${activeprx275State})`}
+                : `active buprenorphine prescribers had a 275-patient limit in November 2022 (state total: ${numberWithCommas(
+                    activeprx275State,
+                  )})`}
             </p>
           </div>
 
@@ -632,10 +649,10 @@ program per 100,000 residents (state average: ${methadoneState})`}
                 </span>
                 {isStateView
                   ? `minute${driveM % 60 > 1 ? "s" : ""} ${getHour(
-                      driveM
+                      driveM,
                     )} is the average driving time to the nearest opioid treatment program for methadone treatment or other medication treatment`
                   : `minute${driveM % 60 > 1 ? "s" : ""} ${getHour(
-                      driveM
+                      driveM,
                     )} is the average driving time to the nearest opioid treatment program for methadone treatment (state average: ${driveMState})`}
               {/if}
             </p>
@@ -646,10 +663,10 @@ program per 100,000 residents (state average: ${methadoneState})`}
                 </span>
                 {isStateView
                   ? `minute${transitM % 60 > 1 ? "s" : ""} ${getHour(
-                      transitM
+                      transitM,
                     )} is the average travel time via public transit to nearest opioid treatment program for methadone treatment or other medication treatment`
                   : `minute${transitM % 60 > 1 ? "s" : ""} ${getHour(
-                      transitM
+                      transitM,
                     )} is the average travel time via public transit to nearest opioid treatment program for methadone treatment (state average: ${transitMState})`}
               {/if}
             </p>
@@ -660,10 +677,10 @@ program per 100,000 residents (state average: ${methadoneState})`}
                 </span>
                 {isStateView
                   ? `minute${driveB % 60 > 1 ? "s" : ""} ${getHour(
-                      driveB
+                      driveB,
                     )} is the average driving time to the nearest buprenorphine treatment`
                   : `minute${driveB % 60 > 1 ? "s" : ""} ${getHour(
-                      driveB
+                      driveB,
                     )} is the average driving time to the nearest buprenorphine treatment (state average: ${driveBState})`}
               {/if}
             </p>
@@ -674,10 +691,10 @@ program per 100,000 residents (state average: ${methadoneState})`}
                 </span>
                 {isStateView
                   ? `minute${transitB % 60 > 1 ? "s" : ""} ${getHour(
-                      transitB
+                      transitB,
                     )} is the average travel time via public transit to the nearest buprenorphine treatment`
                   : `minute${transitB % 60 > 1 ? "s" : ""} ${getHour(
-                      transitB
+                      transitB,
                     )} is the average travel time via public transit to the nearest buprenorphine treatment (state average: ${transitBState})`}
               {/if}
             </p>
@@ -735,7 +752,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
     </li>
     <li>
       <b>Expand telehealth options.</b> Opioid use disorder–related telehealth
-      services have been shown to
+      services have been shown to improve
       <a
         href="https://www.cdc.gov/media/releases/2022/p0831-ccovid-19-opioids.html"
         target="_blank"
@@ -796,14 +813,24 @@ program per 100,000 residents (state average: ${methadoneState})`}
 </section>
 
 <section class="aboutSection" class:print={$print}>
-  <h2>About</h2>
+  <h2>About the data</h2>
   <p>
     For this project, Urban Institute researchers collaborated with colleagues
     at Johns Hopkins University to conduct treatment-capacity assessments for
     two states in the Bloomberg Philanthropies <a
       href="https://www.bloomberg.org/public-health/combating-the-overdose-epidemic/"
-      target="_blank">Overdoes Prevention Initiative</a
+      target="_blank">Overdose Prevention Initiative</a
     >.
+  </p>
+  <p>
+    Because people receive medication treatment for different lengths of time,
+    for simplicity, we offer two treatment length options, which affect the
+    baseline treatment gap in a state or county. We assume people currently in
+    treatment receive it for 12 months, which is often the clinical
+    recommendation. However, we also present an option where patients receive 6
+    months of treatment at the baseline, because research indicates people
+    usually receive treatment for fewer than 12 months. Though 6-month treatment
+    gets treatment to more people, it may also mean treatment is less effective.
   </p>
   <p>
     Throughout this tool, we use “active buprenorphine prescriber” to refer to
@@ -826,13 +853,13 @@ program per 100,000 residents (state average: ${methadoneState})`}
   </p>
   <p>For more about the data and methodology, see our technical appendix.</p>
   <div class={$print ? "none" : "buttonsWrapper2"}>
-    <Button id={"download2"} text={"View data"} />
+    <!-- <Button id={"download2"} text={"View data"} /> -->
     <Button id={"appendix"} text={"View Technical Appendix"} />
   </div>
 </section>
 
 <section class="creditSection" class:print={$print}>
-  <h2>Project credit</h2>
+  <h2>Project credits</h2>
   <p>
     This data tool was funded by Bloomberg Philanthropies. We are grateful to
     them and to all our funders, who make it possible for Urban to advance its
@@ -917,10 +944,6 @@ program per 100,000 residents (state average: ${methadoneState})`}
     column-gap: 10px;
   }
 
-  #optionsWrapper {
-    max-width: 360px;
-  }
-
   .mainSelection.print .wrapper {
     display: block;
   }
@@ -937,7 +960,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
     column-gap: 20px;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 576px) {
     .mapView .wrapper {
       grid-template-columns: 1fr;
       column-gap: 0px;
@@ -952,27 +975,32 @@ program per 100,000 residents (state average: ${methadoneState})`}
 
   h4 {
     font-size: 30px;
-    font-weight: 400;
+    font-weight: bold;
+  }
+
+  #mainTitle {
+    margin: 48px 0px 32px 0px;
   }
 
   .statsWrapper h4,
   #mapTitle {
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 400;
     margin: 48px auto 24px;
   }
 
   #treatmentLength {
     font-weight: 300;
+    grid-column: 1/3;
     margin-bottom: 0px;
+    text-transform: uppercase;
   }
 
   p {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .number {
-    font-size: 18px;
     font-weight: 700;
   }
 
@@ -986,16 +1014,16 @@ program per 100,000 residents (state average: ${methadoneState})`}
 
   .buttonsWrapper {
     text-align: left;
-    padding: 0px 30px;
+    margin: 48px 0px 32px 0px;
   }
 
   .buttonsWrapper2 {
     text-align: left;
-    padding: 0px;
+    margin: 48px 0px 32px 0px;
   }
 
-  .tabWrapper {
-    margin-bottom: 30px;
+  #tabWrapper {
+    margin-bottom: 48px;
   }
 
   .textWrapper {
@@ -1017,6 +1045,11 @@ program per 100,000 residents (state average: ${methadoneState})`}
     font-size: 20px;
     line-height: 28px;
     font-weight: 400;
+  }
+
+  .aboutSection p,
+  .creditSection p {
+    color: #353535;
   }
 
   .otherSection li {
@@ -1050,7 +1083,11 @@ program per 100,000 residents (state average: ${methadoneState})`}
   }
 
   @media (max-width: 768px) {
+    #mainTitle {
+      margin: 32px 0px 32px 0px;
+    }
     #tabWrapper {
+      margin-bottom: 32px;
       grid-template-columns: 1fr;
     }
 
@@ -1063,6 +1100,9 @@ program per 100,000 residents (state average: ${methadoneState})`}
       font-size: 18px;
       line-height: 26px;
     }
+  }
+  .aboutSection a, .aboutSection a:visited, .creditSection a, .creditSection a:visited {
+    color: #1696d2;
   }
 
   @media (max-width: 576px) {
@@ -1091,12 +1131,12 @@ program per 100,000 residents (state average: ${methadoneState})`}
     }
 
     #mainTitle,
-    .tabWrapper {
+    #tabWrapper {
       padding-left: 30px;
     }
 
     .print #mainTitle,
-    .print .tabWrapper {
+    .print #tabWrapper {
       padding-left: 0px;
     }
 
@@ -1117,7 +1157,7 @@ program per 100,000 residents (state average: ${methadoneState})`}
     text-transform: uppercase;
   }
 
-  .print .tabWrapper {
+  .print #tabWrapper {
     display: none;
   }
   .print #dropdownWrapper {
@@ -1180,5 +1220,11 @@ program per 100,000 residents (state average: ${methadoneState})`}
   .creditSection.print .creditItem {
     font-weight: 300;
     margin-top: 10px;
+  }
+  .help-text {
+    grid-column: 1/3;
+    font-weight: normal;
+    margin-top: 1rem;
+    font-size: 16px;
   }
 </style>

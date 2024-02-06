@@ -31,7 +31,7 @@
     },
     {
       value: "curprx",
-      label: "Increasing capacity of current providers",
+      label: "Increasing active buprenorphine prescribers’ capacity",
       tooltip: "",
     },
   ];
@@ -47,18 +47,18 @@
     },
   ];
 
-  let tooltipActive = false;
   $: isActive = treatment != "" && provider != "";
   let treatment;
   let provider;
   let year;
+  // $: $selectedYear = year; //if year toggle shows whenever
 
   const submitParameters = () => {
     if (treatment != "" && provider != "") {
       $submitted = true;
       $selectedTreatment = treatment;
       $selectedProvider = provider;
-      $selectedYear = year;
+      $selectedYear = year; //if year toggle shows after submit then place here
     }
   };
 
@@ -67,7 +67,7 @@
     provider = "";
     $selectedTreatment = "";
     $selectedProvider = "";
-    $selectedYear = 12;
+    $selectedYear = 12; // add this if we want year toggle to show after submit
     $submitted = false;
   };
 </script>
@@ -86,11 +86,12 @@
     <p id="reduce" class="inline">
       Reduce treatment length from 12 months to 6 months
     </p>
-    <Icon
-      text="Reducing treatment length could help more people access treatment, but it
-    may also mean treatment is less effective. Selecting this option affects
-    several statistics below."
-    ></Icon>
+    <p class="help-text">Reducing the default treatment length changes the size of the current opioid treatment gap. Though this gets treatment to more people, it may also mean treatment is less effective.</p>
+    <!-- <Icon -->
+    <!--   text="Reducing treatment length could help more people access treatment, but it -->
+    <!-- may also mean treatment is less effective. Selecting this option affects -->
+    <!-- several statistics below." -->
+    <!-- ></Icon> -->
   </div>
   <Toggle options={optionsYear} bind:selected={year} />
   <button
@@ -98,7 +99,7 @@
     on:click={() => submitParameters()}>SEE RESULTS</button
   >
   <span
-    class={isActive ? "clear show" : "clear none"}
+    class={$submitted ? "clear show" : "clear none"}
     on:click={() => clearSelection()}
   >
     clear selections
@@ -144,7 +145,7 @@
     margin: 48px 15px 14px auto;
     padding: 12px 16px;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 16px;
     line-height: 1.5;
     text-transform: uppercase;
@@ -157,6 +158,7 @@
     color: #9d9d9d;
     background-color: #d2d2d2;
     border: solid 1.5px #d2d2d2;
+    font-family: "Lato";
   }
 
   .active {
@@ -190,33 +192,12 @@
   .inline {
     display: inline;
     vertical-align: middle;
-    margin-right: 10px;
     margin-left: 0px;
   }
 
-  #info:hover {
-    cursor: pointer;
-  }
-  .tooltiptext {
-    width: 230px;
-    margin-top: 8px;
-    margin-left: 5px;
-    background-color: #d2d2d2;
-    color: #353535;
-    text-align: left;
-    padding: 8px;
-    border-radius: 6px;
-    position: absolute;
+  .help-text {
+    margin-top: 1rem;
     font-size: 16px;
-    z-index: 100;
-  }
-
-  .tooltiptext.hidden {
-    display: none;
-  }
-
-  .tooltiptext.visible {
-    display: inline-block;
   }
 
   @media (max-width: 768px) {
