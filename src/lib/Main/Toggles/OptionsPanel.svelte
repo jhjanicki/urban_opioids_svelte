@@ -51,14 +51,14 @@
   let treatment;
   let provider;
   let year;
-  $: $selectedYear = year; //if year toggle shows whenever
+  // $: $selectedYear = year; //if year toggle shows whenever
 
   const submitParameters = () => {
     if (treatment != "" && provider != "") {
       $submitted = true;
       $selectedTreatment = treatment;
       $selectedProvider = provider;
-      // $selectedYear = year; //if year toggle shows after submit then place here
+      $selectedYear = year; //if year toggle shows after submit then place here
     }
   };
 
@@ -67,7 +67,7 @@
     provider = "";
     $selectedTreatment = "";
     $selectedProvider = "";
-    // $selectedYear = 12; // add this if we want year toggle to show after submit
+    $selectedYear = 12; // add this if we want year toggle to show after submit
     $submitted = false;
   };
 </script>
