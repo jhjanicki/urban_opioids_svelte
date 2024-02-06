@@ -202,7 +202,7 @@ for ${year} months.`;
             )} residents with opioid use disorder`;
           } else {
             //if gap still exists
-            return `Active prescribers would have to treat ${finalNum} times as many patients and ${newProvInc} additional new prescribers would each have to treat about ${
+            return `Active prescribers would have to treat ${finalNum} times as many patients and ${numberWithCommas(newProvInc)} additional new prescribers would each have to treat about ${
               $selectedState === "Michigan" ? 3 : 5
             } patients (the state average that prescribers with a 30-patient limit treated in 2022) to double the current number of people receiving treatment in ${
               isStateView ? $selectedState : $selectedCounty
@@ -232,9 +232,9 @@ for ${year} months.`;
         <h4>
           {#if $stateMetricData}
             {$selectedState}
-            <span id="bar-state" /> is treating
+            <span id="bar-state" /> is treating an estimated
             <span class="bar-percent">{OUD}% of residents</span>
-            with opioid use disorder
+            with opioid use disorder, assuming prescribers offer treatment for {$selectedYear} months.
           {/if}
         </h4>
       {/if}
@@ -248,9 +248,9 @@ for ${year} months.`;
           {#if gap === 0}
             {$selectedCounty}, {$selectedState} has no treatment gap.
           {:else}
-            {$selectedCounty} is treating
+            {$selectedCounty} is treating an estimated
             <span class="bar-percent">{OUD}% of residents</span>
-            with opioid use disorder. That is
+            with opioid use disorder, assuming all prescribers offer treatment for {$selectedYear} months. That is
             {above ? "above" : "below"} the state average of {$statePercent}%.
           {/if}
         {/if}

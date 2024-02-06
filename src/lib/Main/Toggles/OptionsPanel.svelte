@@ -86,11 +86,12 @@
     <p id="reduce" class="inline">
       Reduce treatment length from 12 months to 6 months
     </p>
-    <Icon
-      text="Reducing treatment length could help more people access treatment, but it
-    may also mean treatment is less effective. Selecting this option affects
-    several statistics below."
-    ></Icon>
+    <p class="help-text">Reducing the default treatment length changes the size of the current opioid treatment gap. Though this gets treatment to more people, it may also mean treatment is less effective.</p>
+    <!-- <Icon -->
+    <!--   text="Reducing treatment length could help more people access treatment, but it -->
+    <!-- may also mean treatment is less effective. Selecting this option affects -->
+    <!-- several statistics below." -->
+    <!-- ></Icon> -->
   </div>
   <Toggle options={optionsYear} bind:selected={year} />
   <button
@@ -192,6 +193,11 @@
     display: inline;
     vertical-align: middle;
     margin-left: 0px;
+  }
+
+  .help-text {
+    margin-top: 1rem;
+    font-size: 14px;
   }
 
   @media (max-width: 768px) {

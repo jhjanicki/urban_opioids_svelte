@@ -120,6 +120,7 @@
   class="img-wrapper column"
   id={state.replaceAll(" ", "") + "Wrapper"}
   role="button"
+  class:active={state === $selectedState}
   on:click={updateState(state)}
   on:mouseover={handleMouseOver}
   on:mouseout={handleMouseOut}
@@ -165,7 +166,7 @@
     cursor: pointer;
   }
 
-  .img-wrapper:hover:after {
+  .img-wrapper:hover:after, .img-wrapper.active:after {
     content: "";
     display: block;
     border: 20px solid #fff;
@@ -174,10 +175,10 @@
     top: 100%;
   }
 
-  #MichiganWrapper:hover:after {
+  #MichiganWrapper:hover:after, #MichiganWrapper.active:after {
     left: 48%;
   }
-  #NewJerseyWrapper:hover:after {
+  #NewJerseyWrapper:hover:after, #NewJerseyWrapper.active:after {
     left: 82%;
   }
 
@@ -212,10 +213,10 @@
       background-color: white; /* Adjust the color of the border as needed */
     }
 
-    #MichiganWrapper:hover:after {
+    #MichiganWrapper:hover:after, #MichiganWrapper.active:after {
       left: 23%;
     }
-    #NewJerseyWrapper:hover:after {
+    #NewJerseyWrapper:hover:after, #NewJerseyWrapper.active:after {
       left: 46%;
     }
   }
