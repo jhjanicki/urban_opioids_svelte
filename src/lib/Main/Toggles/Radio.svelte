@@ -31,9 +31,9 @@
     flex-direction: row;
   }
   input[type="radio"] {
-    -ms-transform: scale(1.3); /* IE 9 */
-    -webkit-transform: scale(1.3); /* Chrome, Safari, Opera */
-    transform: scale(1.3);
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
   }
 
   input {
