@@ -1101,6 +1101,9 @@ program per 100,000 residents (state average: ${numberWithCommas(
       line-height: 26px;
     }
   }
+  .aboutSection a, .aboutSection a:visited, .creditSection a, .creditSection a:visited {
+    color: #1696d2;
+  }
 
   @media (max-width: 576px) {
     .mainSelection .wrapper {
