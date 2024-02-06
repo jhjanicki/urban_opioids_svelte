@@ -323,7 +323,7 @@ for ${year} months.`;
 
   .bar-percent {
     color: #fdbf11;
-    font-weight: 400;
+    font-weight: 700;
   }
 
   .inline {

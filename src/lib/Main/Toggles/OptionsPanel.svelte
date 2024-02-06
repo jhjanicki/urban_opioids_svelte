@@ -197,7 +197,7 @@
 
   .help-text {
     margin-top: 1rem;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   @media (max-width: 768px) {

@@ -1222,6 +1222,6 @@ program per 100,000 residents (state average: ${numberWithCommas(
     grid-column: 1/3;
     font-weight: normal;
     margin-top: 1rem;
-    font-size: 14px;
+    font-size: 16px;
   }
 </style>
