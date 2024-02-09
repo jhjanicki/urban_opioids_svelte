@@ -406,7 +406,6 @@
       {/if}
     </h3>
     <div class={innerWidth <= 1000 || $print ? "none" : "buttonsWrapper"}>
-      <Button id={"download"} text={"Download data"} />
       <Button id={"print"} text={"Print page"} on:click={togglePrintView} />
     </div>
   </div>
@@ -713,7 +712,6 @@ program per 100,000 residents (state average: ${numberWithCommas(
 </section>
 
 <div class={innerWidth > 1000 ? "none" : "buttonsWrapper"}>
-  <Button id={"download"} text={"Download data"} />
   <Button id={"print"} text={"Print page"} />
 </div>
 
@@ -853,7 +851,6 @@ program per 100,000 residents (state average: ${numberWithCommas(
   </p>
   <p>For more about the data and methodology, see our technical appendix.</p>
   <div class={$print ? "none" : "buttonsWrapper2"}>
-    <!-- <Button id={"download2"} text={"View data"} /> -->
     <Button id={"appendix"} text={"View Technical Appendix"} />
   </div>
 </section>
@@ -1013,7 +1010,7 @@ program per 100,000 residents (state average: ${numberWithCommas(
   }
 
   .buttonsWrapper {
-    text-align: left;
+    text-align: right;
     margin: 48px 0px 32px 0px;
   }
 
