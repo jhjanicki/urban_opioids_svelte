@@ -203,8 +203,6 @@ for ${year} months.`;
             )} residents with opioid use disorder`;
           } else {
             //if gap still exists
-            console.log("new providers", newProvInc)
-            console.log("new providers with commas", numberWithCommas(newProvInc))
             return `Active prescribers would have to treat <span class="text-highlight">${finalNum} times as many patients</span> and <span class="text-highlight">${numberWithCommas(newProvInc)} additional new prescribers</span> would each have to treat about ${
               $selectedState === "Michigan" ? 3 : 5
             } patients (the state average that prescribers with a 30-patient limit treated in 2022) to double the current number of people receiving treatment in ${
