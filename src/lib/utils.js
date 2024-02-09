@@ -10,5 +10,5 @@ export const moveToFront = (feature, allCounties) => {
 
 
 export const numberWithCommas = (number) =>{
-    return number?number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","):"";
+    return (typeof number !== "undefined") ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","):"";
 }

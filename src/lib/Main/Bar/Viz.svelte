@@ -117,9 +117,9 @@ treatment for ${year} months.`;
           //
           return `${
             isStateView ? $selectedState : $selectedCounty
-          } would need ${numberWithCommas(
+          } would need <span class="text-highlight">${numberWithCommas(
             finalNum
-          )} new buprenorphine prescribers to close the treatment gap of ${numberWithCommas(
+          )} new buprenorphine prescribers</span> to <span class="text-highlight">close the treatment gap</span> of ${numberWithCommas(
             gap
           )} residents with opioid use disorder, assuming all prescribers offer
 treatment for ${year} months.`;
@@ -129,24 +129,24 @@ treatment for ${year} months.`;
             // gap closes
             return `${
               isStateView ? $selectedState : $selectedCounty
-            } would need ${numberWithCommas(
+            } would need <span class="text-highlight">${numberWithCommas(
               finalNum
-            )} new buprenorphine prescribers to double the current number of people receiving
-treatment, assuming all prescribers offer treatment for ${year} months.  This would close ${
+            )} new buprenorphine prescribers</span> to double the current number of people receiving
+treatment, assuming all prescribers offer treatment for ${year} months.  This <span class="text-highlight">would close ${
               isStateView ? $selectedState : $selectedCounty
             }'s
-treatment gap of ${numberWithCommas(gap)} residents with opioid use disorder.`;
+treatment gap</span> of ${numberWithCommas(gap)} residents with opioid use disorder.`;
           } else {
             // gap exists
             return `${
               isStateView ? $selectedState : $selectedCounty
-            } would need ${numberWithCommas(
+            } would need <span class="text-highlight">${numberWithCommas(
               finalNum
-            )} new buprenorphine prescribers to double the current number of people receiving
-treatment, assuming all prescribers offer treatment for ${year} months.  This would not close ${
+            )} new buprenorphine prescribers</span> to double the current number of people receiving
+treatment, assuming all prescribers offer treatment for ${year} months.  This <span class="text-highlight">would not close ${
               isStateView ? $selectedState : $selectedCounty
             }'s
-treatment gap of ${numberWithCommas(gap)} residents with opioid use disorder.`;
+treatment gap</span> of ${numberWithCommas(gap)} residents with opioid use disorder.`;
           }
         }
       } else {
@@ -155,10 +155,10 @@ treatment gap of ${numberWithCommas(gap)} residents with opioid use disorder.`;
           //fill gap
           //if gap can be closed
           if (closeGap2xCap === 100) {
-            return `Active prescribers would have to treat ${numberWithCommas(
+            return `Active prescribers would have to treat <span class="text-highlight">${numberWithCommas(
               finalNum
-            )} times as many patients to close the treatment
-gap of ${numberWithCommas(gap)} residents with opioid use disorder in ${
+            )} times as many patients</span> to <span class="text-highlight">close the treatment
+gap</span> of ${numberWithCommas(gap)} residents with opioid use disorder in ${
               isStateView ? $selectedState : $selectedCounty
             }, assuming all prescribers offer treatment
 for ${year} months.`;
@@ -167,9 +167,9 @@ for ${year} months.`;
             if (newProvInc === 0) {
               return `Increasing active prescribers' capacity isn't enough to close the treatment gap in ${
                 isStateView ? $selectedState : $selectedCounty
-              }. Active prescribers would have to treat ${numberWithCommas(
+              }. Active prescribers would have to treat <span class="text-highlight">${numberWithCommas(
                 finalNum
-              )} times as many patients to close the treatment gap of ${numberWithCommas(
+              )} times as many patients</span> to close the treatment gap of ${numberWithCommas(
                 gap
               )} residents with opioid use disorder in ${
                 isStateView ? $selectedState : $selectedCounty
@@ -177,13 +177,13 @@ for ${year} months.`;
             } else {
               return `Increasing active prescribers' capacity isn't enough to close the treatment gap in ${
                 isStateView ? $selectedState : $selectedCounty
-              }. Active prescribers would have to treat ${numberWithCommas(
+              }. Active prescribers would have to treat <span class="text-highlight">${numberWithCommas(
                 finalNum
-              )} times as many patients and ${numberWithCommas(
+              )} times as many patients</span> and <span class="text-highlight">${numberWithCommas(
                 newProvInc
-              )} additional new prescribers would each have to treat about ${
+              )} additional new prescribers</span> would each have to treat about ${
                 $selectedState === "Michigan" ? 3 : 5
-              } patients (the state average prescribers with a 30-patient limit treated in 2022) to close the treatment gap of ${numberWithCommas(
+              } patients (the state average prescribers with a 30-patient limit treated in 2022) <span class="text-highlight">to close the treatment gap</span> of ${numberWithCommas(
                 gap
               )} residents with opioid use disorder in ${
                 isStateView ? $selectedState : $selectedCounty
@@ -194,22 +194,24 @@ for ${year} months.`;
           //double treatment
           //if gap can be closed
           if (closeGap2xCap === 100) {
-            return `Active prescribers would have to treat ${finalNum} times as many patients to double the current number of people receiving treatment in ${
+            return `Active prescribers would have to treat <span class="text-highlight">${finalNum} times as many patients</span> to double the current number of people receiving treatment in ${
               isStateView ? $selectedState : $selectedCounty
-            }, assuming all prescribers offer treatment for ${year} months.  This would close ${
+            }, assuming all prescribers offer treatment for ${year} months.  <span class="text-highlight">This <span class="text-highlight">would close ${
               isStateView ? $selectedState : $selectedCounty
-            }'s treatment gap of ${numberWithCommas(
+            }'s treatment gap</span> of ${numberWithCommas(
               gap
             )} residents with opioid use disorder`;
           } else {
             //if gap still exists
-            return `Active prescribers would have to treat ${finalNum} times as many patients and ${numberWithCommas(newProvInc)} additional new prescribers would each have to treat about ${
+            console.log("new providers", newProvInc)
+            console.log("new providers with commas", numberWithCommas(newProvInc))
+            return `Active prescribers would have to treat <span class="text-highlight">${finalNum} times as many patients</span> and <span class="text-highlight">${numberWithCommas(newProvInc)} additional new prescribers</span> would each have to treat about ${
               $selectedState === "Michigan" ? 3 : 5
             } patients (the state average that prescribers with a 30-patient limit treated in 2022) to double the current number of people receiving treatment in ${
               isStateView ? $selectedState : $selectedCounty
-            }, assuming all prescribers offer treatment for ${year} months. This would not close ${
+            }, assuming all prescribers offer treatment for ${year} months. This <span class="text-highlight">would not close ${
               isStateView ? $selectedState : $selectedCounty
-            }'s treatment gap of ${numberWithCommas(
+            }'s treatment gap</span> of ${numberWithCommas(
               gap
             )} residents with opioid use disorder.`;
           }
@@ -227,7 +229,7 @@ for ${year} months.`;
     {#if isStateView}
       {#if $submitted}
         <h4>
-          {outputText}
+          {@html outputText}
         </h4>
       {:else}
         <h4>
@@ -241,7 +243,7 @@ for ${year} months.`;
       {/if}
     {:else if $submitted}
       <h4>
-        {outputText}
+        {@html outputText}
       </h4>
     {:else}
       <h4>
@@ -406,6 +408,11 @@ for ${year} months.`;
 
   .print .bar-percent {
     color: #353535;
+  }
+
+  :global(.text-highlight) {
+    color: #fdbf11;
+    font-weight: 700;
   }
 
   .print .tooltiptext.visible {
