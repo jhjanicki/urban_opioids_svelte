@@ -108,7 +108,8 @@
     let closeGap2xCap = metricData[metricCloseGap2xCap];
 
     if (gap === 0) {
-      return `${$selectedCounty} has no treatment gap.`;
+      return `${$selectedCounty} has no treatment gap, assuming all prescribers offer
+treatment for ${year} months.`;
     } else {
       if (provider === "newprov") {
         // new providers (new buprenorphine prescribers)
@@ -246,7 +247,7 @@ for ${year} months.`;
       <h4>
         {#if $stateMetricData && $countyMetricData}
           {#if gap === 0}
-            {$selectedCounty}, {$selectedState} has no treatment gap.
+            {$selectedCounty}, {$selectedState} has no treatment gap, assuming prescribers offer treatment for {$selectedYear} months.
           {:else}
             {$selectedCounty} is treating an estimated
             <span class="bar-percent">{OUD}% of residents</span>
