@@ -428,14 +428,14 @@
 
 <section class="mapView" class:print={$print}>
   <div class="wrapper">
-    <!-- TREATMENT LENGTH: {$selectedYear} MONTH -->
     <h4 id="treatmentLength">
-      Factors That Shape Current Access to {$selectedYear} Month Medication Treatment
+      Factors That Shape Current Access to {$selectedYear}-Month Medication
+      Treatment
     </h4>
     <p class="help-text">
       These statistics describe <em>current</em> access to either 6- or 12-month
       medication treatment in a state or county. Any options selected above to close
-      or narrow the treatment gap will not affect these&nbsp;numbers.
+      or narrow the treatment gap do not affect these&nbsp;numbers.
     </p>
   </div>
   <div class="wrapper">
@@ -465,7 +465,9 @@
                 {deathall}
               </span>{isStateView
                 ? "residents die of overdoses each year (per 100,000 residents)"
-                : `residents die of overdoses per year per 100,000 residents (state average: ${deathallState})`}
+                : `residents die of overdoses per year per 100,000 residents (state average: ${numberWithCommas(
+                    deathallState,
+                  )})`}
             </p>
             <p>
               <span class="number">
@@ -473,7 +475,9 @@
               </span>
               {isStateView
                 ? "residents die of opioid-related overdoses each year (per 100,000 residents)"
-                : `overdose deaths per year per 100,000 residents are opioid related (state average: ${deathsopState})`}
+                : `overdose deaths per year per 100,000 residents are opioid related (state average: ${numberWithCommas(
+                    deathsopState,
+                  )})`}
             </p>
             <p>
               <span class="number">
@@ -481,7 +485,9 @@
               </span>
               {isStateView
                 ? "percent of overdose deaths in the state are opioid related"
-                : `percent of all overdose deaths in the county are opioid related (state average: ${deathsopallState})`}
+                : `percent of all overdose deaths in the county are opioid related (state average: ${numberWithCommas(
+                    deathsopallState,
+                  )})`}
             </p>
           </div>
           <h4>Language characteristics</h4>
@@ -526,14 +532,18 @@
               </span>
               {isStateView
                 ? "residents lack access to medication treatment"
-                : `residents lack access to treatment (state total: ${gap_currState})`}
+                : `residents lack access to treatment (state total: ${numberWithCommas(
+                    gap_currState,
+                  )})`}
             </p>
             <p>
               <span class="number">
                 {numberWithCommas(cap_curr)}
               </span>{isStateView
                 ? "residents have access to medication treatment"
-                : `residents have access to treatment (state total: ${cap_currState})`}
+                : `residents have access to treatment (state total: ${numberWithCommas(
+                    cap_currState,
+                  )})`}
             </p>
             <p>
               <span class="number">
@@ -541,7 +551,9 @@
               </span>
               {isStateView
                 ? "opioid treatment programs operate in the state"
-                : `opioid treatment programs operate in the county (state total: ${OTPcountState})`}
+                : `opioid treatment programs operate in the county (state total: ${numberWithCommas(
+                    OTPcountState,
+                  )})`}
             </p>
             <p>
               <span class="number">
@@ -821,14 +833,13 @@ program per 100,000 residents (state average: ${numberWithCommas(
     >.
   </p>
   <p>
-    Because people receive medication treatment for different lengths of time,
-    for simplicity, we offer two treatment length options, which affect the
-    baseline treatment gap in a state or county. We assume people currently in
-    treatment receive it for 12 months, which is often the clinical
-    recommendation. However, we also present an option where patients receive 6
-    months of treatment at the baseline, because research indicates people
-    usually receive treatment for fewer than 12 months. Though 6-month treatment
-    gets treatment to more people, it may also mean treatment is less effective.
+    People receive medication treatment for different lengths of time. For
+    simplicity, we show two treatment length options, which affect the baseline
+    treatment gap in a state or county: 12 months (our default option), which is
+    often the clinical recommendation, and 6 months, because research indicates
+    people usually receive treatment for fewer than 12 months. Though 6-month
+    treatment gets treatment to more people, it may also mean treatment is less
+    effective.
   </p>
   <p>
     Throughout this tool, we use “active buprenorphine prescriber” to refer to
@@ -1098,7 +1109,10 @@ program per 100,000 residents (state average: ${numberWithCommas(
       line-height: 26px;
     }
   }
-  .aboutSection a, .aboutSection a:visited, .creditSection a, .creditSection a:visited {
+  .aboutSection a,
+  .aboutSection a:visited,
+  .creditSection a,
+  .creditSection a:visited {
     color: #1696d2;
   }
 

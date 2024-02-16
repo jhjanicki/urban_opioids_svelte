@@ -18,7 +18,7 @@
       ? hoveredData.properties.OUD_tx_12m
       : hoveredData.properties.OUD_tx_6m}%
   </h1>
-  <h2>{hoveredData.properties.name} county</h2>
+  <h2>{hoveredData.properties.name} County</h2>
 </div>
 
 <style>
