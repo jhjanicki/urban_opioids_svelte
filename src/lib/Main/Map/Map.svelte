@@ -21,6 +21,7 @@
     print,
   } from "../../../store/store";
   import { moveToFront } from "../../utils";
+  import { logClickToGA } from "../../analytics.js";
 
   let width = 100;
   let height = 100;
@@ -83,7 +84,7 @@
             fill={colorScale(
               $selectedYear == 12
                 ? feature.properties.OUD_tx_12m
-                : feature.properties.OUD_tx_6m
+                : feature.properties.OUD_tx_6m,
             )}
             stroke-linecap="round"
             stroke={(hoveredData != null &&
@@ -113,10 +114,11 @@
               }
             }}
             on:click={(e) => {
+              logClickToGA(e.target, "map-county-click");
               $countySelected = true;
               $selectedCounty = feature.properties.name;
               $selectedCountyData = $countiesData.filter(
-                (d) => d.properties.name === $selectedCounty
+                (d) => d.properties.name === $selectedCounty,
               );
               $countyPercent =
                 $selectedYear == 12
@@ -125,7 +127,7 @@
               $stateView = "countyview";
 
               $countyMetricData = $allCountyMetricData.filter(
-                (d) => d.county === $selectedCounty
+                (d) => d.county === $selectedCounty,
               );
               $countiesData = moveToFront(feature, $countiesData);
             }}

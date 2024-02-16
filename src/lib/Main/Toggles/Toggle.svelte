@@ -1,6 +1,7 @@
 <script>
   export let options;
   export let selected = options[0].value;
+  import { logClickToGA } from "../../analytics.js";
 
   const id = Math.floor(Math.random() * 100);
 
@@ -16,7 +17,7 @@
     id={`group-${id}`}
   >
     {#each options as { value, label }}
-      <input type="radio" id={slugify(label)} bind:group={selected} {value} />
+      <input type="radio" id={slugify(label)} bind:group={selected} {value} on:change={(e) => { logClickToGA(e.target, "treatment-length-click")}}/>
       <label for={slugify(label)}> {""} </label>
     {/each}
   </div>

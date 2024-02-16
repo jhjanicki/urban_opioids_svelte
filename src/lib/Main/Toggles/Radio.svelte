@@ -1,5 +1,6 @@
 <script>
   import Icon from "../Icon.svelte";
+  import { logClickToGA } from "../../analytics.js";
   export let options;
   export let selected = "";
 
@@ -12,7 +13,7 @@
 <div aria-labelledby={`label-${id}`} id={`group-${id}`} class="radioWrapper">
   {#each options as { value, label, tooltip }}
     <div class="radioItem">
-      <input type="radio" id={slugify(label)} bind:group={selected} {value} />
+      <input type="radio" id={slugify(label)} bind:group={selected} {value} on:change={(e) => { logClickToGA(e.target, "treatment-option-click")}}/>
       <label for={slugify(label)}> {label} </label>
       {#if tooltip != ""}
         <Icon text={tooltip}></Icon>

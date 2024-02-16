@@ -21,6 +21,7 @@
     mapHeight,
     legendDomain,
   } from "../../store/store";
+  import { logClickToGA } from "../analytics.js";
 
   export let state;
   export let stateCode;
@@ -55,7 +56,8 @@
     targetElement.scrollIntoView({ behavior: "smooth" });
   };
 
-  const updateState = (state) => {
+  const updateState = (state, e) => {
+    logClickToGA(e.target, "state-select-click--" + state);
     $countySelected = false;
     $selectedCounty = ""; //reset county selection when clicking on another state, not working though
     $stateClicked = true; //once selected the main part of the viz will display
@@ -64,12 +66,12 @@
 
     filteredCountyData = $allCountiesData;
     filteredStateData = $allStatesData.filter(
-      (d) => d.properties.name === $selectedState
+      (d) => d.properties.name === $selectedState,
     );
 
     $stateData = filteredStateData; // in order to zoom to bounding box
     $countiesData = filteredCountyData.filter(
-      (d) => +d.properties.stateID === $stateID
+      (d) => +d.properties.stateID === $stateID,
     );
 
     const OTPcounts = $countiesData.map((d) => d.properties.OTPcount);
@@ -92,7 +94,7 @@
     $path = d3.geoPath().projection($projection);
 
     let filteredStateMetricData = $allMetricData.filter(
-      (d) => d.state === $selectedState
+      (d) => d.state === $selectedState,
     )[0];
 
     $stateMetricData = filteredStateMetricData;
@@ -121,7 +123,9 @@
   id={state.replaceAll(" ", "") + "Wrapper"}
   role="button"
   class:active={state === $selectedState}
-  on:click={updateState(state)}
+  on:click={(e) => {
+    updateState(state, e);
+  }}
   on:mouseover={handleMouseOver}
   on:mouseout={handleMouseOut}
 >
@@ -166,7 +170,8 @@
     cursor: pointer;
   }
 
-  .img-wrapper:hover:after, .img-wrapper.active:after {
+  .img-wrapper:hover:after,
+  .img-wrapper.active:after {
     content: "";
     display: block;
     border: 20px solid #fff;
@@ -175,10 +180,12 @@
     top: 100%;
   }
 
-  #MichiganWrapper:hover:after, #MichiganWrapper.active:after {
+  #MichiganWrapper:hover:after,
+  #MichiganWrapper.active:after {
     left: 48%;
   }
-  #NewJerseyWrapper:hover:after, #NewJerseyWrapper.active:after {
+  #NewJerseyWrapper:hover:after,
+  #NewJerseyWrapper.active:after {
     left: 82%;
   }
 
@@ -213,10 +220,12 @@
       background-color: white; /* Adjust the color of the border as needed */
     }
 
-    #MichiganWrapper:hover:after, #MichiganWrapper.active:after {
+    #MichiganWrapper:hover:after,
+    #MichiganWrapper.active:after {
       left: 23%;
     }
-    #NewJerseyWrapper:hover:after, #NewJerseyWrapper.active:after {
+    #NewJerseyWrapper:hover:after,
+    #NewJerseyWrapper.active:after {
       left: 46%;
     }
   }

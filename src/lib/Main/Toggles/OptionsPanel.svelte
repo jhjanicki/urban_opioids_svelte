@@ -8,6 +8,7 @@
     selectedProvider,
     selectedYear,
   } from "../../../store/store";
+  import { logClickToGA } from "../../analytics.js";
 
   const optionsTreatment = [
     {
@@ -53,7 +54,8 @@
   let year;
   // $: $selectedYear = year; //if year toggle shows whenever
 
-  const submitParameters = () => {
+  const submitParameters = (e) => {
+    logClickToGA(e.target, "see-results-click");
     if (treatment != "" && provider != "") {
       $submitted = true;
       $selectedTreatment = treatment;
@@ -96,7 +98,7 @@
   <Toggle options={optionsYear} bind:selected={year} />
   <button
     class={isActive ? "active button" : "button"}
-    on:click={() => submitParameters()}>SEE RESULTS</button
+    on:click={(e) => submitParameters(e)}>SEE RESULTS</button
   >
   <span
     class={$submitted ? "clear show" : "clear none"}

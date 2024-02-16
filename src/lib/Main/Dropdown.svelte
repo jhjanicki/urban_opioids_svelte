@@ -11,6 +11,7 @@
     allCountyMetricData,
     stateView,
   } from "../../store/store";
+  import { logClickToGA } from "../analytics.js";
 
   import { moveToFront } from "../utils";
 
@@ -20,7 +21,8 @@
     active = !active;
   };
 
-  const closeDropdown = (county) => {
+  const closeDropdown = (county, e) => {
+    logClickToGA(e.target, "county-dropdown-select");
     $countySelected = true;
     $selectedCounty = county;
     active = false;
@@ -61,7 +63,7 @@
     <ul class="options">
       {#if $countyList}
         {#each $countyList as d}
-          <li class="option" on:click={closeDropdown(d)}>
+          <li class="option" on:click={(e) => closeDropdown(d, e)}>
             <span class="optionText">{d}</span>
           </li>
         {/each}

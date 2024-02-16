@@ -1,5 +1,6 @@
 <script>
   import { selectedCounty, countySelected, stateView } from "../../store/store";
+  import { logClickToGA } from "../analytics.js";
 
   export let id;
   export let text;
@@ -20,7 +21,7 @@
   id="tab-{id}"
   class="button {$stateView === id ? 'active' : ''}"
   value="id"
-  on:click={() => updateView()}>{text}</button
+  on:click={(e) => { logClickToGA("state-county-view-click"); updateView()}}>{text}</button
 >
 
 <style>
