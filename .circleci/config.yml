@@ -2,7 +2,7 @@ version: 2.1
 parameters:
   project_slug_production:
     type: string
-    default: $CIRCLE_PROJECT_REPONAME
+    default: medication-opioid-use-disorder-county-map
 executors:
   my-executor:
     docker:

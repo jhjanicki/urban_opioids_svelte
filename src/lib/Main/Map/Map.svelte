@@ -72,7 +72,7 @@
       height={height + legendHeight}
       class:print={$print}
       role="img"
-      aria-label="Map of state"
+      aria-label="State map broken out by county showing where people with opioid use disorder are receiving treatment."
     >
       <g id="counties">
         {#each $countiesData as feature}
